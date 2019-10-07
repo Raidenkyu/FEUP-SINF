@@ -1,2 +1,2 @@
-# FEUP_SINF
+# FEUP-SINF
 The project developed in SINF
