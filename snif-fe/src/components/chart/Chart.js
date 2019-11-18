@@ -2,6 +2,23 @@ import React, { Component } from "react";
 import Chart from "chart.js";
 
 export default class Graph extends Component {
+
+  /* HOW TO USE
+
+  - 3 arguments:
+      * type - "line", "bar" or "line balance"
+
+      * datas - Must be an array, even if it is already an array, must be placed in an array
+                Example: datas = {{data1, data2, data3}} or datas = {{data1}}
+                Name of the array will be the name of the collumn
+                
+      * labels - array of labels
+                Example: labels = {label1}
+
+      * Example - <Graph type={"line balance"} datas={{Revenue, Expenses, Revenue_Expenses}} labels={labels1}/>
+
+  */
+
   chartRef = React.createRef();
 
   componentDidMount() {
@@ -42,8 +59,6 @@ export default class Graph extends Component {
 
     const backgroundColor = bgColor;
     const borderColor = bdColor;
-
-    console.log(this.props.datas);
 
     Object.keys(this.props.datas).map(key => {
       var dataset = {
