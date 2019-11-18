@@ -1,6 +1,6 @@
-const http = require('../http/http');
+import { http, setToken } from '../http/http';
 
-const requestAccessToken = () => {
+export const requestAccessToken = () => {
 
     const client_id = 'SNIFApp';
     const client_secret = '8b14478b-6f0f-437a-86af-187eca1281d7';
@@ -14,10 +14,10 @@ const requestAccessToken = () => {
     
     const url = 'https://identity.primaverabss.com/core/connect/token';
 
-    http('post',url, bodyData).then((res) => {
+    http('post', url, bodyData).then((res) => {
         if (res.data.access_token) {
             console.log("Access Token:", res.data);
-
+            setToken(res.data.access_token);
         }
         else {
             console.log("Could not obtain acess token.");
@@ -27,10 +27,6 @@ const requestAccessToken = () => {
         console.log(error);
     });
 
-}
-
-module.exports = {
-    requestAccessToken,
 };
 
-requestAccessToken();
+export const 

@@ -1,5 +1,4 @@
-const axios = require('axios');
-const FormData = require('form-data');
+import axios from 'axios';
 
 const getBodyData = (formObj) => {
     const bodyData = new FormData();
@@ -9,17 +8,22 @@ const getBodyData = (formObj) => {
     return bodyData;
 }
 
-const http = (method, url,data, headers = {}) => {
+export const http = (method, url,data, headers = {}) => {
 
     const bodyData = getBodyData(data);
 
     return axios({
-        url: url,
+        baseURL: url,
         method: method,
         data: bodyData,
-        headers: { ...bodyData.getHeaders(), headers }
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'multipart/form-data'
+          }
     }
     );
 };
 
-module.exports = http;
+export const setToken = (token) => {
+    axios.defaults.headers.common = {'Authorization': `bearer ${token}`}
+};
