@@ -11,9 +11,19 @@ export default class LineGraph extends Component {
 
     let datasets = [];
     let counter = 0;
+    let bgColor;
+    let bdColor;
 
-    const backgroundColor = ["rgba(62,231,173, 0.3)", "rgba(40,147,111,0.3)", "rgba(29,105,79,0.3)"];
-    const borderColor = ["rgba(62,231,173, 255)", "rgba(40,147,111,255)", "rgba(29,105,79,255)"];
+    if(this.props.type == "line") {
+    bgColor = ["rgba(62,231,173,0.3)", "rgba(40,147,111,0.3)", "rgba(29,105,79,0.3)"];
+    bdColor = ["rgba(62,231,173,255)", "rgba(40,147,111,255)", "rgba(29,105,79,255)"];
+    } else if(this.props.type == "bar") {
+      bgColor = ["rgba(217,89,76,255)", "rgba(62,231,173,255)"];
+      bdColor = ["rgba(217,89,76,255", "rgba(62,231,173,255)"];
+    }
+
+    const backgroundColor = bgColor;
+    const borderColor = bdColor;
 
     Object.keys(this.props.datas).map(key => {
         var dataset = {
@@ -54,7 +64,8 @@ export default class LineGraph extends Component {
               gridLines: {
                 display: false,
                 drawBorder: false
-              }
+              },
+              stacked: this.props.type == "bar" ? true : false,
             }
           ],
           yAxes: [
@@ -65,7 +76,8 @@ export default class LineGraph extends Component {
               },
               gridLines: {
                 color: "white"
-              }
+              },
+              stacked: this.props.type == "bar" ? true : false,
             }
           ]
         }
