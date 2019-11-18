@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import Chart from "chart.js";
 
-export default class LineGraph extends Component {
+export default class Graph extends Component {
   chartRef = React.createRef();
 
   componentDidMount() {
@@ -13,31 +13,53 @@ export default class LineGraph extends Component {
     let counter = 0;
     let bgColor;
     let bdColor;
+    let cType;
+    let cBalance;
 
-    if(this.props.type == "line") {
-    bgColor = ["rgba(62,231,173,0.3)", "rgba(40,147,111,0.3)", "rgba(29,105,79,0.3)"];
-    bdColor = ["rgba(62,231,173,255)", "rgba(40,147,111,255)", "rgba(29,105,79,255)"];
-    } else if(this.props.type == "bar") {
+    const chartTypes = this.props.type.split(" ");
+
+    if (chartTypes.length === 2) {
+
+      cType = chartTypes[0];
+      cBalance = chartTypes[1];
+    } else cType = chartTypes[0];
+
+    const chartType = cType;
+    const chartBalance = cBalance;
+
+    if (chartType === "line") {
+      if (chartBalance === "balance") {
+        bgColor = ["rgba(62,231,173,0.3)", "rgba(217,89,76,0.3)", "rgba(206,206,206,0.3)"];
+        bdColor = ["rgba(62,231,173,255)", "rgba(217,89,76,255)", "rgba(206,206,206,255)"];
+      } else {
+        bgColor = ["rgba(62,231,173,0.3)", "rgba(40,147,111,0.3)", "rgba(29,105,79,0.3)"];
+        bdColor = ["rgba(62,231,173,255)", "rgba(40,147,111,255)", "rgba(29,105,79,255)"];
+      }
+    } else if (chartType === "bar") {
       bgColor = ["rgba(217,89,76,255)", "rgba(62,231,173,255)"];
-      bdColor = ["rgba(217,89,76,255", "rgba(62,231,173,255)"];
+      bdColor = ["rgba(217,89,76,255)", "rgba(62,231,173,255)"];
     }
 
     const backgroundColor = bgColor;
     const borderColor = bdColor;
 
+    console.log(this.props.datas);
+
     Object.keys(this.props.datas).map(key => {
-        var dataset = {
-            label: key,
-            data: this.props.datas[key],
-            backgroundColor: backgroundColor[counter],
-            borderColor: borderColor[counter],
-            }
-        counter++;
-        datasets.unshift(dataset);
+      var dataset = {
+        label: key,
+        data: this.props.datas[key],
+        backgroundColor: backgroundColor[counter],
+        borderColor: borderColor[counter],
+      }
+      counter++;
+      datasets.unshift(dataset);
     });
 
+    console.log(datasets); 
+
     new Chart(lineChart, {
-      type: this.props.type,
+      type: chartType,
       data: {
         labels: this.props.labels,
         datasets: datasets,
@@ -65,7 +87,7 @@ export default class LineGraph extends Component {
                 display: false,
                 drawBorder: false
               },
-              stacked: this.props.type == "bar" ? true : false,
+              stacked: chartType === "bar" ? true : false,
             }
           ],
           yAxes: [
@@ -77,7 +99,7 @@ export default class LineGraph extends Component {
               gridLines: {
                 color: "white"
               },
-              stacked: this.props.type == "bar" ? true : false,
+              stacked: chartType === "bar" ? true : false,
             }
           ]
         }
@@ -89,7 +111,7 @@ export default class LineGraph extends Component {
 
     return (
       <div>
-        <canvas id="lineChart" ref={this.chartRef} />
+        <canvas id="chart" ref={this.chartRef} />
       </div>
     );
   }
