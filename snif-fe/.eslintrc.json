@@ -5,6 +5,13 @@
         "mocha": true,
         "node": true
     },
+    "settings": {
+        "react": {
+            "pragma": "React",
+            "version": "detect",
+            "flowVersion": "0.53"
+        }
+    },
     "extends": [
         "eslint:recommended",
         "plugin:react/recommended"
@@ -21,7 +28,8 @@
         "sourceType": "module"
     },
     "plugins": [
-        "react"
+        "react",
+        "react-hooks"
     ],
     "rules": {
         // Errors
@@ -40,6 +48,8 @@
         "no-return-await": "error",
         "require-await": "error",
         "radix": "error",
+        "react-hooks/rules-of-hooks": "error",
+        "react-hooks/exhaustive-deps": "warn",
 
         // Variables
         "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
