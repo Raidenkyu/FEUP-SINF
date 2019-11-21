@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap");
+
+:root {
+    --dark-grey: #444444;
+    --middle-grey: #555555;
+    --light-grey: #707070;
+    --light-green: #3EE7AD;
+    --red: #D9594C;
+    --white: #FFFFFF;
+}
+
+body {
+    font-size: 16px !important;
+    font-family: "Open Sans", sans-serif !important;
+}

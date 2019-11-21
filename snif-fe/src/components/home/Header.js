@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from '../../assets/logo.svg';
 
-import HomeStyles from '../../style/home/Home.module.css';
+import HomeStyles from '../../styles/home/Home.module.css';
 
 const Header = () => (
   <header className={HomeStyles.homeHeader}>
