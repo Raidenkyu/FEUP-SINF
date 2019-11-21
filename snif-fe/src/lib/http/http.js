@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 const getBodyData = (formObj) => {
     const bodyData = new FormData();
@@ -6,9 +6,9 @@ const getBodyData = (formObj) => {
         bodyData.append(key, formObj[key]);
     }
     return bodyData;
-}
+};
 
-export const http = (method, url,data, headers = {}) => {
+export const http = (method, url, data) => {
 
     const bodyData = getBodyData(data);
 
@@ -17,13 +17,12 @@ export const http = (method, url,data, headers = {}) => {
         method: method,
         data: bodyData,
         headers: {
-            Accept: 'application/json',
-            'Content-Type': 'multipart/form-data'
-          }
-    }
-    );
+            "Accept": "application/json",
+            "Content-Type": "multipart/form-data",
+        },
+    });
 };
 
 export const setToken = (token) => {
-    axios.defaults.headers.common = {'Authorization': `bearer ${token}`}
+    axios.defaults.headers.common = { "Authorization": `bearer ${token}` };
 };

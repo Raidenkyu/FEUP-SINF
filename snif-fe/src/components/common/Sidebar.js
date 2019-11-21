@@ -1,14 +1,15 @@
 
-import React from 'react';
+import React from "react";
+import PropTypes from "prop-types";
 
-import { ReactComponent as LeftArrow } from '../../assets/left-arrow.svg';
+import { ReactComponent as LeftArrow } from "../../assets/left-arrow.svg";
 
-import SidebarStyles from '../../styles/common/sidebar.module.css';
+import SidebarStyles from "../../styles/common/sidebar.module.css";
 
 const Sidebar = ({ collapsed, toggleSidebar }) => (
-    <div className={SidebarStyles.sidebarContainer + (collapsed ? ' ' + SidebarStyles.collapsed : '')}>
+    <div className={SidebarStyles.sidebarContainer + (collapsed ? ` ${SidebarStyles.collapsed}` : "")}>
         <ul className={SidebarStyles.list}>
-            <li className={[SidebarStyles.item, SidebarStyles.topItem].join(' ')}>
+            <li className={[SidebarStyles.item, SidebarStyles.topItem].join(" ")}>
                 <LeftArrow onClick={toggleSidebar} className={SidebarStyles.leftArrow} />
             </li>
             <li className={SidebarStyles.item}>
@@ -31,6 +32,11 @@ const Sidebar = ({ collapsed, toggleSidebar }) => (
             </li>
         </ul>
     </div>
-)
+);
+
+Sidebar.propTypes = {
+    collapsed: PropTypes.boolean.isRequired,
+    toggleSidebar: PropTypes.func.isRequired,
+};
 
 export default Sidebar;
