@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
 
+import LayoutStyles from "../../styles/common/layout.module.css";
+
 const Layout = ({ children }) => {
     const [collapsed, setCollapsed] = useState(true);
 
@@ -13,7 +15,7 @@ const Layout = ({ children }) => {
         <>
             <Navbar toggleSidebar={toggleSidebar} />
             <Sidebar collapsed={collapsed} toggleSidebar={toggleSidebar} />
-            <div>
+            <div className={LayoutStyles.layoutContainer}>
                 {children}
             </div>
         </>
