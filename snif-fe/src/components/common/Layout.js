@@ -6,16 +6,20 @@ import Sidebar from "./Sidebar";
 
 import LayoutStyles from "../../styles/common/layout.module.css";
 
-const Layout = ({ children }) => {
+const Layout = ({ navbar, sidebar, children }) => {
     const [collapsed, setCollapsed] = useState(true);
 
     const toggleSidebar = () => setCollapsed(!collapsed);
 
     return (
         <>
-            <Navbar toggleSidebar={toggleSidebar} />
-            <Sidebar collapsed={collapsed} toggleSidebar={toggleSidebar} />
-            <div className={LayoutStyles.layoutContainer}>
+            {navbar ?
+                <Navbar toggleSidebar={toggleSidebar} sidebar={sidebar} /> : ""
+            }
+            {sidebar ?
+                <Sidebar collapsed={collapsed} toggleSidebar={toggleSidebar} /> : ""
+            }
+            <div className={navbar ? LayoutStyles.layoutContainer : LayoutStyles.layoutContainerNoNav}>
                 {children}
             </div>
         </>
@@ -23,6 +27,8 @@ const Layout = ({ children }) => {
 };
 
 Layout.propTypes = {
+    navbar: PropTypes.bool.isRequired,
+    sidebar: PropTypes.bool.isRequired,
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node,

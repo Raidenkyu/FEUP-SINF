@@ -7,10 +7,12 @@ import PropTypes from "prop-types";
 import NavbarStyles from "../../styles/common/navbar.module.css";
 import Logo from "../../assets/logo.png";
 
-const NavBar = ({ toggleSidebar }) => (
+const NavBar = ({ toggleSidebar, sidebar }) => (
     <Navbar color="faded" dark className={NavbarStyles.navbar}>
-        <NavbarToggler onClick={toggleSidebar} className={`mr-auto ${NavbarStyles.toggler}`} />
-        <Link to="/" className="mr-2">
+        {sidebar ?
+            <NavbarToggler onClick={toggleSidebar} className={`mr-auto ${NavbarStyles.toggler}`} /> : ""
+        }
+        <Link to="/" className={`mr-2${sidebar ? "" : " ml-auto"}`}>
             <Img src={Logo} className={NavbarStyles.image}/>
         </Link>
     </Navbar>
@@ -18,6 +20,7 @@ const NavBar = ({ toggleSidebar }) => (
 
 NavBar.propTypes = {
     toggleSidebar: PropTypes.func.isRequired,
+    sidebar: PropTypes.bool.isRequired
 };
 
 export default NavBar;

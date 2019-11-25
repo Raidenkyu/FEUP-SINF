@@ -6,7 +6,7 @@ import Layout from "../components/common/Layout";
 import HomeStyles from "../styles/home/Home.module.css";
 
 const Home = () => (
-    <Layout>
+    <Layout navbar={false} sidebar={false}>
         <div className={HomeStyles.home}>
             <Header />
         </div>

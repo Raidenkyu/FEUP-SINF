@@ -3,3 +3,9 @@
     min-height: calc(100vh - 4rem);
     color: var(--white);
 }
+
+.layoutContainerNoNav {
+    background-color: var(--dark-grey);
+    min-height: calc(100vh);
+    color: var(--white);
+}
