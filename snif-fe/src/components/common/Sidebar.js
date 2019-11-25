@@ -35,7 +35,7 @@ const Sidebar = ({ collapsed, toggleSidebar }) => (
 );
 
 Sidebar.propTypes = {
-    collapsed: PropTypes.boolean.isRequired,
+    collapsed: PropTypes.bool.isRequired,
     toggleSidebar: PropTypes.func.isRequired,
 };
 
