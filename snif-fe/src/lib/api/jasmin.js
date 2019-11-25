@@ -1,4 +1,5 @@
-import { http, setToken } from "../http/http";
+import { http, jasminAdapter, setToken } from "../http/http";
+import axios from "axios";
 
 export const requestAccessToken = () => {
     const client_id = "SNIFApp";
@@ -13,15 +14,46 @@ export const requestAccessToken = () => {
 
     const url = "https://identity.primaverabss.com/core/connect/token";
 
-    http("post", url, bodyData).then((res) => {
-        if (res.data.access_token) {
-            console.log("Access Token:", res.data);
-            setToken(res.data.access_token);
-        } else {
-            console.log("Could not obtain acess token.");
-        }
-    }).catch((error) => {
-        console.log(error);
-    });
+    return http("post", url, bodyData);
 
 };
+
+export const requestOrders = () => (
+    jasminAdapter("get", "/sales/orders", {}).then(
+        (res) => (res.data),
+    )
+);
+
+axios.interceptors.response.use((response) => (response),
+    (error) => {
+        // Return any error which is not due to authentication back to the calling service
+        if (error.response.status !== 401) {
+            return new Promise((_resolve, reject) => {
+                reject(error);
+            });
+        }
+
+        // Try request again with new token
+        return requestAccessToken()
+            .then((res) => {
+
+                const config = error.config;
+
+                if (res.data.access_token) {
+                    setToken(res.data.access_token);
+                }
+
+                return new Promise((resolve, reject) => {
+                    axios.request(config).then((response) => {
+                        resolve(response);
+                    }).catch((error) => {
+                        reject(error);
+                    });
+                });
+
+            })
+            .catch((error) => {
+                Promise.reject(error);
+            });
+    },
+);
