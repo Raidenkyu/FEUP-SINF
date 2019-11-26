@@ -20,7 +20,7 @@ const NavBar = ({ toggleSidebar, sidebar }) => (
 
 NavBar.propTypes = {
     toggleSidebar: PropTypes.func.isRequired,
-    sidebar: PropTypes.bool.isRequired
+    sidebar: PropTypes.bool.isRequired,
 };
 
 export default NavBar;
