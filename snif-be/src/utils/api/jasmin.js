@@ -1,7 +1,7 @@
-import { http, jasminAdapter, setToken } from "../http/http";
-import axios from "axios";
+const { http, jasminAdapter, setToken } = require("../http/http");
+const axios = require("axios");
 
-export const requestAccessToken = () => {
+const requestAccessToken = () => {
     const client_id = "SNIFApp";
     const client_secret = "8b14478b-6f0f-437a-86af-187eca1281d7";
 
@@ -18,7 +18,7 @@ export const requestAccessToken = () => {
 
 };
 
-export const requestOrders = () => (
+const requestOrders = () => (
     jasminAdapter("get", "/sales/orders", {}).then(
         (res) => (res.data),
     )
@@ -57,3 +57,7 @@ axios.interceptors.response.use((response) => (response),
             });
     },
 );
+
+module.exports = {
+  requestAccessToken, requestOrders
+};

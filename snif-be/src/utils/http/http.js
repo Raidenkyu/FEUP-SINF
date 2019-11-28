@@ -1,4 +1,4 @@
-import axios from "axios";
+const axios = require("axios");
 
 const getBodyData = (formObj) => {
     const bodyData = new FormData();
@@ -8,7 +8,7 @@ const getBodyData = (formObj) => {
     return bodyData;
 };
 
-export const http = (method, url, data) => {
+const http = (method, url, data) => {
 
     const bodyData = getBodyData(data);
 
@@ -23,7 +23,7 @@ export const http = (method, url, data) => {
     });
 };
 
-export const jasminAdapter = (method, endpoint) => (
+const jasminAdapter = (method, endpoint) => (
 
     axios({
         url: endpoint,
@@ -36,6 +36,10 @@ export const jasminAdapter = (method, endpoint) => (
     })
 );
 
-export const setToken = (token) => {
+const setToken = (token) => {
     axios.defaults.headers.common = { "Authorization": `bearer ${token}` };
+};
+
+module.exports = {
+  http, jasminAdapter, setToken
 };
