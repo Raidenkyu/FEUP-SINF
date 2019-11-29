@@ -59,5 +59,5 @@ axios.interceptors.response.use((response) => (response),
 );
 
 module.exports = {
-  requestAccessToken, requestOrders
+    requestAccessToken, requestOrders
 };

@@ -12,6 +12,7 @@ const PORT = 9000;
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const usersRouter = require('./routes/users');
+const ordersRouter = require('./routes/orders');
 
 const app = express();
 
@@ -41,6 +42,7 @@ connection.once('open', function() {
 app.use('/api/login', loginRouter);
 app.use('/api/login', logoutRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/orders', ordersRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -1,4 +1,5 @@
 const axios = require("axios");
+const FormData = require('form-data');
 
 const getBodyData = (formObj) => {
     const bodyData = new FormData();
@@ -16,10 +17,7 @@ const http = (method, url, data) => {
         baseURL: url,
         method: method,
         data: bodyData,
-        headers: {
-            "Accept": "application/json",
-            "Content-Type": "multipart/form-data",
-        },
+        headers: { ...bodyData.getHeaders() }
     });
 };
 
