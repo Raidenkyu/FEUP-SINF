@@ -49,3 +49,8 @@
   font-size: 3em;
   z-index: 1;
 }
+
+.link:hover {
+  text-decoration: none;
+  color: var(--light-green);
+}

@@ -7,7 +7,7 @@ import HomeStyles from "../styles/home/Home.module.css";
 
 const Home = () => (
     <Layout navbar={false} sidebar={false}>
-        <Link to ="/" className={HomeStyles.link}>
+        <Link to ="/login" className={HomeStyles.link}>
             Login
         </Link>
         <div className={HomeStyles.container}>
