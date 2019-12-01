@@ -13,7 +13,7 @@ const Home = () => (
         <div className={HomeStyles.container}>
             <svg className={HomeStyles.panel} ></svg>
         </div>
-        <img className={HomeStyles.logo} src={logo}></img>
+        <img className={HomeStyles.logo} src={logo} alt=""></img>
     </Layout>
 );
 

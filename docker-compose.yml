@@ -5,8 +5,8 @@ services:
     build: ./snif-fe
     container_name: react-app
     volumes:
-      - "./snif-fe/:/app"
-    working_dir: /app
+      - "./snif-fe/:/app-fe"
+    working_dir: /app-fe
     ports:
       - "3000:3000"
     depends_on:
@@ -16,8 +16,8 @@ services:
     build: ./snif-be
     container_name: express-app
     volumes:
-      - "./snif-be/:/app"
-    working_dir: /app
+      - "./snif-be/:/app-be"
+    working_dir: /app-be
     ports:
       - "9000:9000"
     depends_on:
@@ -27,4 +27,4 @@ services:
     image: mongo:latest
     restart: always
     ports:
-    - "27017:27017"
+      - "27017:27017"

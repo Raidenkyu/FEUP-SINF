@@ -3,11 +3,13 @@ var router = express.Router();
 var User = require('../models/user.model.js');
 
 router.post('/', (req, res, next) => {
+  console.log(req);
+  
   if (req.body.logemail && req.body.logpassword) {
     User.authenticate(req.body.logemail, req.body.logpassword, (error, user) => {
       if (error || !user) {
         var err = new Error('Wrong email or password.');
-        err.status = 401;
+        res.status(401);
         return res.json({
           message: err.message,
           error: err
@@ -20,7 +22,7 @@ router.post('/', (req, res, next) => {
     });
   } else {
     var err = new Error('All fields required.');
-    err.status = 400;
+    res.status(400);
     return res.json({
       message: err.message,
       error: err

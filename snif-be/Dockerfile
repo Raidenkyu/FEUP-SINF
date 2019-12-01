@@ -1,10 +1,10 @@
 FROM node:dubnium
 
-WORKDIR /app
+WORKDIR /app-be
 
 COPY package.json package-lock.json ./
 RUN npm install
 
 COPY . ./
 
-CMD node src/app.js
+CMD npm start

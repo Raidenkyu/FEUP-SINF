@@ -4,7 +4,7 @@ import { Button } from "reactstrap";
 
 import ButtonStyles from "../../../styles/common/inputs/button.module.css";
 
-const ButtonCustom = ({ id, label, block }) => {
+const ButtonCustom = ({ id, label, onClick, block }) => {
     const [hovered, setHovered] = useState(false);
 
     const handleHoverIn = () => {
@@ -20,6 +20,7 @@ const ButtonCustom = ({ id, label, block }) => {
             block={block ? true : false}
             onMouseOver={handleHoverIn}
             onMouseOut={handleHoverOut}
+            onClick={onClick}
             className={`${ButtonStyles.button} ${hovered ? ButtonStyles.buttonHoverIn : ButtonStyles.buttonHoverOut}`}
         >
             {label}
@@ -30,6 +31,7 @@ const ButtonCustom = ({ id, label, block }) => {
 ButtonCustom.propTypes = {
     id: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
+    onClick: PropTypes.func,
     block: PropTypes.bool,
 };
 

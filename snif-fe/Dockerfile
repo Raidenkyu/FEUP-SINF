@@ -1,6 +1,6 @@
 FROM node:dubnium
 
-WORKDIR /app
+WORKDIR /app-fe
 
 COPY package.json package-lock.json ./
 RUN npm install
