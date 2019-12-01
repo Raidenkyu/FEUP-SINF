@@ -14,3 +14,7 @@
     margin: 2em;
     padding: 2em;
 }
+
+.loginContainer .logo {
+    width: 80px;
+}

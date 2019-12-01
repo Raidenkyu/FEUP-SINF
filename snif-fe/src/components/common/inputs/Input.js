@@ -7,8 +7,13 @@ import InputStyles from "../../../styles/common/inputs/input.module.css";
 const InputCustom = ({ id, label, type, placeholder, options }) => {
     const [focused, setFocused] = useState(false);
 
-    const handleFocus = () => {setFocused(true);}
-    const handleUnfocus = () => {setFocused(false);}
+    const handleFocus = () => {
+        setFocused(true);
+    };
+
+    const handleUnfocus = () => {
+        setFocused(false);
+    };
 
     return (
         <FormGroup className={focused ? InputStyles.inputFocused : InputStyles.inputUnfocused}>
@@ -39,7 +44,7 @@ const InputCustom = ({ id, label, type, placeholder, options }) => {
                 />
             }
         </FormGroup>
-    )
+    );
 };
 
 InputCustom.propTypes = {
