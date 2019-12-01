@@ -29,7 +29,7 @@ app.use(session({
   saveUninitialized: false
 }));
 
-mongoose.connect('mongodb://127.0.0.1:27017/snif',
+mongoose.connect('mongodb://mongo:27017/snif',
 { useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
