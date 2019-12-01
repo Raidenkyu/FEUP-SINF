@@ -1,4 +1,5 @@
-import axios from "axios";
+const axios = require("axios");
+const FormData = require('form-data');
 
 const getBodyData = (formObj) => {
     const bodyData = new FormData();
@@ -8,7 +9,7 @@ const getBodyData = (formObj) => {
     return bodyData;
 };
 
-export const http = (method, url, data) => {
+const http = (method, url, data) => {
 
     const bodyData = getBodyData(data);
 
@@ -16,13 +17,27 @@ export const http = (method, url, data) => {
         baseURL: url,
         method: method,
         data: bodyData,
+        headers: { ...bodyData.getHeaders() }
+    });
+};
+
+const jasminAdapter = (method, endpoint) => (
+
+    axios({
+        url: endpoint,
+        baseURL: "https://my.jasminsoftware.com/api/224836/224836-0001/",
+        method: method,
         headers: {
             "Accept": "application/json",
             "Content-Type": "multipart/form-data",
         },
-    });
+    })
+);
+
+const setToken = (token) => {
+    axios.defaults.headers.common = { "Authorization": `bearer ${token}` };
 };
 
-export const setToken = (token) => {
-    axios.defaults.headers.common = { "Authorization": `bearer ${token}` };
+module.exports = {
+  http, jasminAdapter, setToken
 };
