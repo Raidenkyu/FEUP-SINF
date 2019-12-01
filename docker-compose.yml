@@ -1,0 +1,30 @@
+version: '3.5'
+
+services:
+  react-app:
+    build: ./snif-fe
+    container_name: react-app
+    volumes:
+      - "./snif-fe/:/app"
+    working_dir: /app
+    ports:
+      - "3000:3000"
+    depends_on:
+      - express-app
+
+  express-app:
+    build: ./snif-be
+    container_name: express-app
+    volumes:
+      - "./snif-be/:/app"
+    working_dir: /app
+    ports:
+      - "9000:9000"
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:latest
+    restart: always
+    ports:
+    - "27017:27017"
