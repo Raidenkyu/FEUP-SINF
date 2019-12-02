@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const PORT = 9000;
+require("dotenv").config()
 
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
@@ -58,10 +58,6 @@ app.use((err, req, res, next) => {
   // render the error page
   res.status(err.status || 500);
   res.json({ error: err });
-});
-
-app.listen(PORT, () => {
-  console.log("Server is running on Port: " + PORT);
 });
 
 module.exports = app;
