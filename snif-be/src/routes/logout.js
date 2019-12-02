@@ -2,7 +2,8 @@ var express = require('express');
 var router = express.Router();
 
 router.get('/', (req, res) => {
-  if (req.session) {
+  console.log(req.session);
+  if (req.session.userId) {
     // delete session object
     req.session.destroy((err) => {
       if (err) {
@@ -14,6 +15,15 @@ router.get('/', (req, res) => {
         res.status(200);
         return res.json({ message: "Logout successful" });
       }
+    });
+  }
+  else {
+    const err = new Error("No User is logged");
+    err.status = 404;
+    res.status(err.status);
+    return res.json({
+      message: err.message,
+      error: err
     });
   }
 });
