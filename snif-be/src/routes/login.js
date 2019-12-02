@@ -7,6 +7,7 @@ router.post('/', (req, res, next) => {
     User.authenticate(req.body.logemail, req.body.logpassword, (error, user) => {
       if (error || !user) {
         var err = new Error('Wrong email or password.');
+        console.log(error);
         err.status = 401;
         return res.json({
           message: err.message,
