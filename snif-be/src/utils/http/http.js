@@ -1,6 +1,9 @@
 const axios = require("axios");
 const FormData = require('form-data');
 
+const ACCOUNT = process.env.ACCOUNT;
+const SUBSCRIPTION = process.env.SUBSCRIPTION;
+
 const getBodyData = (formObj) => {
     const bodyData = new FormData();
     for (const key in formObj) {
@@ -25,7 +28,7 @@ const jasminAdapter = (method, endpoint) => (
 
     axios({
         url: endpoint,
-        baseURL: "https://my.jasminsoftware.com/api/224836/224836-0001/",
+        baseURL: `https://my.jasminsoftware.com/api/${ACCOUNT}/${SUBSCRIPTION}/`,
         method: method,
         headers: {
             "Accept": "application/json",
