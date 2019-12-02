@@ -31,26 +31,14 @@ Build the containers:
 docker-compose build
 ```
 
-Build the back-end:
-```
-cd snif-be
-npm install
-```
-
-Build the front-end:
-```
-cd snif-fe
-npm install
-```
+If any new packages are added to the any of modules, you must run this command again for them to take effect.
 
 ### How to run
+Run the containers:
 ```
 docker-compose up
 ```
 This will create a development server with hot reloading which will listen on `http://localhost:3000`.
 
-### Restarting the backend
-The backend often requires restarting with significant changes. To do this, run the following command:
-```
-docker-compose restart express-app
-```
+### Contributing to the front-end
+Run `npm install` in the front-end directory for the git hooks to work. This way, the linter will run before every commit, preventing possible errors in the code. 

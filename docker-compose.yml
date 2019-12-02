@@ -5,7 +5,8 @@ services:
     build: ./snif-fe
     container_name: react-app
     volumes:
-      - "./snif-fe/:/app"
+      - "./snif-fe/src/:/app/src/"
+      - "./snif-fe/public/:/app/public/"
     working_dir: /app
     ports:
       - "3000:3000"
@@ -16,7 +17,8 @@ services:
     build: ./snif-be
     container_name: express-app
     volumes:
-      - "./snif-be/:/app"
+      - "./snif-be/src/:/app/src/"
+      - "./snif-be/bin/:/app/bin/"
     working_dir: /app
     ports:
       - "9000:9000"
