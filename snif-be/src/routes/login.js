@@ -3,15 +3,12 @@ var router = express.Router();
 var User = require('../models/user.model.js');
 
 router.post('/', (req, res, next) => {
-  if (req.body.logemail && req.body.logpassword) {
-    User.authenticate(req.body.logemail, req.body.logpassword, (error, user) => {
+  if (req.body.email && req.body.password) {
+    User.authenticate(req.body.email, req.body.password, (error, user) => {
       if (error || !user) {
-        var err = new Error('Wrong email or password.');
-        console.log(error);
-        err.status = 401;
         return res.json({
-          message: err.message,
-          error: err
+          message: error.message,
+          error: error
         });
       } else {
         req.session.userId = user._id;

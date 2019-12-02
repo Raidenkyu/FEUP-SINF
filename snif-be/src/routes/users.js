@@ -3,7 +3,6 @@ var router = express.Router();
 var User = require('../models/user.model.js');
 
 router.post('/', (req, res, next) => {
-  console.log(req.body);
   if (req.body.password !== req.body.passwordConf) {
     var err = new Error('Passwords do not match.');
     err.status = 400;
