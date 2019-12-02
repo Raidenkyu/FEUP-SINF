@@ -4,7 +4,7 @@ import { FormGroup, Label, Input } from "reactstrap";
 
 import InputStyles from "../../../styles/common/inputs/input.module.css";
 
-const InputCustom = ({ id, label, type, placeholder, onChange, options }) => {
+const InputCustom = ({ id, label, type, placeholder, error, onChange, options }) => {
     const [focused, setFocused] = useState(false);
 
     const handleFocus = () => {
@@ -27,7 +27,7 @@ const InputCustom = ({ id, label, type, placeholder, onChange, options }) => {
                     onFocus={handleFocus}
                     onBlur={handleUnfocus}
                     onChange={onChange}
-                    className={InputStyles.input}
+                    className={error ? InputStyles.error : InputStyles.input}
                 >
                     {options.map((option) => (
                         <option value={option} key={option}>{option}</option>
@@ -42,7 +42,7 @@ const InputCustom = ({ id, label, type, placeholder, onChange, options }) => {
                     onFocus={handleFocus}
                     onBlur={handleUnfocus}
                     onChange={onChange}
-                    className={InputStyles.input}
+                    className={error ? InputStyles.error : InputStyles.input}
                 />
             }
         </FormGroup>
@@ -54,6 +54,7 @@ InputCustom.propTypes = {
     label: PropTypes.string,
     type: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
+    error: PropTypes.bool.isRequired,
     onChange: PropTypes.func,
     options: PropTypes.array,
 };

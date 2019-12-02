@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import Img from "react-image";
-import { Link } from "@reach/router";
+import { Link, redirectTo } from "@reach/router";
 import axios from "axios";
 
 import Layout from "../components/common/Layout";
@@ -12,29 +12,54 @@ import LoginStyles from "../styles/login/login.module.css";
 import Logo from "../assets/logo.png";
 
 const Login = () => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+    const [email, setEmail] = useState({
+        value: "",
+        error: false,
+    });
+    const [password, setPassword] = useState({
+        value: "",
+        error: false,
+    });
 
     const handleChangeEmail = (event) => {
-        setEmail(event.target.value);
+        if (event.target.value.match(/.+@.+\..+/)) {
+            setEmail({
+                value: event.target.value,
+                error: false,
+            });
+        } else {
+            setEmail({
+                value: event.target.value,
+                error: true,
+            });
+        }
+
+        setPassword({ ...password, error: false });
     };
 
     const handleChangePassword = (event) => {
-        setPassword(event.target.value);
+        setPassword({
+            value: event.target.value,
+            error: false,
+        });
+        if (email.value.match(/.+@.+\..+/)) {
+            setEmail({ ...email, error: false });
+        }
     };
 
     const handleLogin = (event) => {
         event.preventDefault();
-        const user = {
-            logemail: email,
-            logpassword: password,
-        };
 
-        axios.post("http://localhost:9000/api/login", { body: user }).then((res) => {
-            console.log(res);
-            console.log(res.data);
-        }).catch((err) => {
-            console.log(err);
+        axios.post("http://localhost:9000/api/login", {
+            logemail: email.value,
+            logpassword: password.value,
+        }).then((response) => {
+            console.log(response);
+            redirectTo("/");
+        }).catch((error) => {
+            console.log(error);
+            setEmail({ ...email, error: true });
+            setPassword({ ...password, error: true });
         });
     };
 
@@ -54,8 +79,9 @@ const Login = () => {
                             <Input
                                 id="email"
                                 label="E-mail:"
-                                type="text"
+                                type="email"
                                 placeholder="Insert your e-mail"
+                                error={email.error}
                                 onChange={handleChangeEmail}
                             />
                         </Col>
@@ -67,6 +93,7 @@ const Login = () => {
                                 label="Password:"
                                 type="password"
                                 placeholder="Insert your password"
+                                error={password.error}
                                 onChange={handleChangePassword}
                             />
                         </Col>

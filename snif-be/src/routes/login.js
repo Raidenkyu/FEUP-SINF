@@ -3,8 +3,6 @@ var router = express.Router();
 var User = require('../models/user.model.js');
 
 router.post('/', (req, res, next) => {
-  console.log(req);
-  
   if (req.body.logemail && req.body.logpassword) {
     User.authenticate(req.body.logemail, req.body.logpassword, (error, user) => {
       if (error || !user) {
