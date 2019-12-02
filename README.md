@@ -25,12 +25,32 @@ check this [link](https://stackoverflow.com/questions/16904658/node-version-mana
 
 ## Usage
 
-### Installation
+### Build the app
+Build the containers:
 ```
+docker-compose build
+```
+
+Build the back-end:
+```
+cd snif-be
 npm install
 ```
+
+Build the front-end:
+```
+cd snif-fe
+npm install
+```
+
 ### How to run
 ```
-npm start
+docker-compose up
 ```
-This will create a development server with hot reloading which will listen on `http://localhost:8000`.
+This will create a development server with hot reloading which will listen on `http://localhost:3000`.
+
+### Restarting the backend
+The backend often requires restarting with significant changes. To do this, run the following command:
+```
+docker-compose restart express-app
+```
