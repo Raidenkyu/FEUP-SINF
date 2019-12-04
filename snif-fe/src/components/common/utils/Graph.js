@@ -126,7 +126,7 @@ export default class Graph extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{width: "100%"}}>
                 <canvas id="chart" ref={this.chartRef} />
             </div>
         );
