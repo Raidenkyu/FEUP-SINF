@@ -1,0 +1,22 @@
+.button {
+    padding: 0.2em 5em !important;
+    border-radius: 20px !important;
+    font-size: 1.5em !important;
+}
+
+.buttonHoverOut {
+    background-color: var(--light-green) !important;
+    border-color: var(--light-green) !important;
+}
+
+.buttonHoverIn {
+    background-color: var(--dark-green) !important;
+    border-color: var(--dark-green) !important;
+}
+
+@media screen and (max-width: 767px) {
+    .button {
+        padding: 0.2em 2em !important;
+        font-size: 1.2em !important;
+    }
+}
