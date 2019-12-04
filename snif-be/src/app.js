@@ -40,7 +40,7 @@ connection.once('open', function() {
 })
 
 app.use('/api/login', loginRouter);
-app.use('/api/login', logoutRouter);
+app.use('/api/logout', logoutRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/orders', ordersRouter);
 
