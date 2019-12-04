@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import Img from "react-image";
-import { Link, redirectTo } from "@reach/router";
-import axios from "axios";
+import { Link, navigate } from "@reach/router";
+// import axios from "axios";
 
 import Layout from "../components/common/Layout";
 import Input from "../components/common/inputs/Input";
@@ -50,17 +50,18 @@ const Login = () => {
     const handleLogin = (event) => {
         event.preventDefault();
 
-        axios.post("http://localhost:9000/api/login", {
-            logemail: email.value,
-            logpassword: password.value,
-        }).then((response) => {
-            console.log(response);
-            redirectTo("/");
-        }).catch((error) => {
-            console.log(error);
-            setEmail({ ...email, error: true });
-            setPassword({ ...password, error: true });
-        });
+        // axios.post("http://localhost:9000/api/login", {
+        //     logemail: email.value,
+        //     logpassword: password.value,
+        // }).then((response) => {
+        //     console.log(response);
+        //     redirectTo("/");
+        // }).catch((error) => {
+        //     console.log(error);
+        //     setEmail({ ...email, error: true });
+        //     setPassword({ ...password, error: true });
+        // });
+        navigate("/overview")
     };
 
     return (
