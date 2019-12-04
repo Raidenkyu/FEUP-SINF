@@ -61,7 +61,7 @@ const Login = () => {
         //     setEmail({ ...email, error: true });
         //     setPassword({ ...password, error: true });
         // });
-        navigate("/overview")
+        navigate("/overview");
     };
 
     return (
