@@ -2,14 +2,16 @@ import React from "react";
 import { Router } from "@reach/router";
 
 import Home from "./pages/Home";
-import Overview from "./pages/Overview";
 import Login from "./pages/Login";
+import Overview from "./pages/Overview";
+import Sales from "./pages/Sales";
 
 const App = () => (
     <Router>
         <Home path="/" />
-        <Overview path="/overview"/>
         <Login path="/login" />
+        <Overview path="/overview"/>
+        <Sales path="/sales"/>
     </Router>
 );
 
