@@ -31,8 +31,11 @@
     height: 5rem;
     font-size: 1.5em;
     font-weight: 300;
-    color: var(--light-green);
     border-bottom: 1px solid #707070;
+}
+
+.sidebarContainer .item .link {
+    color: var(--light-green);
 }
 
 .sidebarContainer .topItem {

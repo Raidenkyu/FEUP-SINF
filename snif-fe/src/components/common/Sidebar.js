@@ -1,6 +1,7 @@
 
 import React from "react";
 import PropTypes from "prop-types";
+import { Link } from "@reach/router";
 
 import { ReactComponent as LeftArrow } from "../../assets/left-arrow.svg";
 
@@ -13,22 +14,34 @@ const Sidebar = ({ collapsed, toggleSidebar }) => (
                 <LeftArrow onClick={toggleSidebar} className={SidebarStyles.leftArrow} />
             </li>
             <li className={SidebarStyles.item}>
-                Sales
+                <Link to="/sales" className={SidebarStyles.link}>
+                    Sales
+                </Link>
             </li>
             <li className={SidebarStyles.item}>
-                Purchases
+                <Link to="/purchases" className={SidebarStyles.link}>
+                    Purchases
+                </Link>
             </li>
             <li className={SidebarStyles.item}>
-                Stocks
+                <Link to="/stocks" className={SidebarStyles.link}>
+                    Stocks
+                </Link>
             </li>
             <li className={SidebarStyles.item}>
-                Orders
+                <Link to="/orders" className={SidebarStyles.link}>
+                    Orders
+                </Link>
             </li>
             <li className={SidebarStyles.item}>
-                Customers
+                <Link to="/customers" className={SidebarStyles.link}>
+                    Customers
+                </Link>
             </li>
             <li className={SidebarStyles.item}>
-                Financial
+                <Link to="/financial" className={SidebarStyles.link}>
+                    Financial
+                </Link>
             </li>
         </ul>
     </div>
