@@ -6,6 +6,8 @@ router.post('/', (req, res, next) => {
   if (req.body.email && req.body.password) {
     User.authenticate(req.body.email, req.body.password, (error, user) => {
       if (error || !user) {
+        var err = new Error('Wrong email or password.');
+        res.status(401);
         return res.json({
           message: error.message,
           error: error
@@ -18,7 +20,7 @@ router.post('/', (req, res, next) => {
     });
   } else {
     var err = new Error('All fields required.');
-    err.status = 400;
+    res.status(400);
     return res.json({
       message: err.message,
       error: err

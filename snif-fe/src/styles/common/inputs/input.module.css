@@ -1,0 +1,25 @@
+.inputUnfocused {
+    color: var(--white);
+    box-shadow: none;
+}
+
+.inputFocused {
+    color: var(--light-green);
+}
+
+.input {
+    border-radius: 15px !important;
+}
+
+.error {
+    color: var(--red) !important;
+    border-color: var(--red) !important;
+    box-shadow: none !important;
+    border-radius: 15px !important;
+}
+
+.inputFocused .input {
+    color: var(--light-green) !important;
+    border-color: var(--light-green) !important;
+    box-shadow: none !important;
+}
