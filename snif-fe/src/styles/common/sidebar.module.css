@@ -10,6 +10,9 @@
     top: 0;
     transition: all 0.25s ease-in-out;
     -webkit-transition: all 0.25s ease-in-out;
+    z-index: 1000000;
+    position: fixed;
+    top: 0;
 }
 
 .sidebarContainer.collapsed {

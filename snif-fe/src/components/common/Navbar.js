@@ -8,7 +8,7 @@ import NavbarStyles from "../../styles/common/navbar.module.css";
 import Logo from "../../assets/logo.png";
 
 const NavBar = ({ toggleSidebar, sidebar }) => (
-    <Navbar color="faded" dark className={NavbarStyles.navbar}>
+    <Navbar color="faded" fixed="top" dark className={NavbarStyles.navbar}>
         {sidebar ?
             <NavbarToggler onClick={toggleSidebar} className={`mr-auto ${NavbarStyles.toggler}`} /> : ""
         }
