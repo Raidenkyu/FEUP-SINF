@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "reactstrap";
 
 import Layout from "../components/common/Layout";
-import ContentCard from "../components/common/ismo/ContentCard"
+import ContentCard from "../components/common/utils/ContentCard";
 
 const Overview = () => (
     <Layout navbar={true} sidebar={true}>

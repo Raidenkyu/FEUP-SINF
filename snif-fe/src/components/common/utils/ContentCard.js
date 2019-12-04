@@ -2,7 +2,7 @@ import React from "react";
 import { Card, CardHeader, CardBody } from "reactstrap";
 import PropTypes from "prop-types";
 
-import ContentCardStyles from "../../../styles/common/ismo/ContentCard.module.css";
+import ContentCardStyles from "../../../styles/common/utils/ContentCard.module.css";
 
 const ContentCard = ({ header, children }) => (
     <Card className={ContentCardStyles.card}>
