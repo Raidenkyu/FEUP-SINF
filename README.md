@@ -25,12 +25,20 @@ check this [link](https://stackoverflow.com/questions/16904658/node-version-mana
 
 ## Usage
 
-### Installation
+### Build the app
+Build the containers:
 ```
-npm install
+docker-compose build
 ```
+
+If any new packages are added to the any of modules, you must run this command again for them to take effect.
+
 ### How to run
+Run the containers:
 ```
-npm start
+docker-compose up
 ```
-This will create a development server with hot reloading which will listen on `http://localhost:8000`.
+This will create a development server with hot reloading which will listen on `http://localhost:3000`.
+
+### Contributing to the front-end
+Run `npm install` in the front-end directory for the git hooks to work. This way, the linter will run before every commit, preventing possible errors in the code. 

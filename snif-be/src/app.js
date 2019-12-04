@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
-const PORT = 9000;
+require("dotenv").config()
 
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
@@ -18,7 +18,7 @@ const app = express();
 
 app.use(cors());
 app.use(logger('dev'));
-app.use(bodyParser.urlencoded({extended:true}));
+app.use(bodyParser.json());
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -29,7 +29,7 @@ app.use(session({
   saveUninitialized: false
 }));
 
-mongoose.connect('mongodb://127.0.0.1:27017/snif',
+mongoose.connect('mongodb://mongo:27017/snif',
 { useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
@@ -40,7 +40,7 @@ connection.once('open', function() {
 })
 
 app.use('/api/login', loginRouter);
-app.use('/api/login', logoutRouter);
+app.use('/api/logout', logoutRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/orders', ordersRouter);
 
@@ -58,10 +58,6 @@ app.use((err, req, res, next) => {
   // render the error page
   res.status(err.status || 500);
   res.json({ error: err });
-});
-
-app.listen(PORT, () => {
-  console.log("Server is running on Port: " + PORT);
 });
 
 module.exports = app;

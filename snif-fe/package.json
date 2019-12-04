@@ -8,6 +8,7 @@
     "bootstrap": "^4.3.1",
     "form-data": "^3.0.0",
     "prop-types": "^15.7.2",
+    "chart.js": "^2.9.2",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
     "react-image": "^2.2.1",
@@ -20,8 +21,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "eslint .",
-    "lint-fix": "eslint --fix ."
+    "lint": "eslint ./src/**/*.js",
+    "lint-fix": "eslint --fix ./src/**/*.js"
   },
   "eslintConfig": {
     "extends": "react-app"
