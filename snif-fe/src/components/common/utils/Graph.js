@@ -39,7 +39,6 @@ export default class Graph extends Component {
         const chartTypes = this.props.type.split(" ");
 
         if (chartTypes.length === 2) {
-
             cType = chartTypes[0];
             cBalance = chartTypes[1];
         } else cType = chartTypes[0];
@@ -85,7 +84,7 @@ export default class Graph extends Component {
                 legend: {
                     labels: {
                         fontColor: "white",
-                        fontSize: 18,
+                        fontSize: 12,
                     },
                 },
                 responsive: true,
@@ -95,7 +94,7 @@ export default class Graph extends Component {
                         {
                             ticks: {
                                 fontColor: "white",
-                                fontSize: 18,
+                                fontSize: 12,
                                 autoSkip: false,
                                 maxRotation: 45,
                                 minRotation: 45,
@@ -111,7 +110,8 @@ export default class Graph extends Component {
                         {
                             ticks: {
                                 fontColor: "white",
-                                fontSize: 18,
+                                fontSize: 12,
+                                beginAtZero: true,
                             },
                             gridLines: {
                                 color: "white",
@@ -126,7 +126,7 @@ export default class Graph extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{width: "100%"}}>
                 <canvas id="chart" ref={this.chartRef} />
             </div>
         );

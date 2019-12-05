@@ -10,6 +10,9 @@
     top: 0;
     transition: all 0.25s ease-in-out;
     -webkit-transition: all 0.25s ease-in-out;
+    z-index: 1000000;
+    position: fixed;
+    top: 0;
 }
 
 .sidebarContainer.collapsed {
@@ -31,8 +34,11 @@
     height: 5rem;
     font-size: 1.5em;
     font-weight: 300;
-    color: var(--light-green);
     border-bottom: 1px solid #707070;
+}
+
+.sidebarContainer .item .link {
+    color: var(--light-green);
 }
 
 .sidebarContainer .topItem {
