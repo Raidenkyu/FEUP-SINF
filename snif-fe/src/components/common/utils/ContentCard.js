@@ -6,7 +6,7 @@ import ContentCardStyles from "../../../styles/common/utils/ContentCard.module.c
 
 const ContentCard = ({ header, children }) => (
     <Card className={ContentCardStyles.card}>
-        <CardHeader className="text-center">
+        <CardHeader className={"text-center " + ContentCardStyles.cardHeader}>
             {header}
         </CardHeader>
         <CardBody className="d-flex justify-content-center">
