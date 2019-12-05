@@ -19,7 +19,7 @@ const Layout = ({ navbar, sidebar, children }) => {
             {sidebar ?
                 <Sidebar collapsed={collapsed} toggleSidebar={toggleSidebar} /> : ""
             }
-            <div className={navbar ? LayoutStyles.layoutContainer : LayoutStyles.layoutContainerNoNav}>
+            <div className={(navbar ? LayoutStyles.layoutContainer : LayoutStyles.layoutContainerNoNav) + " px-5 pb-5"}>
                 {children}
             </div>
         </>
