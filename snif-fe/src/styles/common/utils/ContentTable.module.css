@@ -1,0 +1,12 @@
+.headerContainer {
+    border-bottom: 1px solid var(--light-green);
+}
+
+.header {
+    color: var(--light-green);
+    font-weight: 100;
+}
+
+.row {
+    color: var(--white);
+}
