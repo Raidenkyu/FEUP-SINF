@@ -9,7 +9,7 @@ const ContentTable = ({ headers, rows }) => (
         <thead>
             <tr className={ContentTableStyles.headerContainer}>
                 {headers.map((header, index) => (
-                    <th className={ContentTableStyles.header} key={index}>
+                    <th className={ContentTableStyles.header + " text-center"} key={index}>
                         {header.value}
                     </th>
                 ))}
@@ -19,7 +19,7 @@ const ContentTable = ({ headers, rows }) => (
             {rows.map((row, index) => (
                 <tr key={index} className={ContentTableStyles.row}>
                     {headers.map((header, subIndex) => (
-                        <td key={subIndex}>
+                        <td key={subIndex} className="text-center">
                             {row[header.index]}
                         </td>
                     ))}
