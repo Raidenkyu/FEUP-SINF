@@ -14,6 +14,11 @@ const Sidebar = ({ collapsed, toggleSidebar }) => (
                 <LeftArrow onClick={toggleSidebar} className={SidebarStyles.leftArrow} />
             </li>
             <li className={SidebarStyles.item}>
+                <Link to="/overview" className={SidebarStyles.link}>
+                    Overview
+                </Link>
+            </li>
+            <li className={SidebarStyles.item}>
                 <Link to="/sales" className={SidebarStyles.link}>
                     Sales
                 </Link>
