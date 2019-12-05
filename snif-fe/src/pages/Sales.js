@@ -20,7 +20,7 @@ const Sales = () => {
     const topSellingHeaders = [
         { index: "name", value: "Name" },
         { index: "units", value: "Units" },
-        { index: "revenue", value: "Revenue" },
+        { index: "revenue", value: "Revenue (€)" },
     ];
 
     const topSellingRows = [
@@ -38,7 +38,7 @@ const Sales = () => {
         { index: "saleId", value: "Sale id" },
         { index: "product", value: "Product" },
         { index: "quantity", value: "Quantity" },
-        { index: "value", value: "Value" },
+        { index: "value", value: "Value (€)" },
         { index: "date", value: "Date" },
     ];
 
