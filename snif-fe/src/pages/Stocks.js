@@ -24,7 +24,6 @@ const Sales = () => {
         { name: "Mint Smell", quantity: "50.000", value: "40.000" },
     ];
 
-
     const resourcesHeaders = [
         { index: "name", value: "Name" },
         { index: "quantity", value: "Quantity (kg)" },
