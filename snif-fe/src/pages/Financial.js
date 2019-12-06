@@ -22,7 +22,7 @@ const Financial = () => {
                 backgroundColor: colors.middleGreen.background,
                 borderColor: colors.middleGreen.border,
                 values: [0, 50, 50, 150, 190, 200, 230, 270, 300, 340, 350, 380],
-            }
+            },
         },
     };
 
@@ -45,10 +45,9 @@ const Financial = () => {
                 backgroundColor: colors.darkGreen.background,
                 borderColor: colors.darkGreen.border,
                 values: [220, 70, 146, 120, 314, 430, 510],
-            }
+            },
         },
     };
-
 
     return (
         <Layout navbar sidebar>
