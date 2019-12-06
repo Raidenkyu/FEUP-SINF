@@ -4,7 +4,7 @@ startUp();
 
 function startUp () {
     
-    console.log("Saft Version:", saft.jsonObj.AuditFile.Header.AuditFileVersion);
+    console.log('Saft Version:', saft.jsonObj.AuditFile.Header.AuditFileVersion);
     createBalanceSheet();
 
 }
@@ -89,5 +89,64 @@ function createBalanceSheet () {
     }
 
 
-    
+
+
+
+
+
+    // for tests
+    setValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos fixos tangíveis'], 123);
+    setValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos fixos tangíveis'], 123);
+    setValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Provisões'], 999);
+
+    // to see tests
+    console.log(balanceSheet);
+    console.log('=============================');
+    console.log(balanceSheet['Capital Próprio e Passivo']['Passivo']);
+}
+
+
+
+function setValue(obj, path, value) {
+
+    let fullPath = obj[path[0]];
+    // check if path exists
+    for (let i = 1; i < path.length; i++) {
+        if ( fullPath[path[i]] === undefined ) {
+            console.log('ERROR: Setting undefined path:', path);
+            return;
+        } else {
+            fullPath = fullPath[path[i]];
+        }
+    }
+
+    // check if trying to set an object instead of a number
+    if ( isNaN(fullPath) ) {
+        console.log('ERROR: Setting entire object and not a number on path:', path);
+        return;
+    }
+
+    // this can probably be improved 
+    switch (path.length) {
+        case 1:
+            obj[path[0]] += value;
+            break;
+
+        case 2:
+            obj[path[0]][path[1]] += value;
+            break;
+
+        case 3:
+            obj[path[0]][path[1]][path[2]] += value;
+            break;
+
+        case 4:
+            obj[path[0]][path[1]][path[2]][path[3]] += value;
+            break;
+
+        default:
+            console.log("ERROR: Entered default in object setValue");
+            break;
+    }
+
 }
