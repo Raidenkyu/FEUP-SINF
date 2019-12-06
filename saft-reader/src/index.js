@@ -461,19 +461,84 @@ function createBalanceSheet () {
             case 3:
                 addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Caixa e depósitos bancários'], accountBal);
                 break;
-
             //=======================//  
-
-
-
+            // CAPITAL PROPRIO    
+            //=======================//
+            case 331:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Capital subscrito'], accountBal);
+                break;
+            //=======================//
+            case 332:
+            case 333:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], -accountBal);
+                break;
+            //=======================//
+            case 334:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Outros instrumentos de capital próprio'], accountBal);
+                break;
             //=======================//  
+            case 335:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Prémios de emissão'], accountBal);
+                break;
+            //=======================//
+            case 336:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Reservas legais'], accountBal);
+                break;
+            //=======================//
+            case 337:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Outras reservas'], accountBal);
+                break;
+            //=======================//
+            case 343:
+            case 345:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Excedentes de revalorização'], accountBal);
+                break;   
+            case 344:
+            case 346:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Excedentes de revalorização'], -accountBal);
+                break;   
+            //=======================//
+            case 340:
+            case 349:
+            case 351:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ajustamentos / outras variações no capital próprio'], accountBal);
+                break;            
+            case 339:
+            case 341:
+            case 342:
+            case 347:
+            case 348:
+            case 350:
+            case 352:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ajustamentos / outras variações no capital próprio'], accountBal);
+                break; 
+            //=======================//
+            case 646:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultado líquido do período'], -accountBal);
+                break;
+            //=======================//
+            case 647:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Dividendos antecipados'], -accountBal);
+                break;
+            //=======================//
+
+            //=======================//
+
+
+
+            
+            //=======================//
+            //=======================//
+            //=======================//
+            //=======================//
+
 
 
             /* 
             
 
 
-
+            
 
 
 
