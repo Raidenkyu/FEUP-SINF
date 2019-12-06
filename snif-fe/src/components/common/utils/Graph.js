@@ -110,9 +110,8 @@ const colors = {
         background: "rgba(206,206,206,0.3)",
         border: "rgba(206,206,206,255)"
     }
-
-
 }
+
 export {
     Graph,
     colors
