@@ -272,18 +272,208 @@ function createBalanceSheet () {
                 addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos por impostos diferidos'], -accountBal);
                 break;
             //=======================//
-
-
-
+            // TODO: Ver os TODOs no balancete
             //=======================//
-
-
+            // ATIVO CORRENTE
+            //=======================//    
+            case 165:
+            case 166:
+            case 167:
+            case 171:
+            case 172:
+            case 173:
+            case 174:
+            case 175:
+            case 176:
+            case 183:
+            case 184:
+            case 187:
+            case 188:
+            case 189:
+            case 193:
+            case 209:
+            case 210:
+            case 211:
+            case 212:
+            case 213:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Inventários'], accountBal);
+                break;   
+            case 168:
+            case 169:
+            case 170:
+            case 177:
+            case 178:
+            case 179:
+            case 180:
+            case 181:
+            case 182:
+            case 185:
+            case 186:
+            case 190:
+            case 191:
+            case 192:
+            case 194:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Inventários'], -accountBal);
+                break;   
             //=======================//
+            case 195:
+            case 196:
+            case 214:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Ativos biológicos'], accountBal);
+                break; 
+            case 199:
+            case 201:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Ativos biológicos'], -accountBal);
+                break; 
+            //=======================//
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+            case 22:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Clientes'], accountBal);
+                break;              
+            case 24:
+            case 25:
+            case 26:
+            case 27:
+            case 28:
+            case 29:
+            case 30:
+            case 31:
+            case 32:
+            case 33:
+            case 34:
+            case 35:
+            case 36:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Clientes'], -accountBal);
+                break;          
+            //=======================//
+            case 71:
+            case 73:
+            case 74:
+            case 76:
+            case 77:
+            case 79:
+            case 80:
+            case 81:
+            case 82:
+            case 83:
+            case 84:
+            case 85:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Estado e outros entes públicos'], accountBal);
+                break;             
+            //=======================//
+            case 106:
+            case 107:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Capital subscrito e não realizado'], accountBal);
+                break;  
+            case 115:
+            case 116:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Capital subscrito e não realizado'], -accountBal);
+                break;  
+            //=======================//
+            case 37:
+            case 38:
+            case 39:
+            case 40:
+            case 41:
+            case 42:
+            case 43:
+            case 44:
+            case 45:
+            case 46:
+            case 47:
+            case 48:
+            case 49:
+            case 50:
+            case 51:
+            case 55:
+            case 56:
+            case 61:
+            case 63:
+            case 108:
+            case 109:
+            case 110:
+            case 111:
+            case 113:
+            case 124:
+            case 126:
+            case 128:
+            case 130:
+            case 138:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Outros créditos a receber'], accountBal);
+                break;  
+            case 52:
+            case 65:
+            case 66:
+            case 67:
+            case 69:
+            case 117:
+            case 118:
+            case 119:
+            case 120:
+            case 122:
+            case 140:
+            case 142:
+            case 144:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Outros créditos a receber'], -accountBal);
+                break;
+            //=======================//
+            case 146:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Diferimentos'], accountBal);
+                break;
+            //=======================//
+            case 4:
+            case 6:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Ativos financeiros detidos para negociação'], accountBal);
+                break;
+            //=======================//
+            case 8:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Outros ativos financeiros'], accountBal);
+                break;
+            //=======================//
+            case 320:
+            case 321:
+            case 322:
+            case 323:
+            case 324:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Ativos não correntes detidos para venda'], accountBal);
+                break;
+            case 326:
+            case 327:
+            case 328:
+            case 329:
+            case 330:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Ativos não correntes detidos para venda'], -accountBal);
+                break;
+            //=======================//  
+            case 1:
+            case 2:
+            case 3:
+                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Caixa e depósitos bancários'], accountBal);
+                break;
+
+            //=======================//  
+
+
+
+            //=======================//  
 
 
             /* 
             
-       
+
+
+
 
 
 
