@@ -9,7 +9,7 @@ const ContentCard = ({ header, children }) => (
         <CardHeader className={"text-center " + ContentCardStyles.cardHeader}>
             {header}
         </CardHeader>
-        <CardBody className="d-flex justify-content-center">
+        <CardBody className="d-flex justify-content-center align-items-center">
             {children}
         </CardBody>
     </Card>
