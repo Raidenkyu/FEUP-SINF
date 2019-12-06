@@ -1,6 +1,7 @@
 .card {
     background-color: var(--middle-grey) !important;
     height: 100%;
+    width: 100%;
 }
 
 .cardHeader {
