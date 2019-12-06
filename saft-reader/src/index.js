@@ -1,10 +1,12 @@
-const saft = require('../files/json/saft-demo1');
+const saftFile = require('../files/json/saft-demo1');
+const saft = saftFile.jsonObj;
+
 
 startUp();
 
 function startUp () {
     
-    console.log('Saft Version:', saft.jsonObj.AuditFile.Header.AuditFileVersion);
+    console.log('Saft Version:', saft.AuditFile.Header.AuditFileVersion);
     createBalanceSheet();
 
 }
@@ -89,25 +91,69 @@ function createBalanceSheet () {
     }
 
 
+    saft.AuditFile.MasterFiles.GeneralLedgerAccounts.Account.forEach((account) => {
+        const accountId = account.AccountID;
+        const accountBal = account.ClosingDebitBalance - account.ClosingCreditBalance;
+        const accountTaxCode = account.TaxonomyCode;
+        
+        if (accountTaxCode === undefined)
+            return;
+        
+
+        switch (accountTaxCode) {
+            case 268:
+            case 269:
+            case 270:
+            case 271:
+            case 272:
+            case 273:
+            case 274:
+            case 275:
+            case 276:
+            case 277:
+            case 278:
+            case 279:
+            case 280:
+            case 281:
+            case 282:
+            case 283:
+            case 284:
+            case 285:
+            case 286:
+            case 287:
+            case 288:
+            case 306:
+            case 310:
+            case 314:
+            case 318:
+                
+                break;
+        
+            default:
+                break;
+        }
+
+    });
+
 
 
 
 
 
     // for tests
-    setValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos fixos tangíveis'], 123);
-    setValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos fixos tangíveis'], 123);
-    setValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Provisões'], 999);
+    // addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos fixos tangíveis'], 123);
+    // addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos fixos tangíveis'], 123);
+    // addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Provisões'], 999);
 
     // to see tests
-    console.log(balanceSheet);
-    console.log('=============================');
-    console.log(balanceSheet['Capital Próprio e Passivo']['Passivo']);
+    // console.log(balanceSheet);
+    // console.log('=============================');
+    // console.log(balanceSheet['Capital Próprio e Passivo']['Passivo']);
 }
 
 
 
-function setValue(obj, path, value) {
+function addValue(obj, path, value) {
 
     let fullPath = obj[path[0]];
     // check if path exists
@@ -126,7 +172,7 @@ function setValue(obj, path, value) {
         return;
     }
 
-    // this can probably be improved 
+    // this can probably be improved to be dynamic, works for 3 lvls
     switch (path.length) {
         case 1:
             obj[path[0]] += value;
@@ -145,7 +191,7 @@ function setValue(obj, path, value) {
             break;
 
         default:
-            console.log("ERROR: Entered default in object setValue");
+            console.log("ERROR: Entered default in object addValue");
             break;
     }
 
