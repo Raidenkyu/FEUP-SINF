@@ -83,6 +83,6 @@ const Stocks = ({ path }) => {
 
 Stocks.propTypes = {
     path: PropTypes.string.isRequired,
-}
+};
 
 export default Stocks;

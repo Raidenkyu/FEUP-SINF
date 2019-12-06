@@ -45,6 +45,6 @@ const Customers = ({ path }) => {
 
 Customers.propTypes = {
     path: PropTypes.string.isRequired,
-}
+};
 
 export default Customers;

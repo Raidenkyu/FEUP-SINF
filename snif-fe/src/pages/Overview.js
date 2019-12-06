@@ -55,6 +55,6 @@ const Overview = ({ path }) => (
 
 Overview.propTypes = {
     path: PropTypes.string.isRequired,
-}
+};
 
 export default Overview;

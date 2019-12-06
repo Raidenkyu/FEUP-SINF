@@ -81,6 +81,6 @@ const Orders = ({ path }) => {
 
 Orders.propTypes = {
     path: PropTypes.string.isRequired,
-}
+};
 
 export default Orders;

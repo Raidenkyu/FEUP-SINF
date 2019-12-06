@@ -109,6 +109,6 @@ const Purchases = ({ path }) => {
 
 Purchases.propTypes = {
     path: PropTypes.string.isRequired,
-}
+};
 
 export default Purchases;
