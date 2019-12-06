@@ -98,10 +98,13 @@ const colors = {
         border: "rgba(62,231,173,255)"
     },
     middleGreen: {
-        background: "rgba(62,231,173,0.3)",
-        border: "rgba(62,231,173,255)"
+        background: "rgba(29,105,79,0.7)",
+        border: "rgba(29,105,79,1)"
     },
-    darkGreen: {},
+    darkGreen: {
+        background: "rgba(23,84,63,0.5)",
+        border: "rgba(23,84,63,255)"
+    },
     red: {
         background: "rgba(217,89,76,0.3)",
         border: "rgba(217,89,76,255)"
