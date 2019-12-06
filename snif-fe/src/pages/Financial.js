@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
 
-import Layout from "../components/common/Layout";
+import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 import Indicator from "../components/common/utils/Indicator";
 import { Graph, colors } from "../components/common/utils/Graph";

@@ -1,12 +1,12 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
+import PropTypes from "prop-types";
 
-import Layout from "../components/common/Layout";
+import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 import { Graph, colors } from "../components/common/utils/Graph";
 
-const Overview = () => {
-
+const Overview = ({ path }) => {
     const balanceData = {
         type: "line",
         labels: ["January", "February", "March", "April",
@@ -31,7 +31,7 @@ const Overview = () => {
     };
 
     return (
-        <Layout navbar sidebar>
+        <Layout navbar sidebar path={path}>
             <Container>
                 <Row className="mb-5">
                     <Col xs="12">
@@ -98,6 +98,10 @@ const Overview = () => {
             </Container>
         </Layout>
     );
+};
+
+Overview.propTypes = {
+    path: PropTypes.string.isRequired,
 };
 
 export default Overview;

@@ -4,7 +4,7 @@ import Img from "react-image";
 import { Link, navigate } from "@reach/router";
 // import axios from "axios";
 
-import Layout from "../components/common/Layout";
+import Layout from "../components/common/layout/Layout";
 import Input from "../components/common/inputs/Input";
 import Button from "../components/common/inputs/Button";
 
