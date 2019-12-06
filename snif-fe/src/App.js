@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Overview from "./pages/Overview";
 import Sales from "./pages/Sales";
 import Purchases from "./pages/Purchases";
+import Stocks from "./pages/Stocks";
 
 const App = () => (
     <Router>
@@ -14,6 +15,7 @@ const App = () => (
         <Overview path="/overview"/>
         <Sales path="/sales"/>
         <Purchases path="/purchases"/>
+        <Stocks path="/stocks"/>
     </Router>
 );
 
