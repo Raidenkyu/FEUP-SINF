@@ -1,11 +1,12 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
+import PropTypes from "prop-types";
 
-import Layout from "../components/common/Layout";
+import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 
-const Overview = () => (
-    <Layout navbar={true} sidebar={true}>
+const Overview = ({ path }) => (
+    <Layout navbar sidebar path={path}>
         <Container>
             <Row>
                 <Col lg="12">
@@ -51,5 +52,9 @@ const Overview = () => (
         </Container>
     </Layout>
 );
+
+Overview.propTypes = {
+    path: PropTypes.string.isRequired,
+}
 
 export default Overview;

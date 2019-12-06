@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
+import Sidebar from "./sidebar/Sidebar";
 
-import LayoutStyles from "../../styles/common/layout.module.css";
+import LayoutStyles from "../../../styles/common/layout.module.css";
 
-const Layout = ({ navbar, sidebar, children }) => {
+const Layout = ({ path, navbar, sidebar, children }) => {
     const [collapsed, setCollapsed] = useState(true);
 
     const toggleSidebar = () => setCollapsed(!collapsed);
@@ -17,7 +17,7 @@ const Layout = ({ navbar, sidebar, children }) => {
                 <Navbar toggleSidebar={toggleSidebar} sidebar={sidebar} /> : ""
             }
             {sidebar ?
-                <Sidebar collapsed={collapsed} toggleSidebar={toggleSidebar} /> : ""
+                <Sidebar path={path} collapsed={collapsed} toggleSidebar={toggleSidebar} /> : ""
             }
             <div className={(navbar ? LayoutStyles.layoutContainer : LayoutStyles.layoutContainerNoNav) + " px-5 pb-5"}>
                 {children}

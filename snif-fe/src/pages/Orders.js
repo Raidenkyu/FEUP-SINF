@@ -1,13 +1,14 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
+import PropTypes from "prop-types";
 
-import Layout from "../components/common/Layout";
+import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 import Indicator from "../components/common/utils/Indicator";
 import Graph from "../components/common/utils/Graph";
 import ContentTable from "../components/common/utils/ContentTable";
 
-const Orders = () => {
+const Orders = ({ path }) => {
     const ordersChart = [];
     ordersChart["cancelled"] = [10000, 5000, 20000, 0, 1000, 2000, 1000, 4000, 10000, 7000, 6000, 1000];
     ordersChart["fulfilled orders"] = [40000, 50000, 45000, 40000, 30000, 25000, 20000, 17000, 20000, 25000, 35000, 38000];
@@ -41,7 +42,7 @@ const Orders = () => {
     ];
 
     return (
-        <Layout navbar sidebar>
+        <Layout navbar sidebar path={path}>
             <Container>
                 <Row className="mb-5">
                     <Col xs="9">
@@ -77,5 +78,9 @@ const Orders = () => {
         </Layout>
     );
 };
+
+Orders.propTypes = {
+    path: PropTypes.string.isRequired,
+}
 
 export default Orders;

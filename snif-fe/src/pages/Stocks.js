@@ -1,12 +1,13 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
+import PropTypes from "prop-types";
 
-import Layout from "../components/common/Layout";
+import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
 
-const Stocks = () => {
+const Stocks = ({ path }) => {
     const productHeaders = [
         { index: "name", value: "Name" },
         { index: "quantity", value: "Quantity" },
@@ -42,7 +43,7 @@ const Stocks = () => {
     ];
 
     return (
-        <Layout navbar sidebar>
+        <Layout navbar sidebar path={path}>
             <Container>
                 <Row className="mb-5">
                     <Col xs="6">
@@ -79,5 +80,9 @@ const Stocks = () => {
         </Layout>
     );
 };
+
+Stocks.propTypes = {
+    path: PropTypes.string.isRequired,
+}
 
 export default Stocks;

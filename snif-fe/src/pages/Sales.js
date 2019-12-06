@@ -1,13 +1,14 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
+import PropTypes from "prop-types";
 
-import Layout from "../components/common/Layout";
+import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 import Graph from "../components/common/utils/Graph";
 import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
 
-const Sales = () => {
+const Sales = ({ path }) => {
     const monthlySales = [];
     monthlySales["sales"] = [40000, 50000, 45000, 40000, 30000, 25000, 20000, 17000, 20000, 25000, 35000];
     const monthlySalesLabels = ["December 2018", "January 2019", "February 2019", "March 2019", "April 2019",
@@ -62,7 +63,7 @@ const Sales = () => {
     ];
 
     return (
-        <Layout navbar sidebar>
+        <Layout navbar sidebar path={path}>
             <Container>
                 <Row className="mb-5">
                     <Col xs="12">
@@ -110,5 +111,9 @@ const Sales = () => {
         </Layout>
     );
 };
+
+Sales.propTypes = {
+    path: PropTypes.string.isRequired,
+}
 
 export default Sales;
