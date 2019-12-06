@@ -5,15 +5,27 @@ import PropTypes from "prop-types";
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 import Indicator from "../components/common/utils/Indicator";
-import Graph from "../components/common/utils/Graph";
+import { Graph, colors } from "../components/common/utils/Graph";
 import ContentTable from "../components/common/utils/ContentTable";
 
 const Orders = ({ path }) => {
-    const ordersChart = [];
-    ordersChart["cancelled"] = [10000, 5000, 20000, 0, 1000, 2000, 1000, 4000, 10000, 7000, 6000, 1000];
-    ordersChart["fulfilled orders"] = [40000, 50000, 45000, 40000, 30000, 25000, 20000, 17000, 20000, 25000, 35000, 38000];
-    const ordersChartLabels = ["December 2018", "January 2019", "February 2019", "March 2019", "April 2019",
-        "May 2019", "June 2019", "July 2019", "August 2019", "September 2019", "October 2019", "November 2019"];
+    const ordersChart = {
+        type: "bar",
+        labels: ["December 2018", "January 2019", "February 2019", "March 2019", "April 2019",
+            "May 2019", "June 2019", "July 2019", "August 2019", "September 2019", "October 2019", "November 2019"],
+        datasets: {
+            "cancelled": {
+                backgroundColor: colors.red.border,
+                borderColor: colors.red.border,
+                values: [10000, 5000, 20000, 0, 1000, 2000, 1000, 4000, 10000, 7000, 6000, 1000],
+            },
+            "fulfilled orders": {
+                backgroundColor: colors.lightGreen.border,
+                borderColor: colors.lightGreen.border,
+                values: [40000, 50000, 45000, 40000, 30000, 25000, 20000, 17000, 20000, 25000, 35000, 38000],
+            },
+        },
+    };
 
     const productHeaders = [
         { index: "orderId", value: "Order id" },
@@ -47,7 +59,7 @@ const Orders = ({ path }) => {
                 <Row className="mb-5">
                     <Col xs="9">
                         <ContentCard header="Products">
-                            <Graph type="bar" datas={ordersChart} labels={ordersChartLabels} />
+                            <Graph data={ordersChart}/>
                         </ContentCard>
                     </Col>
                     <Col xs="3" className="d-flex align-items-stretch flex-wrap w-100">

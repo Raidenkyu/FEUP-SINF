@@ -9,6 +9,7 @@ import Purchases from "./pages/Purchases";
 import Stocks from "./pages/Stocks";
 import Orders from "./pages/Orders";
 import Customers from "./pages/Customers";
+import Financial from "./pages/Financial";
 
 const App = () => (
     <Router>
@@ -20,6 +21,7 @@ const App = () => (
         <Stocks path="/stocks"/>
         <Orders path="/orders"/>
         <Customers path="/customers"/>
+        <Financial path="/financial"/>
     </Router>
 );
 
