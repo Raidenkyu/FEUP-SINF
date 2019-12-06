@@ -23,6 +23,8 @@ const Customers = () => {
         { name: "Dunder Muffin", dateLastOrder: "27/10/2019", totalOrders: "33324", valueOrders: "50.000" },
         { name: "Dunder Muffin", dateLastOrder: "27/10/2019", totalOrders: "33324", valueOrders: "50.000" },
         { name: "Dunder Muffin", dateLastOrder: "27/10/2019", totalOrders: "33324", valueOrders: "50.000" },
+        { name: "Dunder Muffin", dateLastOrder: "27/10/2019", totalOrders: "33324", valueOrders: "50.000" },
+        { name: "Dunder Muffin", dateLastOrder: "27/10/2019", totalOrders: "33324", valueOrders: "50.000" },
     ];
 
     return (
