@@ -3,19 +3,36 @@ import { Container, Row, Col } from "reactstrap";
 
 import Layout from "../components/common/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
-import Graph from "../components/common/utils/Graph";
+import { Graph, colors } from "../components/common/utils/Graph";
 import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
 
 const Sales = () => {
-    const monthlySales = [];
-    monthlySales["sales"] = [40000, 50000, 45000, 40000, 30000, 25000, 20000, 17000, 20000, 25000, 35000];
-    const monthlySalesLabels = ["December 2018", "January 2019", "February 2019", "March 2019", "April 2019",
-        "May 2019", "June 2019", "July 2019", "August 2019", "September 2019", "October 2019"];
 
-    const cumulativeSales = [];
-    cumulativeSales["sales"] = [0, 100000, 1000000, 2000000, 2500000, 4200000];
-    const cumulativeSalesLabels = [2008, 2010, 2012, 2014, 2016, 2018];
+    const monthlySales = {
+        type: "line",
+        labels: ["December 2018", "January 2019", "February 2019", "March 2019", "April 2019",
+            "May 2019", "June 2019", "July 2019", "August 2019", "September 2019", "October 2019"],
+        datasets: {
+            "sales": {
+                backgroundColor: colors.lightGreen.background,
+                borderColor: colors.lightGreen.border,
+                values: [40000, 50000, 45000, 40000, 30000, 25000, 20000, 17000, 20000, 25000, 35000],
+            },
+        },
+    };
+
+    const cumulativeSales = {
+        type: "line",
+        labels: [2008, 2010, 2012, 2014, 2016, 2018],
+        datasets: {
+            "sales": {
+                backgroundColor: colors.lightGreen.background,
+                borderColor: colors.lightGreen.border,
+                values: [0, 100000, 1000000, 2000000, 2500000, 4200000],
+            },
+        },
+    };
 
     const topSellingHeaders = [
         { index: "name", value: "Name" },
@@ -67,7 +84,7 @@ const Sales = () => {
                 <Row className="mb-5">
                     <Col xs="12">
                         <ContentCard header="Monthly Sales">
-                            <Graph type="line" datas={monthlySales} labels={monthlySalesLabels}/>
+                            <Graph data={monthlySales} />
                         </ContentCard>
                     </Col>
                 </Row>
@@ -88,7 +105,7 @@ const Sales = () => {
                         <Row>
                             <Col xs="12">
                                 <ContentCard header="Cumulative Sales">
-                                    <Graph type="line balance" datas={cumulativeSales} labels={cumulativeSalesLabels}/>
+                                    <Graph data={cumulativeSales} />
                                 </ContentCard>
                             </Col>
                         </Row>
