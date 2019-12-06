@@ -6,11 +6,11 @@ import ContentCard from "../components/common/utils/ContentCard";
 import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
 
-const Sales = () => {
+const Stocks = () => {
     const productHeaders = [
         { index: "name", value: "Name" },
         { index: "quantity", value: "Quantity" },
-        { index: "value", value: "VAlue (€)" },
+        { index: "value", value: "Value (€)" },
     ];
 
     const productRows = [
@@ -27,7 +27,7 @@ const Sales = () => {
     const resourcesHeaders = [
         { index: "name", value: "Name" },
         { index: "quantity", value: "Quantity (kg)" },
-        { index: "value", value: "VAlue (€/kg)" },
+        { index: "value", value: "Value (€/kg)" },
     ];
 
     const resourcesRows = [
@@ -80,4 +80,4 @@ const Sales = () => {
     );
 };
 
-export default Sales;
+export default Stocks;
