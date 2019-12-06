@@ -24,20 +24,20 @@ const Orders = () => {
     ];
 
     const productRows = [
-        { orderId: "4FN2SNB3", product: "Mint Smell", state:"Pending", quantity: "30.000", value: "1.500", date:"27/10/2019" },
-        { orderId: "4FN2SNB3", product: "Mint Smell", state:"Delivered", quantity: "30.000", value: "1.500", date:"27/10/2019" },
-        { orderId: "4FN2SNB3", product: "Mint Smell", state:"Processed", quantity: "30.000", value: "1.500", date:"27/10/2019" },
-        { orderId: "4FN2SNB3", product: "Mint Smell", state:"Cancelled", quantity: "30.000", value: "1.500", date:"27/10/2019" },
-        { orderId: "4FN2SNB3", product: "Mint Smell", state:"Pending", quantity: "30.000", value: "1.500", date:"27/10/2019" },
-        { orderId: "4FN2SNB3", product: "Mint Smell", state:"Pending", quantity: "30.000", value: "1.500", date:"27/10/2019" },
-        { orderId: "4FN2SNB3", product: "Mint Smell", state:"Pending", quantity: "30.000", value: "1.500", date:"27/10/2019" },
-        { orderId: "4FN2SNB3", product: "Mint Smell", state:"Pending", quantity: "30.000", value: "1.500", date:"27/10/2019" },
-        { orderId: "4FN2SNB3", product: "Mint Smell", state:"Pending", quantity: "30.000", value: "1.500", date:"27/10/2019" },
-        { orderId: "4FN2SNB3", product: "Mint Smell", state:"Pending", quantity: "30.000", value: "1.500", date:"27/10/2019" },
-        { orderId: "4FN2SNB3", product: "Mint Smell", state:"Pending", quantity: "30.000", value: "1.500", date:"27/10/2019" },
-        { orderId: "4FN2SNB3", product: "Mint Smell", state:"Pending", quantity: "30.000", value: "1.500", date:"27/10/2019" },
-        { orderId: "4FN2SNB3", product: "Mint Smell", state:"Pending", quantity: "30.000", value: "1.500", date:"27/10/2019" },
-        { orderId: "4FN2SNB3", product: "Mint Smell", state:"Pending", quantity: "30.000", value: "1.500", date:"27/10/2019" },
+        { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
+        { orderId: "4FN2SNB3", product: "Mint Smell", state: "Delivered", quantity: "30.000", value: "1.500", date: "27/10/2019" },
+        { orderId: "4FN2SNB3", product: "Mint Smell", state: "Processed", quantity: "30.000", value: "1.500", date: "27/10/2019" },
+        { orderId: "4FN2SNB3", product: "Mint Smell", state: "Cancelled", quantity: "30.000", value: "1.500", date: "27/10/2019" },
+        { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
+        { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
+        { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
+        { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
+        { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
+        { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
+        { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
+        { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
+        { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
+        { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
     ];
 
     return (
