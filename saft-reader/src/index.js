@@ -102,6 +102,9 @@ function createBalanceSheet () {
         accountTaxCode = parseInt(accountTaxCode);
 
         switch (accountTaxCode) {
+            //=======================//
+            // ATIVO NÃO CORRENTE
+            //=======================// 
             case 268:
             case 269:
             case 270:
@@ -521,17 +524,56 @@ function createBalanceSheet () {
                 addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Dividendos antecipados'], -accountBal);
                 break;
             //=======================//
+            // PASSIVO NÃO CORRENTE
+            //=======================//
+            case 148:
+            case 149:
+            case 150:
+            case 151:
+            case 152:
+            case 153:
+            case 154:
+            case 155:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Provisões'], accountBal);
+                break;
+            //=======================//
+            case 87:
+            case 89:
+            case 91:
+            case 93:
+            case 95:
+            case 97:
+            case 99:
+            case 101:
+            case 103:
+            case 105:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Financiamentos obtidos'], accountBal);
+                break;
+            //=======================//
+            case 132:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Responsabilidades por benefícios pós-emprego'], accountBal);
+                break;
+            //=======================//
+            case 134:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Passivos por impostos diferidos'], accountBal);
+                break;
+            //=======================//
+            case 58:
+            case 60:
+            case 62:
+            case 64:
+            case 114:
+            case 125:
+            case 127:
+            case 136:
+            case 139:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Outras dívidas a pagar'], accountBal);
+                break;
+            //=======================//
 
             //=======================//
 
-
-
-            
             //=======================//
-            //=======================//
-            //=======================//
-            //=======================//
-
 
 
             /* 
@@ -540,8 +582,8 @@ function createBalanceSheet () {
 
             
 
-
-
+            
+            
 
             */
 
