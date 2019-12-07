@@ -678,12 +678,20 @@ function createBalanceSheet () {
 
     });
 
+    // balanceSheet['Ativo']['Total do Ativo']
+    let totalDoAtivo = sumProperties(balanceSheet['Ativo']['Ativo corrente']);  // validated
+
+    // balanceSheet["Capital Próprio e Passivo"]["Capital Próprio"]["Total do Capital Próprio"];
+    let totalDoCapitalProprio = sumProperties(balanceSheet["Capital Próprio e Passivo"]["Capital Próprio"])  // validated (kinda)
+
+    // balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Total do Passivo"]
+    let totalDoPassivo = sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Corrente"]) 
+                        + sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Não Corrente"]);  // validated
 
 
-
-    // console.log(balanceSheet);
-    // console.log("//===========//");
-    // console.log(balanceSheet["Capital Próprio e Passivo"].Passivo);
+    console.log(totalDoAtivo);
+    console.log(totalDoCapitalProprio);
+    console.log(totalDoPassivo);
 
 
     // for tests
@@ -741,4 +749,14 @@ function addValue(obj, path, value) {
             break;
     }
 
+}
+
+function sumProperties (obj) {
+    let count = 0;
+    for (var key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            count += obj[key];
+        }
+    }
+    return count;
 }
