@@ -1,4 +1,4 @@
-const saftFile = require('../files/json/saft-demo1');
+const saftFile = require('../files/json/saft-demo2');
 const saft = saftFile.jsonObj;
 
 
@@ -7,7 +7,7 @@ startUp();
 function startUp () {
     
     console.log('Saft Version:', saft.AuditFile.Header.AuditFileVersion);
-    createBalanceSheet();
+    // createBalanceSheet();
 
 }
 
@@ -91,25 +91,21 @@ function createBalanceSheet () {
         }
     }
 
-    /**
+    /*
 
-    'Créditos a receber': 0,                                    // 62+64-68-70+112+114-121-123+125+127+129+139-141-145 (Se saldo devedor ver taxonomias)  -  62+64+114+125+127+139
-    'Clientes': 0,                                              //  10+11+12+13+14+15+16+17+18+19+20+21+22-24-25-26-27-28-29-30-31-32-33-34-35-36 (Se saldo devedor, ver taxonomias)  -  10+11+12+13+14+15+16+17+18+19+20+21+22
-    'Estado e outros entes públicos': 0,                        //  71+73+74+76+77+79+80+81+82+83+84+85 (Se saldo devedor, ver taxonomias)  -  71+76+77+81+82+83+84+85 
-    'Outros créditos a receber': 0,                             //  37+38+39+40+41+42+43+44+45+46+47+48+49+50+51-52+55+56+61+63-65-66-67-69+108+109+110+111+113-117-118-119-120-122+124+126+128+130+138-140-142-144 (Se Saldo devedor, ver taxonomias)  -  37+38+39+40+41+42+43+44+45+46+47+48+49+50+61+63+109+110+113+124+126+138
-    'Caixa e depósitos bancários': 0                            //  1+2+3 (Se Saldo devedor, ver taxonomias)  -  2+3
-    'Ações (quotas) próprias': 0,                               //  -332 +/- 333 [(-) Se saldo devedor e (+) Se saldo credor]
-    'Resultados transitados': 0,                                //  +/-338 [(-) Se saldo devedor e (+) Se saldo credor]
-    'Ajustamentos / outras variações no capital próprio': 0,    //  -339+340-341-342-347-348+349-350+351-352 (Se Saldo devedor, ver taxonomias)  -  +/-339 +/-341 +/-342 +/-347 +/-348 +/-352 [(-) Se saldo devedor e(+) Se saldo credor]
-    'Resultado líquido do período': 0,                          //  -646 (Se Saldo devedor, ver taxonomias)  -   +/-646 [(-) Se saldo devedor e (+) Se saldo credor]
-    'Outras dívidas a pagar': 0                                 //  58+60+62+64+114+125+127+136+139 (Se Saldo credor, ver taxonomias)  -  62+64+114+125+127+139 (Se saldo credor)
-    'Fornecedores': 0,                                          //  37+38+39+40+41+42+43+44+45+46+47+48+49+50           (Se Saldo credor, ver taxonomias)  -  37+38+39+40+41+42+43+44+45+46+47+48+49+50
-    'Adiantamentos de clientes': 0,                             //  10+11+12+13+14+15+16+17+18+19+20+21+22+23+137       (Se Saldo credor, ver taxonomias)  -  10+11+12+13+14+15+16+17+18+19+20+21+22
-    'Estado e outros entes públicos': 0,                        //  71+72+75+76+77+78+81+82+83+84+85                    (Se Saldo credor, ver taxonomias)  -  71+76+77+81+82+83+84+85
-    'Financiamentos obtidos': 0,                                //  2+3+86+88+90+92+94+96+98+100+102+104                (Se Saldo credor, ver taxonomias)  -  2+3
-    'Outras dívidas a pagar': 0,                                //  53+54+57+59+61+63+109+110+113+124+126+131+135+138   (Se Saldo credor, ver taxonomias)  -  61+63+109+110+113+124+126+138 
-     
-     */
+    TO CHECK (use script and search with | and regex)
+    
+    62+64+114+125+127+139                                                       ->  'Créditos a receber' // 'Outras dívidas a pagar'
+    10+11+12+13+14+15+16+17+18+19+20+21+22                                      ->  'Clientes'  //  'Adiantamentos de clientes'
+    71+76+77+81+82+83+84+85                                                     ->  'Estado e outros entes públicos'  //  'Estado e outros entes públicos'
+    2+3                                                                         ->  'Caixa e depósitos bancários'  //  'Financiamentos obtidos'
+    -332-333                                                                    ->  'Ações (quotas) próprias'
+    338                                                                         ->  'Resultados transitados'
+    646                                                                         ->  'Resultado líquido do período'
+    339+341+342+347+348+352                                                     ->  'Ajustamentos / outras variações no capital próprio'
+    37+38+39+40+41+42+43+44+45+46+47+48+49+50+61+63+109+110+113+124+126+138     ->  'Outros créditos a receber'  //  'Fornecedores' + 'Outras dívidas a pagar'
+
+    */
 
 
     saft.AuditFile.MasterFiles.GeneralLedgerAccounts.Account.forEach((account) => {
@@ -123,6 +119,144 @@ function createBalanceSheet () {
         accountTaxCode = parseInt(accountTaxCode);
 
         switch (accountTaxCode) {
+            //=======================//
+            // CASES WITH ADDITIONAL LOGIC
+            //=======================//
+            case 62:
+            case 64:
+            case 114:
+            case 125:
+            case 127:
+            case 139:
+                if (accountBal >= 0) {
+                    addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Créditos a receber'], accountBal);
+                } else {
+                    addValue(balanceSheet, ['Passivo', 'Passivo Não Corrente', 'Outras dívidas a pagar'], accountBal);
+                }
+                break;
+            //=======================//
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+            case 22:
+                if (accountBal >= 0) {
+                    addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Clientes'], accountBal);
+                } else {
+                    addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Adiantamentos de clientes'], accountBal);
+                }
+                break;
+            //=======================//  
+            case 71:
+            case 76:
+            case 77:
+            case 81:
+            case 82:
+            case 83:
+            case 84:
+            case 85:
+                if (accountBal >= 0) {
+                    addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Estado e outros entes públicos'], accountBal);
+                } else {
+                    addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Estado e outros entes públicos'], accountBal);
+                }                           
+                break;
+            //=======================//
+            case 2:
+            case 3:
+                if (accountBal >= 0) {
+                    addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Caixa e depósitos bancários'], accountBal);
+                } else {
+                    addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Financiamentos obtidos'], accountBal);
+                } 
+                break;
+            //=======================//
+            case 332:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], -accountBal);
+                break;
+            case 333:
+                if (accountBal >= 0) {
+                    addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], -accountBal);
+                } else {
+                    addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], accountBal);
+                } 
+                break;
+            //=======================//
+            case 338:
+                if (accountBal >= 0) {
+                    addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultados transitados'], -accountBal);
+                } else {
+                    addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultados transitados'], accountBal);
+                } 
+                break;
+            //=======================//
+            case 646:
+                if (accountBal >= 0) {
+                    addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultado líquido do período'], -accountBal);
+                } else {
+                    addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultado líquido do período'], accountBal);
+                } 
+                break;
+            //=======================//
+            case 339:
+            case 341:
+            case 342:
+            case 347:
+            case 348:
+            case 352:
+                if (accountBal >= 0) {
+                    addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ajustamentos / outras variações no capital próprio'], -accountBal);
+                } else {
+                    addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ajustamentos / outras variações no capital próprio'], accountBal);
+                } 
+                break;
+            //=======================//
+            case 37:
+            case 38:
+            case 39:
+            case 40:
+            case 41:
+            case 42:
+            case 43:
+            case 44:
+            case 45:
+            case 46:
+            case 47:
+            case 48:
+            case 49:
+            case 50:
+                if (accountBal >= 0) {
+                    addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Outros créditos a receber'], accountBal);
+                } else {
+                    addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Fornecedores'], accountBal);
+                }                           
+                break;
+            case 61:
+            case 63:
+            case 109:
+            case 110:
+            case 113:
+            case 124:
+            case 126:
+            case 138:
+                if (accountBal >= 0) {
+                    addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Outros créditos a receber'], accountBal);
+                } else {
+                    addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Outras dívidas a pagar'], accountBal);
+                }                           
+                break;
+            //=======================//
+
+            //=======================//
+            // REGULAR CASES
             //=======================//
             // ATIVO NÃO CORRENTE
             //=======================// 
@@ -693,7 +827,7 @@ function createBalanceSheet () {
             //=======================//
 
             default:
-                console.log("Unhandled Taxonomy Code:", accountTaxCode);
+                // console.log("Unhandled Taxonomy Code:", accountTaxCode, "\tWith balance of:", accountBal);
                 break;
         }
 
@@ -710,24 +844,14 @@ function createBalanceSheet () {
                         + sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Não Corrente"]);  // validated
 
 
-    console.log(totalDoAtivo);
-    console.log(totalDoCapitalProprio);
-    console.log(totalDoPassivo);
+    displayFullBalanceSheet(balanceSheet);
 
+    console.log("Ativo = CP + Passivo");
+    console.log("Total do Ativo:", totalDoAtivo);
+    console.log("Total do Capital Proprio:", totalDoCapitalProprio);
+    console.log("Total do Passivo:", totalDoPassivo);
 
-
-    // 157 - NÃO APARECE NAS TAXONOMIAS!
-
-    
-    // for tests
-    // addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos fixos tangíveis'], 123);
-    // addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos fixos tangíveis'], 123);
-    // addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Provisões'], 999);
-
-    // to see tests
-    // console.log(balanceSheet);
-    // console.log('=============================');
-    // console.log(balanceSheet['Capital Próprio e Passivo']['Passivo']);
+    // TODO: 157 - NÃO APARECE NAS TAXONOMIAS!
 }
 
 
@@ -784,4 +908,16 @@ function sumProperties (obj) {
         }
     }
     return count;
+}
+
+function displayFullBalanceSheet (balanceSheet) {
+    console.log("//==========//");
+    console.log(balanceSheet);
+    console.log("//==========//");
+    console.log(balanceSheet['Capital Próprio e Passivo']['Passivo']);
+
+    // for tests
+    // addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos fixos tangíveis'], 123);
+    // addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos fixos tangíveis'], 123);
+    // addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Provisões'], 999);
 }
