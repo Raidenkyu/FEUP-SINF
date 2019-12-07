@@ -570,25 +570,105 @@ function createBalanceSheet () {
                 addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Outras dívidas a pagar'], accountBal);
                 break;
             //=======================//
-
+            // PASSIVO CORRENTE
             //=======================//
-
+            case 37:
+            case 38:
+            case 39:
+            case 40:
+            case 41:
+            case 42:
+            case 43:
+            case 44:
+            case 45:
+            case 46:
+            case 47:
+            case 48:
+            case 49:
+            case 50:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Fornecedores'], accountBal);
+                break;
             //=======================//
-
-
-            /* 
-            
-
-
-            
-
-            
-            
-
-            */
-
-            
-
+            case 10:
+            case 11:
+            case 12:
+            case 13:
+            case 14:
+            case 15:
+            case 16:
+            case 17:
+            case 18:
+            case 19:
+            case 20:
+            case 21:
+            case 22:
+            case 23:
+            case 137:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Adiantamentos de clientes'], accountBal);
+                break;
+            //=======================//
+            case 71:
+            case 72:
+            case 75:
+            case 76:
+            case 77:
+            case 78:
+            case 81:
+            case 82:
+            case 83:
+            case 84:
+            case 85:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Estado e outros entes públicos'], accountBal);
+                break;
+            //=======================//
+            case 2:
+            case 3:
+            case 86:
+            case 88:
+            case 90:
+            case 92:
+            case 94:
+            case 96:
+            case 98:
+            case 100:
+            case 102:
+            case 104:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Financiamentos obtidos'], accountBal);
+                break;
+            //=======================//
+            case 53:
+            case 54:
+            case 57:
+            case 59:
+            case 61:
+            case 63:
+            case 109:
+            case 110:
+            case 113:
+            case 124:
+            case 126:
+            case 131:
+            case 135:
+            case 138:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Outras dívidas a pagar'], accountBal);
+                break;
+            //=======================//
+            case 147:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Diferimentos'], accountBal);
+                break;
+            //=======================//
+            case 5:
+            case 7:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Passivos financeiros detidos para negociação'], accountBal);
+                break;
+            //=======================//
+            case 9:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Outros passivos financeiros'], accountBal);
+                break;
+            //=======================//
+            case 325:
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Passivos não correntes detidos para venda'], accountBal);
+                break;
             //=======================//
 
             default:
@@ -599,10 +679,11 @@ function createBalanceSheet () {
     });
 
 
-    console.log(balanceSheet);
 
 
-
+    // console.log(balanceSheet);
+    // console.log("//===========//");
+    // console.log(balanceSheet["Capital Próprio e Passivo"].Passivo);
 
 
     // for tests
