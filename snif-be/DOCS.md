@@ -33,3 +33,7 @@ Send `get` request to `/api/users`.
 ### Get Orders
 
 Send `get` request to `/api/orders`.
+
+### Get Invoice
+
+Send `get` request to `/api/invoice`.
