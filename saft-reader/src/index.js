@@ -105,6 +105,8 @@ function createBalanceSheet () {
     339+341+342+347+348+352                                                     ->  'Ajustamentos / outras variações no capital próprio'
     37+38+39+40+41+42+43+44+45+46+47+48+49+50+61+63+109+110+113+124+126+138     ->  'Outros créditos a receber'  //  'Fornecedores' + 'Outras dívidas a pagar'
 
+case 37:|case 38:|case 39:|case 40:|case 41:|case 42:|case 43:|case 44:|case 45:|case 46:|case 47:|case 48:|case 49:|case 50:|case 61:|case 63:|case 109:|case 110:|case 113:|case 124:|case 126:|case 138:
+
     */
 
 
@@ -407,14 +409,14 @@ function createBalanceSheet () {
                 addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Outros investimentos financeiros'], -accountBal);
                 break;
             //=======================//
-            case 62:
-            case 64:
             case 112:
-            case 114:
-            case 125:
-            case 127:
             case 129:
-            case 139:
+            // case 62:
+            // case 64:
+            // case 114:
+            // case 125:
+            // case 127:
+            // case 139:
                 addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Créditos a receber'], accountBal);
                 break;
             case 68:
@@ -487,21 +489,21 @@ function createBalanceSheet () {
                 addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Ativos biológicos'], -accountBal);
                 break; 
             //=======================//
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-            case 20:
-            case 21:
-            case 22:
-                addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Clientes'], accountBal);
-                break;              
+            // case 10:
+            // case 11:
+            // case 12:
+            // case 13:
+            // case 14:
+            // case 15:
+            // case 16:
+            // case 17:
+            // case 18:
+            // case 19:
+            // case 20:
+            // case 21:
+            // case 22:
+            //     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Clientes'], accountBal);
+            //     break;              
             case 24:
             case 25:
             case 26:
@@ -518,18 +520,18 @@ function createBalanceSheet () {
                 addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Clientes'], -accountBal);
                 break;          
             //=======================//
-            case 71:
             case 73:
             case 74:
-            case 76:
-            case 77:
             case 79:
             case 80:
-            case 81:
-            case 82:
-            case 83:
-            case 84:
-            case 85:
+            // case 71:
+            // case 76:
+            // case 77:
+            // case 81:
+            // case 82:
+            // case 83:
+            // case 84:
+            // case 85:
                 addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Estado e outros entes públicos'], accountBal);
                 break;             
             //=======================//
@@ -542,35 +544,35 @@ function createBalanceSheet () {
                 addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Capital subscrito e não realizado'], -accountBal);
                 break;  
             //=======================//
-            case 37:
-            case 38:
-            case 39:
-            case 40:
-            case 41:
-            case 42:
-            case 43:
-            case 44:
-            case 45:
-            case 46:
-            case 47:
-            case 48:
-            case 49:
-            case 50:
             case 51:
             case 55:
             case 56:
-            case 61:
-            case 63:
             case 108:
-            case 109:
-            case 110:
             case 111:
-            case 113:
-            case 124:
-            case 126:
             case 128:
             case 130:
-            case 138:
+            // case 37:
+            // case 38:
+            // case 39:
+            // case 40:
+            // case 41:
+            // case 42:
+            // case 43:
+            // case 44:
+            // case 45:
+            // case 46:
+            // case 47:
+            // case 48:
+            // case 49:
+            // case 50:
+            // case 61:
+            // case 63:
+            // case 109:
+            // case 110:
+            // case 113:
+            // case 124:
+            // case 126:
+            // case 138:
                 addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Outros créditos a receber'], accountBal);
                 break;  
             case 52:
@@ -618,8 +620,8 @@ function createBalanceSheet () {
                 break;
             //=======================//  
             case 1:
-            case 2:
-            case 3:
+            // case 2:
+            // case 3:
                 addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Caixa e depósitos bancários'], accountBal);
                 break;
             //=======================//  
@@ -629,10 +631,10 @@ function createBalanceSheet () {
                 addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Capital subscrito'], accountBal);
                 break;
             //=======================//
-            case 332:
-            case 333:
-                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], -accountBal);
-                break;
+            // case 332:
+            // case 333:
+            //     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], -accountBal);
+            //     break;
             //=======================//
             case 334:
                 addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Outros instrumentos de capital próprio'], accountBal);
@@ -664,19 +666,19 @@ function createBalanceSheet () {
             case 351:
                 addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ajustamentos / outras variações no capital próprio'], accountBal);
                 break;            
-            case 339:
-            case 341:
-            case 342:
-            case 347:
-            case 348:
             case 350:
-            case 352:
+            // case 339:
+            // case 341:
+            // case 342:
+            // case 347:
+            // case 348:
+            // case 352:
                 addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ajustamentos / outras variações no capital próprio'], accountBal);
                 break; 
             //=======================//
-            case 646:
-                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultado líquido do período'], -accountBal);
-                break;
+            // case 646:
+            //     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultado líquido do período'], -accountBal);
+            //     break;
             //=======================//
             case 647:
                 addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Dividendos antecipados'], -accountBal);
@@ -718,69 +720,69 @@ function createBalanceSheet () {
             //=======================//
             case 58:
             case 60:
-            case 62:
-            case 64:
-            case 114:
-            case 125:
-            case 127:
             case 136:
-            case 139:
+            // case 62:
+            // case 64:
+            // case 114:
+            // case 125:
+            // case 127:
+            // case 139:
                 addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Outras dívidas a pagar'], accountBal);
                 break;
             //=======================//
             // PASSIVO CORRENTE
             //=======================//
-            case 37:
-            case 38:
-            case 39:
-            case 40:
-            case 41:
-            case 42:
-            case 43:
-            case 44:
-            case 45:
-            case 46:
-            case 47:
-            case 48:
-            case 49:
-            case 50:
-                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Fornecedores'], accountBal);
-                break;
+            // case 37:
+            // case 38:
+            // case 39:
+            // case 40:
+            // case 41:
+            // case 42:
+            // case 43:
+            // case 44:
+            // case 45:
+            // case 46:
+            // case 47:
+            // case 48:
+            // case 49:
+            // case 50:
+            //     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Fornecedores'], accountBal);
+            //     break;
             //=======================//
-            case 10:
-            case 11:
-            case 12:
-            case 13:
-            case 14:
-            case 15:
-            case 16:
-            case 17:
-            case 18:
-            case 19:
-            case 20:
-            case 21:
-            case 22:
+            // case 10:
+            // case 11:
+            // case 12:
+            // case 13:
+            // case 14:
+            // case 15:
+            // case 16:
+            // case 17:
+            // case 18:
+            // case 19:
+            // case 20:
+            // case 21:
+            // case 22:
             case 23:
             case 137:
                 addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Adiantamentos de clientes'], accountBal);
                 break;
             //=======================//
-            case 71:
             case 72:
             case 75:
-            case 76:
-            case 77:
             case 78:
-            case 81:
-            case 82:
-            case 83:
-            case 84:
-            case 85:
+            // case 71:
+            // case 76:
+            // case 77:
+            // case 81:
+            // case 82:
+            // case 83:
+            // case 84:
+            // case 85:
                 addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Estado e outros entes públicos'], accountBal);
                 break;
             //=======================//
-            case 2:
-            case 3:
+            // case 2:
+            // case 3:
             case 86:
             case 88:
             case 90:
@@ -798,16 +800,16 @@ function createBalanceSheet () {
             case 54:
             case 57:
             case 59:
-            case 61:
-            case 63:
-            case 109:
-            case 110:
-            case 113:
-            case 124:
-            case 126:
             case 131:
             case 135:
-            case 138:
+            // case 61:
+            // case 63:
+            // case 109:
+            // case 110:
+            // case 113:
+            // case 124:
+            // case 126:
+            // case 138:
                 addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Outras dívidas a pagar'], accountBal);
                 break;
             //=======================//
