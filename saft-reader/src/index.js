@@ -8,6 +8,7 @@ function startUp () {
     
     console.log('Saft Version:', saft.AuditFile.Header.AuditFileVersion);
     createBalanceSheet();
+    createDemoResultados();
 
 }
 
@@ -90,24 +91,6 @@ function createBalanceSheet () {
             'Total do Capital Próprio e do Passivo': 0
         }
     }
-
-    /*
-
-    TODO: TO CHECK (use script and search with | and regex)
-    
-    62+64+114+125+127+139                                                       ->  'Créditos a receber' // 'Outras dívidas a pagar'
-    10+11+12+13+14+15+16+17+18+19+20+21+22                                      ->  'Clientes'  //  'Adiantamentos de clientes'
-    71+76+77+81+82+83+84+85                                                     ->  'Estado e outros entes públicos'  //  'Estado e outros entes públicos'
-    2+3                                                                         ->  'Caixa e depósitos bancários'  //  'Financiamentos obtidos'
-    -332-333                                                                    ->  'Ações (quotas) próprias'
-    338                                                                         ->  'Resultados transitados'
-    646                                                                         ->  'Resultado líquido do período'
-    339+341+342+347+348+352                                                     ->  'Ajustamentos / outras variações no capital próprio'
-    37+38+39+40+41+42+43+44+45+46+47+48+49+50+61+63+109+110+113+124+126+138     ->  'Outros créditos a receber'  //  'Fornecedores' + 'Outras dívidas a pagar'
-
-case 37:|case 38:|case 39:|case 40:|case 41:|case 42:|case 43:|case 44:|case 45:|case 46:|case 47:|case 48:|case 49:|case 50:|case 61:|case 63:|case 109:|case 110:|case 113:|case 124:|case 126:|case 138:
-
-    */
 
 
     saft.AuditFile.MasterFiles.GeneralLedgerAccounts.Account.forEach((account) => {
@@ -861,6 +844,12 @@ case 37:|case 38:|case 39:|case 40:|case 41:|case 42:|case 43:|case 44:|case 45:
     // TODO: 157 - NÃO APARECE NAS TAXONOMIAS!
 }
 
+
+function createDemoResultados () {
+
+    // TODO: Lógica semelhante ao balance sheet
+
+}
 
 
 function addValue(obj, path, value) {
