@@ -7,7 +7,7 @@ startUp();
 function startUp () {
     
     console.log('Saft Version:', saft.AuditFile.Header.AuditFileVersion);
-    // createBalanceSheet();
+    createBalanceSheet();
 
 }
 
@@ -93,7 +93,7 @@ function createBalanceSheet () {
 
     /*
 
-    TO CHECK (use script and search with | and regex)
+    TODO: TO CHECK (use script and search with | and regex)
     
     62+64+114+125+127+139                                                       ->  'Créditos a receber' // 'Outras dívidas a pagar'
     10+11+12+13+14+15+16+17+18+19+20+21+22                                      ->  'Clientes'  //  'Adiantamentos de clientes'
@@ -111,6 +111,9 @@ function createBalanceSheet () {
     saft.AuditFile.MasterFiles.GeneralLedgerAccounts.Account.forEach((account) => {
         const accountId = account.AccountID;
         const accountBal = account.ClosingDebitBalance - account.ClosingCreditBalance;
+        // const accountBal = (account.ClosingDebitBalance - account.OpeningDebitBalance) - (account.ClosingCreditBalance - account.OpeningCreditBalance); // TODO: Check if this is the formula
+        // const accountBal =  (account.ClosingCreditBalance - account.OpeningCreditBalance) - (account.ClosingDebitBalance - account.OpeningDebitBalance); // TODO: Check if this is the formula
+
         let accountTaxCode = account.TaxonomyCode;
         
         if (accountTaxCode === undefined)
@@ -827,7 +830,7 @@ function createBalanceSheet () {
             //=======================//
 
             default:
-                // console.log("Unhandled Taxonomy Code:", accountTaxCode, "\tWith balance of:", accountBal);
+                // console.log("Unhandled Taxonomy Code:", accountTaxCode, "\tWith balance of:", accountBal); //"  -->  ", account.ClosingCreditBalance, account.OpeningCreditBalance, account.ClosingDebitBalance, account.OpeningDebitBalance);
                 break;
         }
 
@@ -847,7 +850,9 @@ function createBalanceSheet () {
     displayFullBalanceSheet(balanceSheet);
 
     console.log("Ativo = CP + Passivo");
-    console.log("Total do Ativo:", totalDoAtivo);
+    console.log("Total do Ativo:        ", totalDoAtivo);
+    console.log("Total do CP + Passivo:", totalDoCapitalProprio + totalDoPassivo);
+    console.log("//=============//")
     console.log("Total do Capital Proprio:", totalDoCapitalProprio);
     console.log("Total do Passivo:", totalDoPassivo);
 
@@ -857,6 +862,13 @@ function createBalanceSheet () {
 
 
 function addValue(obj, path, value) {
+    // To see if there is an unexpected value
+    if (path[0] === 'Ativo' && value < 0) {
+        console.log("ERROR IN ATIVO");
+    }
+    if (path[0] === 'Capital Próprio e Passivo' && value > 0) {
+        console.log("ERROR IN CP E PASSIVO");
+    }
 
     let fullPath = obj[path[0]];
     // check if path exists
