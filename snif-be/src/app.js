@@ -12,7 +12,7 @@ require("dotenv").config()
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const usersRouter = require('./routes/users');
-const ordersRouter = require('./routes/orders');
+const primaveraRouter = require('./routes/primavera');
 
 const app = express();
 
@@ -42,7 +42,7 @@ connection.once('open', function() {
 app.use('/api/login', loginRouter);
 app.use('/api/logout', logoutRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/orders', ordersRouter);
+app.use('/api/', primaveraRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "@reach/router";
-import Layout from "../components/common/Layout";
+
+import Layout from "../components/common/layout/Layout";
 import logo from "../../src/assets/logo.png";
 
 import HomeStyles from "../styles/home/Home.module.css";

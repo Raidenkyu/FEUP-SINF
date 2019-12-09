@@ -2,7 +2,7 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user.model.js');
 
-router.post('/', (req, res, next) => {
+router.post('/', (req, res) => {
   if (req.body.password !== req.body.passwordConf) {
     var err = new Error('Passwords do not match.');
     err.status = 400;
@@ -25,7 +25,7 @@ router.post('/', (req, res, next) => {
       password: req.body.password,
     }
 
-    User.create(userData, (error, user) => {
+    User.create(userData, (error) => {
       if (error) {
         res.status(error.status || 500);
         res.json({
@@ -33,7 +33,6 @@ router.post('/', (req, res, next) => {
           error: error
         });
       } else {
-        req.session.userId = user._id;
         res.status(200);
         res.json({
           message: "User created with success"

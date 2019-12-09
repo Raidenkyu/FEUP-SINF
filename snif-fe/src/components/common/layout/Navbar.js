@@ -4,8 +4,8 @@ import { Link } from "@reach/router";
 import { Navbar, NavbarToggler } from "reactstrap";
 import PropTypes from "prop-types";
 
-import NavbarStyles from "../../styles/common/navbar.module.css";
-import Logo from "../../assets/logo.png";
+import NavbarStyles from "../../../styles/common/navbar.module.css";
+import Logo from "../../../assets/logo.png";
 
 const NavBar = ({ toggleSidebar, sidebar }) => (
     <Navbar color="faded" fixed="top" dark className={NavbarStyles.navbar}>
