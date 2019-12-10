@@ -5,6 +5,13 @@ const SET_USER = "SET_USER";
 const UNSET_USER = "UNSET_USER";
 
 /**
+ * Other constants
+ */
+const USER_PERMISSIONS = {
+    admin: ["/overview", "/sales", "/purchases", "/stocks", "/orders", "/customers", "/financial"],
+}
+
+/**
  * Action creators
  */
 const setUser = (user) => ({
@@ -19,6 +26,7 @@ const unsetUser = () => ({
 export {
     SET_USER,
     UNSET_USER,
+    USER_PERMISSIONS,
     setUser,
     unsetUser,
 };
