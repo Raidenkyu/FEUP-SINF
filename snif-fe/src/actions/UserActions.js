@@ -9,7 +9,7 @@ const UNSET_USER = "UNSET_USER";
  */
 const USER_PERMISSIONS = {
     admin: ["/overview", "/sales", "/purchases", "/stocks", "/orders", "/customers", "/financial"],
-}
+};
 
 /**
  * Action creators
