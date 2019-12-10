@@ -4,7 +4,7 @@ import { Link } from "@reach/router";
 
 import SidebarStyles from "../../../../styles/common/sidebar.module.css";
 
-const SidebarItem = ({ path, label, active }) => (
+const SidebarRoute = ({ path, label, active }) => (
     <li className={SidebarStyles.item + (active ? " " + SidebarStyles.active : "")}>
         <Link
             to={path}
@@ -15,10 +15,10 @@ const SidebarItem = ({ path, label, active }) => (
     </li>
 )
 
-SidebarItem.propTypes = {
+SidebarRoute.propTypes = {
     path: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
     active: PropTypes.bool.isRequired,
 }
 
-export default SidebarItem
+export default SidebarRoute
