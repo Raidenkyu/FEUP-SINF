@@ -9,7 +9,7 @@ router.post('/', (req, res) => {
     if (req.body.email && req.body.password) {
         User.authenticate(req.body.email, req.body.password, (error, user) => {
             if (error || !user) {
-                return res.json({
+                return res.status(400).json({
                     message: error.message,
                     error: error
                 });
@@ -21,13 +21,16 @@ router.post('/', (req, res) => {
                     expiresIn: '1h'
                 });
                 res.cookie("auth_token", token, { httpOnly: true })
-                return res.json({ message: "Login successful" });
+                return res.json({
+                    email: user.email,
+                    username: user.username,
+                    role: user.role,
+                });
             }
         });
     } else {
         var err = new Error('All fields required.');
-        err.status = 400;
-        return res.json({
+        return res.status(400).json({
             message: err.message,
             error: err
         });

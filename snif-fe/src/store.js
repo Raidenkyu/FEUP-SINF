@@ -2,12 +2,14 @@ import { createStore } from "redux";
 import AppState from './reducers/AppStateReducer'
 
 // TODO: fetch from API
-const initialState = {
-    user: {
-        username: "admin",
-        role: "admin",
-    }
-};
+// const initialState = {
+//     user: {
+//         username: "admin",
+//         role: "admin",
+//     }
+// };
+
+const initialState = {};
 
 const store = createStore(AppState, initialState);
 
