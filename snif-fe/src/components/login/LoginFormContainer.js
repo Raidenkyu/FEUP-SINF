@@ -25,7 +25,7 @@ const mapDispatchToProps = dispatch => {
                 role: "admin",
             }))
 
-            navigate("/overview");
+            navigate("/");
         }
     }
 }

@@ -1,6 +1,6 @@
 import React from "react";
 import { Router } from "@reach/router";
-import { connect } from 'react-redux'
+import { connect } from "react-redux";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -14,6 +14,16 @@ import Financial from "./pages/Financial";
 import NotFound from "./pages/404";
 
 import { USER_PERMISSIONS } from "./actions/UserActions"
+
+const ROUTES = [
+    { path: "/overview", label: "Overview" },
+    { path: "/sales", label: "Sales" },
+    { path: "/purchases", label: "Purchases" },
+    { path: "/stocks", label: "Stocks" },
+    { path: "/orders", label: "Orders" },
+    { path: "/customers", label: "Customers" },
+    { path: "/financial", label: "Financial" },
+]
 
 let AppRouter = ({ userRole }) => {
     const hasPermission = path => {
@@ -55,4 +65,7 @@ AppRouter = connect(
     mapStateToProps,
 )(AppRouter)
 
-export default AppRouter;
+export {
+    ROUTES,
+    AppRouter
+};
