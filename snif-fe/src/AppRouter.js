@@ -11,6 +11,7 @@ import Stocks from "./pages/Stocks";
 import Orders from "./pages/Orders";
 import Customers from "./pages/Customers";
 import Financial from "./pages/Financial";
+import NotFound from "./pages/404";
 
 import { USER_PERMISSIONS } from "./actions/UserActions"
 
@@ -33,6 +34,7 @@ let AppRouter = ({ userRole }) => {
             {hasPermission("/orders") && <Orders path="/orders"/>}
             {hasPermission("/customers") && <Customers path="/customers"/>}
             {hasPermission("/financial") && <Financial path="/financial"/>}
+            <NotFound default />
         </Router>
     );
 };

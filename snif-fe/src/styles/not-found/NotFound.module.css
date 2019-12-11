@@ -1,0 +1,28 @@
+.notFoundContainer {
+    height: 100vh;
+    width: 100vw;
+}
+
+.info {
+    font-size: 2em;
+    font-weight: 100;
+}
+
+.label {
+    color: var(--light-green);
+    font-weight: 100;
+    font-size: 15em;
+}
+
+.link {
+    color: var(--white);
+    padding: 1em 3em;
+    background-color: var(--light-green);
+    border-radius: 30px;
+}
+
+.link:hover {
+    color: var(--white);
+    background-color: var(--dark-green);
+    text-decoration: none;
+}
