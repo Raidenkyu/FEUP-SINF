@@ -44,7 +44,9 @@ const mapStateToProps = state => {
         }
     }
 
-    return "default";
+    return {
+        userRole: "none",
+    };
 }
 
 AppRouter = connect(
