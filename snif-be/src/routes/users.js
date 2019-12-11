@@ -55,9 +55,8 @@ router.post('/', (req, res) => {
 });
 
 router.get("/", (req, res) => {
-    console.log(req.session);
     if (req.session.email) {
-        User.findOne({ email: email }).exec((err, user) => {
+        User.findOne({ email: req.session.email }).exec((err, user) => {
             if (err) {
                 err.status = 404;
                 res.status(err.status);
@@ -68,8 +67,7 @@ router.get("/", (req, res) => {
             }
             else {
                 res.status(200);
-                console.log(user);
-                res.json({ User: "user" });
+                res.json(user);
             }
         });
     }
