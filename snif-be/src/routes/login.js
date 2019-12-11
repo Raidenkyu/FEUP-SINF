@@ -14,7 +14,7 @@ router.post('/', (req, res) => {
                     error: error
                 });
             } else {
-                req.session.userId = user._id;
+                req.session.email = user.email;
                 res.status(200);
                 const payload = { email: req.body.email };
                 const token = jwt.sign(payload, secret, {

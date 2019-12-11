@@ -30,6 +30,12 @@ const requestInvoice = () => (
     )
 );
 
+const requestPrimavera = (endpoint) => (
+    jasminAdapter("get", endpoint, {}).then(
+        (res) => (res.data),
+    )
+);
+
 axios.interceptors.response.use((response) => (response),
     (error) => {
         // Return any error which is not due to authentication back to the calling service
@@ -68,4 +74,5 @@ module.exports = {
     requestAccessToken,
     requestOrders,
     requestInvoice,
+    requestPrimavera,
 };

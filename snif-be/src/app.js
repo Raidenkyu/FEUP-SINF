@@ -8,11 +8,14 @@ const logger = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
 require("dotenv").config()
+const { seedDb } = require("./utils/database/seed");
 
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
 const usersRouter = require('./routes/users');
-const primaveraRouter = require('./routes/primavera');
+const ordersRouter = require('./routes/orders');
+const salesRouter = require('./routes/sales');
+const customersRouter = require('./routes/customers');
 
 const app = express();
 
@@ -35,14 +38,17 @@ mongoose.connect('mongodb://mongo:27017/snif',
   useCreateIndex: true
 });
 const connection = mongoose.connection;
-connection.once('open', function() {
+connection.once('open', () => {
     console.log("MongoDB database connection established successfully");
+    seedDb();
 })
 
 app.use('/api/login', loginRouter);
 app.use('/api/logout', logoutRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/', primaveraRouter);
+app.use('/api/orders', ordersRouter);
+app.use('/api/sales', salesRouter);
+app.use("/api/customers", customersRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
