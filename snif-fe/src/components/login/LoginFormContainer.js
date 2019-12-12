@@ -2,20 +2,27 @@ import { connect } from "react-redux";
 import { navigate } from "@reach/router";
 import axios from "axios";
 
-import { setUser } from "../../actions/UserActions"
+import { requestLogin, loginSuccess, loginFailure } from "../../actions/AuthActions"
 
 import LoginForm from "./LoginForm";
+
+const mapStateToProps = state => {
+    return {
+        loggingIn: state.auth.loggingIn,
+        error: state.auth.error,
+    }
+}
 
 const mapDispatchToProps = dispatch => {
     return {
         handleLogin: (email, password) => {
-            axios.post("http://localhost:9000/api/login", {
-                email: email.value,
-                password: password.value,
-            }).then((response) => {
-                console.log(response);
+            dispatch(requestLogin());
 
-                dispatch(setUser({
+            axios.post("http://localhost:9000/api/login", {
+                email: email,
+                password: password,
+            }).then((response) => {
+                dispatch(loginSuccess({
                     email: response.data.email,
                     username: response.data.username,
                     role: response.data.role,
@@ -23,16 +30,14 @@ const mapDispatchToProps = dispatch => {
 
                 navigate("/");
             }).catch((error) => {
-                console.log(error);
-                // setEmail({ ...email, error: true });
-                // setPassword({ ...password, error: true });
+                dispatch(loginFailure());
             });
         }
     }
 }
 
 const LoginFormContainer = connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps,
 )(LoginForm)
 

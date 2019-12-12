@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 
-import userState from "./UserReducer";
+import authentication from "./AuthReducer";
 
 const appState = combineReducers({
-    user: userState,
+    auth: authentication,
 });
 
 export default appState;

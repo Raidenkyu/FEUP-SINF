@@ -13,7 +13,7 @@ import Customers from "./pages/Customers";
 import Financial from "./pages/Financial";
 import NotFound from "./pages/404";
 
-import { USER_PERMISSIONS } from "./actions/UserActions"
+import { USER_PERMISSIONS } from "./actions/AuthActions"
 
 const ROUTES = [
     { path: "/overview", label: "Overview" },
@@ -50,9 +50,9 @@ let AppRouter = ({ userRole }) => {
 };
 
 const mapStateToProps = state => {
-    if (state.user) {
+    if (state.auth.user) {
         return {
-            userRole: state.user.role,
+            userRole: state.auth.user.role,
         }
     }
 

@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 import SidebarRoutes from "./SidebarRouteList";
-import { USER_PERMISSIONS } from "../../../../actions/UserActions";
+import { USER_PERMISSIONS } from "../../../../actions/AuthActions";
 import { ROUTES } from "../../../../AppRouter";
 
 const getVisibleRoutes = (user) => {

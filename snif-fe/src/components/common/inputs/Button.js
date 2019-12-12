@@ -30,7 +30,10 @@ const ButtonCustom = ({ id, label, onClick, block }) => {
 
 ButtonCustom.propTypes = {
     id: PropTypes.string.isRequired,
-    label: PropTypes.string.isRequired,
+    label: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.node,
+    ]).isRequired,
     onClick: PropTypes.func,
     block: PropTypes.bool,
 };
