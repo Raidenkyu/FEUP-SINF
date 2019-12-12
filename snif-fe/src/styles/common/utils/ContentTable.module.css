@@ -10,3 +10,8 @@
 .row {
     color: var(--white);
 }
+
+.row:hover {
+    color: var(--light-green) !important;
+    cursor: pointer;
+}
