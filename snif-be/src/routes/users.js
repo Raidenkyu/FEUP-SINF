@@ -58,24 +58,23 @@ router.get("/", (req, res) => {
     if (req.session.email) {
         User.findOne({ email: req.session.email }).exec((err, user) => {
             if (err) {
-                err.status = 404;
-                res.status(err.status);
-                res.json({
+                res.status(404).json({
                     message: err.message,
                     error: err
                 });
             }
             else {
-                res.status(200);
-                res.json(user);
+                res.status(200).json({
+                    email: user.email,
+                    username: user.username,
+                    role: user.role,
+                });
             }
         });
     }
     else {
         const err = new Error("No user logged in");
-        err.status = 404;
-        res.status(err.status);
-        res.json({
+        res.status(404).json({
             message: err.message,
             error: err
         });
