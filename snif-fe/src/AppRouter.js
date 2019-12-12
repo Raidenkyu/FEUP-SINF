@@ -1,6 +1,6 @@
 import React from "react";
 import { Router } from "@reach/router";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -25,7 +25,9 @@ const ROUTES = [
     { path: "/financial", label: "Financial" },
 ]
 
-let AppRouter = ({ userRole }) => {
+const AppRouter = () => {
+    const userRole = useSelector(state => state.auth.user ? state.auth.user.role : "");
+
     const hasPermission = path => {
         if (USER_PERMISSIONS[userRole]) {
             return USER_PERMISSIONS[userRole].includes(path);
@@ -48,22 +50,6 @@ let AppRouter = ({ userRole }) => {
         </Router>
     );
 };
-
-const mapStateToProps = state => {
-    if (state.auth.user) {
-        return {
-            userRole: state.auth.user.role,
-        }
-    }
-
-    return {
-        userRole: "none",
-    };
-}
-
-AppRouter = connect(
-    mapStateToProps,
-)(AppRouter)
 
 export {
     ROUTES,
