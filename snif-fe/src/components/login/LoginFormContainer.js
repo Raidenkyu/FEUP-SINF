@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 import { navigate } from "@reach/router";
 import axios from "axios";
-import Cookies from 'js-cookie'
+import Cookies from 'js-cookie';
 
 import { requestLogin, loginSuccess, loginFailure } from "../../actions/AuthActions"
 
