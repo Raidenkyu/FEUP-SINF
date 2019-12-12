@@ -25,6 +25,7 @@ router.post('/', (req, res) => {
                     email: user.email,
                     username: user.username,
                     role: user.role,
+                    auth_token: token,
                 });
             }
         });

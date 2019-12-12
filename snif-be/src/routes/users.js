@@ -58,13 +58,13 @@ router.get("/", (req, res) => {
     if (req.session.email) {
         User.findOne({ email: req.session.email }).exec((err, user) => {
             if (err) {
-                res.status(404).json({
+                return res.status(404).json({
                     message: err.message,
                     error: err
                 });
             }
             else {
-                res.status(200).json({
+                return res.status(200).json({
                     email: user.email,
                     username: user.username,
                     role: user.role,
@@ -74,7 +74,7 @@ router.get("/", (req, res) => {
     }
     else {
         const err = new Error("No user logged in");
-        res.status(404).json({
+        return res.status(404).json({
             message: err.message,
             error: err
         });

@@ -1,6 +1,7 @@
 import { connect } from "react-redux";
 import { navigate } from "@reach/router";
 import axios from "axios";
+import Cookies from 'js-cookie'
 
 import { requestLogin, loginSuccess, loginFailure } from "../../actions/AuthActions"
 
@@ -26,10 +27,12 @@ const mapDispatchToProps = dispatch => {
                     email: response.data.email,
                     username: response.data.username,
                     role: response.data.role,
-                }))
+                }));
+
+                Cookies.set('auth_token', response.data.auth_token);
 
                 navigate("/");
-            }).catch((error) => {
+            }).catch(() => {
                 dispatch(loginFailure());
             });
         }
