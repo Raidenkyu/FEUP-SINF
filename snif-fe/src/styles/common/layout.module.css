@@ -10,3 +10,12 @@
     min-height: calc(100vh);
     color: var(--white);
 }
+
+.loadingSpinner {
+    position: absolute;
+    top: calc(50vh - 50px);
+    left: calc(50vw - 50px);
+    width: 100px !important;
+    height: 100px !important;
+    color: var(--light-green) !important;
+}

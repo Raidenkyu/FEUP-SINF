@@ -1,6 +1,9 @@
 /**
  * Action constants
  */
+const TOKEN_REQUEST = "TOKEN_REQUEST";
+const TOKEN_SUCCESS = "TOKEN_SUCCESS";
+const TOKEN_FAILURE = "TOKEN_FAILURE";
 const LOGIN_REQUEST = "LOGIN_REQUEST";
 const LOGIN_SUCCESS = "LOGGIN_SUCCESS";
 const LOGIN_FAILURE = "LOGIN_FAILED";
@@ -16,6 +19,20 @@ const USER_PERMISSIONS = {
 /**
  * Action creators
  */
+const requestToken = () => ({
+    type: TOKEN_REQUEST,
+    checkingToken: true,
+});
+
+const tokenSuccess = (user) => ({
+    type: TOKEN_SUCCESS,
+    user: user,
+});
+
+const tokenFailure = () => ({
+    type: TOKEN_FAILURE,
+});
+
 const requestLogin = () => ({
     type: LOGIN_REQUEST,
     loggingIn: true,
@@ -26,9 +43,9 @@ const loginSuccess = (user) => ({
     user: user,
 });
 
-const loginFailure = (error) => ({
+const loginFailure = () => ({
     type: LOGIN_FAILURE,
-    error: error,
+    error: true,
 });
 
 const logout = () => ({
@@ -36,11 +53,17 @@ const logout = () => ({
 });
 
 export {
+    TOKEN_REQUEST,
+    TOKEN_SUCCESS,
+    TOKEN_FAILURE,
     LOGIN_REQUEST,
     LOGIN_SUCCESS,
     LOGIN_FAILURE,
     LOGOUT,
     USER_PERMISSIONS,
+    requestToken,
+    tokenSuccess,
+    tokenFailure,
     requestLogin,
     loginSuccess,
     loginFailure,
