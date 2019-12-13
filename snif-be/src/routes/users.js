@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const ObjectId = require('mongoose').Types.ObjectId
+const jwt = require('jsonwebtoken');
+
+const secret = process.env.AUTH_SECRET;
 const User = require('../models/user.model.js');
 
 router.post('/', (req, res) => {
@@ -79,6 +81,35 @@ router.get("/", (req, res) => {
             error: err
         });
     }
+});
+
+router.get("/token", (req, res) => {
+    console.log(85);
+    const token = req.headers.auth_token;
+    console.log(req.headers.auth_token);
+    if (!token) {
+        console.log(91);
+        return res.status(401).send({
+            message: 'Unauthorized: No token provided'
+        });
+    } else {
+        console.log(96);
+        jwt.verify(token, secret, (err, decoded) => {
+            if (err) {
+                console.log(99);
+                return res.status(401).json({
+                    message: 'Unauthorized: Invalid token',
+                });
+            } else {
+                console.log(decoded);
+                return res.status(200).json({
+                    message: "Authorized: Valid token",
+                    user: decoded,
+                })
+            }
+        });
+    }
+    console.log(112);
 });
 
 module.exports = router;

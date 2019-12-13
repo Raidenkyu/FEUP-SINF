@@ -15,13 +15,18 @@ router.post('/', (req, res) => {
                 });
             } else {
                 req.session.email = user.email;
-                res.status(200);
-                const payload = { email: req.body.email };
+
+                const payload = { 
+                    email: user.email,
+                    username: user.username,
+                    role: user.role,
+                };
+
                 const token = jwt.sign(payload, secret, {
-                    expiresIn: '1h'
+                    expiresIn: '24h',
                 });
-                res.cookie("auth_token", token, { httpOnly: true })
-                return res.json({
+
+                return res.status(200).json({
                     email: user.email,
                     username: user.username,
                     role: user.role,

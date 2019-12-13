@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Router } from "@reach/router";
 import { useSelector } from "react-redux";
 
@@ -25,8 +25,12 @@ const ROUTES = [
     { path: "/financial", label: "Financial" },
 ]
 
-const AppRouter = () => {
+const AppRouter = ({ loadUser }) => {
     const userRole = useSelector(state => state.auth.user ? state.auth.user.role : "");
+
+    useEffect(() => {
+        loadUser();
+    }, []);
 
     const hasPermission = path => {
         if (USER_PERMISSIONS[userRole]) {
