@@ -1,34 +1,34 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
+import Loading from "./Loading";
 import Navbar from "./Navbar";
-import Sidebar from "./sidebar/Sidebar";
+import Sidebar from "./sidebar/SidebarContainer";
 
 import LayoutStyles from "../../../styles/common/layout.module.css";
 
 const Layout = ({ path, navbar, sidebar, children }) => {
+    const checkingToken = useSelector(state => state.auth.checkingToken);
+
     const [collapsed, setCollapsed] = useState(true);
 
     const toggleSidebar = () => setCollapsed(!collapsed);
 
     return (
-        <>
-            {navbar ?
-                <Navbar toggleSidebar={toggleSidebar} sidebar={sidebar} /> : ""
-            }
-            {sidebar ?
-                <Sidebar path={path} collapsed={collapsed} toggleSidebar={toggleSidebar} /> : ""
-            }
+        <React.Fragment>
+            {navbar && <Navbar toggleSidebar={toggleSidebar} sidebar={sidebar} />}
+            {sidebar && <Sidebar path={path} collapsed={collapsed} toggleSidebar={toggleSidebar} />}
             <div className={(navbar ? LayoutStyles.layoutContainer + " px-5 pb-5" : LayoutStyles.layoutContainerNoNav) }>
-                {children}
+                {checkingToken ? <Loading navbar={navbar} /> : children}
             </div>
-        </>
+        </React.Fragment>
     );
 };
 
 Layout.propTypes = {
-    navbar: PropTypes.bool.isRequired,
-    sidebar: PropTypes.bool.isRequired,
+    navbar: PropTypes.bool,
+    sidebar: PropTypes.bool,
     children: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.node),
         PropTypes.node,

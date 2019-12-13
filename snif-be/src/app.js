@@ -8,6 +8,7 @@ const logger = require('morgan');
 const cors = require('cors');
 const mongoose = require('mongoose');
 require("dotenv").config()
+
 const { seedDb } = require("./utils/database/seed");
 
 const loginRouter = require('./routes/login');

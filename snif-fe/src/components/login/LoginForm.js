@@ -1,19 +1,16 @@
 import React, { useState } from "react";
-import { Row, Col } from "reactstrap";
+import { Row, Col, Spinner } from "reactstrap";
 
 import Input from "../common/inputs/Input";
 import Button from "../common/inputs/Button";
 
-const LoginForm = ({ handleLogin }) => {
+const LoginForm = ({ loggingIn, error, handleLogin }) => {
     const [email, setEmail] = useState({
         value: "",
         error: false,
     });
 
-    const [password, setPassword] = useState({
-        value: "",
-        error: false,
-    });
+    const [password, setPassword] = useState("");
 
     const handleChangeEmail = (event) => {
         if (event.target.value.match(/.+@.+\..+/)) {
@@ -27,15 +24,10 @@ const LoginForm = ({ handleLogin }) => {
                 error: true,
             });
         }
-
-        setPassword({ ...password, error: false });
     };
 
     const handleChangePassword = (event) => {
-        setPassword({
-            value: event.target.value,
-            error: false,
-        });
+        setPassword(event.target.value);
         if (email.value.match(/.+@.+\..+/)) {
             setEmail({ ...email, error: false });
         }
@@ -50,7 +42,7 @@ const LoginForm = ({ handleLogin }) => {
                         label="E-mail:"
                         type="email"
                         placeholder="Insert your e-mail"
-                        error={email.error}
+                        error={error || email.error}
                         onChange={handleChangeEmail}
                     />
                 </Col>
@@ -62,7 +54,7 @@ const LoginForm = ({ handleLogin }) => {
                         label="Password:"
                         type="password"
                         placeholder="Insert your password"
-                        error={password.error}
+                        error={error || false}
                         onChange={handleChangePassword}
                     />
                 </Col>
@@ -71,8 +63,8 @@ const LoginForm = ({ handleLogin }) => {
                 <Col md={{ size: 6, offset: 3 }} className="d-flex justify-content-center">
                     <Button
                         id="login"
-                        label="Login"
-                        onClick={() => handleLogin(email, password)}
+                        label={loggingIn ? <Spinner color="success" /> : "Login"}
+                        onClick={() => handleLogin(email.value, password)}
                     />
                 </Col>
             </Row>

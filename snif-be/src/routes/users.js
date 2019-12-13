@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const ObjectId = require('mongoose').Types.ObjectId
+const jwt = require('jsonwebtoken');
+
+const secret = process.env.AUTH_SECRET;
 const User = require('../models/user.model.js');
 
 router.post('/', (req, res) => {
@@ -58,26 +60,47 @@ router.get("/", (req, res) => {
     if (req.session.email) {
         User.findOne({ email: req.session.email }).exec((err, user) => {
             if (err) {
-                err.status = 404;
-                res.status(err.status);
-                res.json({
+                return res.status(404).json({
                     message: err.message,
                     error: err
                 });
             }
             else {
-                res.status(200);
-                res.json(user);
+                return res.status(200).json({
+                    email: user.email,
+                    username: user.username,
+                    role: user.role,
+                });
             }
         });
     }
     else {
         const err = new Error("No user logged in");
-        err.status = 404;
-        res.status(err.status);
-        res.json({
+        return res.status(404).json({
             message: err.message,
             error: err
+        });
+    }
+});
+
+router.get("/token", (req, res) => {
+    const token = req.headers.auth_token;
+    if (!token) {
+        return res.status(401).send({
+            message: 'Unauthorized: No token provided'
+        });
+    } else {
+        jwt.verify(token, secret, (err, decoded) => {
+            if (err) {
+                return res.status(401).json({
+                    message: 'Unauthorized: Invalid token',
+                });
+            } else {
+                return res.status(200).json({
+                    message: "Authorized: Valid token",
+                    user: decoded,
+                })
+            }
         });
     }
 });

@@ -6,7 +6,7 @@ import PropTypes from "prop-types";
 import Layout from "../components/common/layout/Layout";
 import logo from "../../src/assets/logo.png";
 
-import { USER_PERMISSIONS } from "../actions/UserActions";
+import { USER_PERMISSIONS } from "../actions/AuthActions";
 import { ROUTES } from "../AppRouter";
 
 import HomeStyles from "../styles/home/Home.module.css";
@@ -37,10 +37,10 @@ let Home = ({ userRole, routes }) => (
 );
 
 const mapStateToProps = (state) => {
-    if (state.user) {
+    if (state.auth.user) {
         return {
-            userRole: state.user.role,
-            routes: ROUTES.filter((route) => USER_PERMISSIONS[state.user.role].includes(route.path)),
+            userRole: state.auth.user.role,
+            routes: ROUTES.filter((route) => USER_PERMISSIONS[state.auth.user.role].includes(route.path)),
         };
     }
 
@@ -54,7 +54,7 @@ Home = connect(
 )(Home);
 
 Home.propTypes = {
-    userRole: PropTypes.string.isRequired,
+    userRole: PropTypes.string,
     routes: PropTypes.array,
 };
 

@@ -9,25 +9,34 @@ router.post('/', (req, res) => {
     if (req.body.email && req.body.password) {
         User.authenticate(req.body.email, req.body.password, (error, user) => {
             if (error || !user) {
-                return res.json({
+                return res.status(400).json({
                     message: error.message,
                     error: error
                 });
             } else {
                 req.session.email = user.email;
-                res.status(200);
-                const payload = { email: req.body.email };
+
+                const payload = { 
+                    email: user.email,
+                    username: user.username,
+                    role: user.role,
+                };
+
                 const token = jwt.sign(payload, secret, {
-                    expiresIn: '1h'
+                    expiresIn: '24h',
                 });
-                res.cookie("auth_token", token, { httpOnly: true })
-                return res.json({ message: "Login successful" });
+
+                return res.status(200).json({
+                    email: user.email,
+                    username: user.username,
+                    role: user.role,
+                    auth_token: token,
+                });
             }
         });
     } else {
         var err = new Error('All fields required.');
-        err.status = 400;
-        return res.json({
+        return res.status(400).json({
             message: err.message,
             error: err
         });

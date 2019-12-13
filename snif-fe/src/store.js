@@ -1,14 +1,6 @@
 import { createStore } from "redux";
-import AppState from './reducers/AppStateReducer'
+import AppState from "./reducers/AppStateReducer";
 
-// TODO: fetch from API
-const initialState = {
-    user: {
-        username: "admin",
-        role: "admin",
-    }
-};
-
-const store = createStore(AppState, initialState);
+const store = createStore(AppState);
 
 export default store;

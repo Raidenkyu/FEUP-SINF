@@ -68,7 +68,7 @@
 .sidebarContainer .topItem {
     display: flex;
     align-items: center;
-    padding-left: 10%;
+    padding: 0 10%;
     width: 100%;
     height: 100%;
     height: 4rem;
@@ -85,6 +85,13 @@
     width: 1.3em;
     height: 1.3em;
     cursor: pointer;
+}
+
+.sidebarContainer .topItem .signOut {
+    width: 1.3em;
+    height: 1.3em;
+    cursor: pointer;
+    margin-left: auto;
 }
 
 .sidebarContainer .item:nth-of-type(1) {
