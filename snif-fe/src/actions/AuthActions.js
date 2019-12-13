@@ -21,12 +21,12 @@ const requestLogin = () => ({
     loggingIn: true,
 });
 
-const loginSuccess = user => ({
+const loginSuccess = (user) => ({
     type: LOGIN_SUCCESS,
     user: user,
 });
 
-const loginFailure = error => ({
+const loginFailure = (error) => ({
     type: LOGIN_FAILURE,
     error: error,
 });
