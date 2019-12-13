@@ -84,24 +84,18 @@ router.get("/", (req, res) => {
 });
 
 router.get("/token", (req, res) => {
-    console.log(85);
     const token = req.headers.auth_token;
-    console.log(req.headers.auth_token);
     if (!token) {
-        console.log(91);
         return res.status(401).send({
             message: 'Unauthorized: No token provided'
         });
     } else {
-        console.log(96);
         jwt.verify(token, secret, (err, decoded) => {
             if (err) {
-                console.log(99);
                 return res.status(401).json({
                     message: 'Unauthorized: Invalid token',
                 });
             } else {
-                console.log(decoded);
                 return res.status(200).json({
                     message: "Authorized: Valid token",
                     user: decoded,
@@ -109,7 +103,6 @@ router.get("/token", (req, res) => {
             }
         });
     }
-    console.log(112);
 });
 
 module.exports = router;
