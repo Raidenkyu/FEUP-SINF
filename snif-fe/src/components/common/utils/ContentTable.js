@@ -41,7 +41,7 @@ const ContentTable = ({ headers, rows }) => {
                 </tr>
             ))}
         </tbody>
-        <Popup isOpen={modal} toggle={toggle} data={modalData}/>
+        <Popup isOpen={modal} toggle={toggle} headers={headers} data={modalData}/>
     </Table>
 )};
 

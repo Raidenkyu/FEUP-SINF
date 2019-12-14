@@ -3,3 +3,19 @@
     font-weight: 100;
     background-color: var(--middle-grey);
 }
+.body {
+    background-color: var(--middle-grey) !important;
+}
+.item {
+    background-color: var(--middle-grey) !important;
+}
+
+.heading {
+    color: var(--light-green);
+    background-color: var(--middle-grey);
+}
+
+.text {
+    color: var(--white);
+    background-color: var(--middle-grey);
+}
