@@ -11,7 +11,8 @@ router.get("/invoice", (_req, res) => {
                 growth: 0,
                 margin: 0,
                 salesByTimestamp: {},
-                salesList: []
+                products: {},
+                salesList: [],
             };
             invoiceData.map((bill) => {
                 bill.documentLines.map((sale) => {
@@ -23,6 +24,18 @@ router.get("/invoice", (_req, res) => {
                         date: sale.deliveryDate.split("T")[0],
                         revenue: sale.lineExtensionAmount.amount
                     });
+
+                    if (response.products[sale.description] == undefined) {
+                        response.products[sale.description] = {
+                            units: 0,
+                            revenue: 0
+                        };
+                    }
+
+                    response.products[sale.description] = {
+                        units: sale.quantity + response.products[sale.description].units,
+                        revenue: sale.lineExtensionAmount.amount  + response.products[sale.description].revenue
+                    };
                 });
 
             });
@@ -54,7 +67,7 @@ router.get("/invoice", (_req, res) => {
             const prevProfit = getYearProfit(prevYear, response.salesByTimestamp);
 
             response.growth = (prevProfit.revenue == 0 ? 0 : (profit.revenue - prevProfit.revenue) / prevProfit.revenue);
-            response.margin = (profit.income / profit.revenue) * 100; 
+            response.margin = (profit.income / profit.revenue) * 100;
 
             res.json(response);
         }

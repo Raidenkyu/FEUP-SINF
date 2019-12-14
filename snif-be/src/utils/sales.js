@@ -10,8 +10,6 @@ const getYearProfit = (year, salesByTimestamp) => {
         const formattedNumber = ("0" + i).slice(-2);
         const key = `${year}-${formattedNumber}`;
 
-        console.log(key);
-
         if (!salesByTimestamp.hasOwnProperty(key)) continue;
 
         profit.revenue = salesByTimestamp[key].revenue;
