@@ -8,7 +8,8 @@ function startUp () {
     
     console.log('Saft Version:', saft.AuditFile.Header.AuditFileVersion);
     // createBalanceSheet();
-    createMonthlyResults();
+    // createMonthlyResults();
+    getDRAccountIds();
 
 }
 
@@ -972,6 +973,65 @@ function createMonthlyResults () {
 }
 
 
+function getDRAccountIds () {
+
+    let accountIds = {
+        '1': { 'add': [], 'sub': [], 'cond': [] },
+        '2': { 'add': [], 'sub': [], 'cond': [] },
+        '3': { 'add': [], 'sub': [], 'cond': [] },
+        '4': { 'add': [], 'sub': [], 'cond': [] },
+        '5': { 'add': [], 'sub': [], 'cond': [] },
+        '6': { 'add': [], 'sub': [], 'cond': [] },
+        '7': { 'add': [], 'sub': [], 'cond': [] },
+        '8': { 'add': [], 'sub': [], 'cond': [] },
+        '9': { 'add': [], 'sub': [], 'cond': [] },
+        '10': { 'add': [], 'sub': [], 'cond': [] },
+        '11': { 'add': [], 'sub': [], 'cond': [] },
+        '12': { 'add': [], 'sub': [], 'cond': [] },
+        '13': { 'add': [], 'sub': [], 'cond': [] },
+        '14': { 'add': [], 'sub': [], 'cond': [] },
+        '15': { 'add': [], 'sub': [], 'cond': [] },
+        '16': { 'add': [], 'sub': [], 'cond': [] },
+        '17': { 'add': [], 'sub': [], 'cond': [] },
+        '19': { 'add': [], 'sub': [], 'cond': [] },
+        '20': { 'add': [], 'sub': [], 'cond': [] },
+        '22': { 'add': [], 'sub': [], 'cond': [] },
+        '23': { 'add': [], 'sub': [], 'cond': [] },
+        '25': { 'add': [], 'sub': [], 'cond': [] },
+        
+        'all': [],
+    }
+
+    saft.AuditFile.MasterFiles.GeneralLedgerAccounts.Account.forEach((account) => {
+        const currentId = parseInt(account.AccountID);
+        
+        let accountTaxCode = account.TaxonomyCode;
+        const accountGroupingCat = account.GroupingCategory;
+
+        if (accountTaxCode === undefined)
+            return;
+    
+        if (accountGroupingCat !== 'GM') {
+            console.log("> Unexpected Grouping Category:", accountGroupingCat);
+            return;
+        }
+
+        accountTaxCode = parseInt(accountTaxCode);
+
+        switch (accountTaxCode) {
+            case 472:
+                addEntryToAccountIds(accountIds, '6', 'add', currentId);
+                break;
+        
+            default:
+                break;
+        }
+    });
+
+    console.log(accountIds);
+}
+
+
 function addValue(obj, path, value) {
 
     let fullPath = obj[path[0]];
@@ -1057,4 +1117,15 @@ function addTransactionLine (monthlyResults, month, value, type) {
     }
 
     monthlyResults[month][type] += value;
+}
+
+function addEntryToAccountIds (accountIds, category, method, currentId) {
+
+    if (accountIds[category] === undefined || accountIds[category][method] === undefined) {
+        console.log(" > Error: Unexpected Undefined Value in addEntryToAccountIds");
+        return;
+    }
+
+    accountIds[category][method].push(currentId);
+    accountIds["all"].push(currentId);
 }
