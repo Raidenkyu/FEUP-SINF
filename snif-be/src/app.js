@@ -9,7 +9,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 require("dotenv").config()
 
-const { seedDb } = require("./utils/database/seed");
+const { seedDb } = require('./utils/database/seed');
 
 const loginRouter = require('./routes/login');
 const logoutRouter = require('./routes/logout');
@@ -18,6 +18,8 @@ const ordersRouter = require('./routes/orders');
 const salesRouter = require('./routes/sales');
 const customersRouter = require('./routes/customers');
 const purchasesRouter = require('./routes/purchases');
+
+const withAuth = require('./middlewares/auth')
 
 const app = express();
 
@@ -49,7 +51,7 @@ connection.once('open', () => {
 app.use('/api/login', loginRouter);
 app.use('/api/logout', logoutRouter);
 app.use('/api/users', usersRouter);
-app.use('/api/orders', ordersRouter);
+app.use('/api/orders', withAuth, ordersRouter);
 app.use('/api/sales', salesRouter);
 app.use("/api/customers", customersRouter);
 app.use("/api/purchases", purchasesRouter);

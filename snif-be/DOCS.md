@@ -48,8 +48,8 @@ Example response:
     },
     "ordersProducts": [
         {
-            "id": "39c5913b-4962-42b4-b539-0f19f0977219",
-            "description": "Folha Dupla Vermelha",
+            "orderId": "39c5913b-4962-42b4-b539-0f19f0977219",
+            "product": "Folha Dupla Vermelha",
             "state": "Pending",
             "quantity": 1250,
             "value": 230.63,

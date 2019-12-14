@@ -3,7 +3,15 @@ const router = express.Router();
 const { requestOrders } = require("../utils/api/jasmin");
 const { extractTimestamp } = require("../utils/regex");
 
-router.get("/", (_req, res) => {
+const PERMISSIONS = ["admin"];
+
+router.get("/", (req, res) => {
+    if (!PERMISSIONS.includes(req.role)) {
+        return res.status(401).json({
+            message: 'Unauthorized: Role not valid',
+        });
+    }
+
     requestOrders().then(
         (ordersData) => {
             const response = {
@@ -16,8 +24,8 @@ router.get("/", (_req, res) => {
             ordersData.map((order) => {
                 order.documentLines.map((product) => {
                     response.ordersProducts.push({
-                        id: product.orderId,
-                        description: product.description,
+                        orderId: product.orderId,
+                        product: product.description,
                         state: (product.isDeleted ? "Cancelled" : (product.documentLineStatus == 1 ? "Pending" : "Processed")),
                         quantity: product.quantity,
                         value: product.lineExtensionAmount.amount,
