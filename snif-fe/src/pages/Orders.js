@@ -81,7 +81,7 @@ const Orders = ({ path }) => {
                 </Row>
                 <Row className="mb-5">
                     <Col xs="12">
-                        <ContentCard header="Turnover">
+                        <ContentCard header="Orders List">
                             <ContentTable headers={productHeaders} rows={productRows} />
                         </ContentCard>
                     </Col>
