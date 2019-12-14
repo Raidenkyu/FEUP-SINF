@@ -984,12 +984,10 @@ function getDRAccountIds () {
         '6': { 'add': [], 'sub': [], 'cond': [] },
         '7': { 'add': [], 'sub': [], 'cond': [] },
         '8': { 'add': [], 'sub': [], 'cond': [] },
-        '9': { 'add': [], 'sub': [], 'cond': [] },
         '10': { 'add': [], 'sub': [], 'cond': [] },
         '11': { 'add': [], 'sub': [], 'cond': [] },
         '12': { 'add': [], 'sub': [], 'cond': [] },
         '13': { 'add': [], 'sub': [], 'cond': [] },
-        '14': { 'add': [], 'sub': [], 'cond': [] },
         '15': { 'add': [], 'sub': [], 'cond': [] },
         '16': { 'add': [], 'sub': [], 'cond': [] },
         '17': { 'add': [], 'sub': [], 'cond': [] },
@@ -1019,16 +1017,389 @@ function getDRAccountIds () {
         accountTaxCode = parseInt(accountTaxCode);
 
         switch (accountTaxCode) {
-            case 472:
+            case 506:
+            case 507:
+            case 508:
+            case 509:
+            case 513:
+            case 514:
+            case 515:
+            case 516:
+                addEntryToAccountIds(accountIds, '1', 'add', currentId);
+                break;
+            case 511:
+            case 512:
+            case 518:
+                addEntryToAccountIds(accountIds, '1', 'sub', currentId);
+                break;
+            case 510:
+            case 517:
+                addEntryToAccountIds(accountIds, '1', 'cond', currentId);
+                break;
+            //=======================//
+            case 527:
+            case 528:
+                addEntryToAccountIds(accountIds, '2', 'add', currentId);
+                break;
+            //=======================//
+            case 614:
+            case 615:
+            case 616:
+            case 638:
+            case 639:
+                addEntryToAccountIds(accountIds, '3', 'add', currentId);
+                break;
+            case 479:
+            case 480:
+            case 481:
+            case 482:
+                addEntryToAccountIds(accountIds, '3', 'sub', currentId);
+                break;
+            //=======================//
+            case 519:
+            case 520:
+            case 521:
+            case 522:
+                addEntryToAccountIds(accountIds, '4', 'cond', currentId);
+                break;
+            //=======================//
+            case 523:
+            case 524:
+            case 525:
+            case 526:
+                addEntryToAccountIds(accountIds, '5', 'add', currentId);
+                break;
+            //=======================//
+            case 353:
+            case 354:
+            case 355:
                 addEntryToAccountIds(accountIds, '6', 'add', currentId);
                 break;
-        
+            //=======================//
+            case 356:
+            case 357:
+            case 358:
+            case 359:
+            case 360:
+            case 361:
+            case 362:
+            case 363:
+            case 364:
+            case 365:
+            case 366:
+            case 367:
+            case 368:
+            case 369:
+            case 370:
+            case 371:
+            case 372:
+            case 373:
+            case 374:
+            case 375:
+            case 376:
+            case 377:
+            case 378:
+            case 379:
+            case 380:
+            case 381:
+            case 382:
+            case 383:
+            case 384:
+                addEntryToAccountIds(accountIds, '7', 'add', currentId);
+                break;
+            //=======================//
+            case 385:
+            case 386:
+            case 389:
+            case 390:
+            case 391:
+            case 392:
+            case 393:
+                addEntryToAccountIds(accountIds, '8', 'add', currentId);
+                break;
+            case 387:
+            case 388:
+                addEntryToAccountIds(accountIds, '8', 'cond', currentId);
+                break;
+            //=======================//
+            case 415:
+            case 416:
+            case 417:
+            case 418:
+            case 419:
+            case 420:
+            case 421:
+                addEntryToAccountIds(accountIds, '10', 'add', currentId);
+                break;
+            case 549:
+            case 550:
+            case 551:
+            case 552:
+            case 553:
+            case 554:
+            case 555:
+                addEntryToAccountIds(accountIds, '10', 'sub', currentId);
+                break;
+            //=======================//
+            case 413:
+            case 414:
+                addEntryToAccountIds(accountIds, '11', 'add', currentId);
+                break;    
+            case 547:
+            case 548: 
+                addEntryToAccountIds(accountIds, '11', 'sub', currentId);
+                break;           
+            //=======================//
+            case 463:
+            case 464:
+            case 465:
+            case 466:
+            case 467:
+            case 468:
+            case 469:
+            case 470:
+                addEntryToAccountIds(accountIds, '12', 'add', currentId);
+                break;  
+            case 586:
+            case 587:
+            case 588:
+            case 589:
+            case 590:
+            case 591:
+            case 592:
+            case 593:
+                addEntryToAccountIds(accountIds, '12', 'sub', currentId);
+                break;  
+            //=======================//
+            case 422:
+            case 423:
+            case 424:
+            case 425:
+            case 441:
+            case 442:
+            case 443:
+            case 444:
+            case 445:
+            case 446:
+            case 447:
+            case 448:
+            case 449:
+            case 450:
+            case 451:
+            case 452:
+            case 453:
+                addEntryToAccountIds(accountIds, '13', 'add', currentId);
+                break;
+            case 556:
+            case 557:
+            case 558:
+            case 573:
+            case 574:
+            case 575:
+            case 576:
+            case 577:
+            case 578:
+            case 579:
+            case 580:
+            case 581:
+            case 582:
+            case 583:
+            case 584:
+            case 585:
+                addEntryToAccountIds(accountIds, '13', 'sub', currentId);
+                break;
+            case 412:
+                addEntryToAccountIds(accountIds, '13', 'cond', currentId);
+                break; 
+            //=======================//
+            case 594:
+            case 595:
+            case 596:
+            case 597:
+            case 598:
+            case 599:
+            case 600:
+            case 601:
+            case 602:
+                addEntryToAccountIds(accountIds, '15', 'add', currentId);
+                break;
+            case 454:
+            case 455:
+            case 456:
+            case 457:
+            case 458:
+            case 459:
+            case 460:
+            case 461:
+            case 462:
+                addEntryToAccountIds(accountIds, '15', 'sub', currentId);
+                break;
+            //=======================//
+            case 603:
+            case 604:
+            case 605:
+            case 606:
+            case 607:
+            case 608:
+            case 609:
+            case 610:
+            case 611:
+            case 612:
+            case 613:
+            case 617:
+            case 618:
+            case 619:
+            case 620:
+            case 621:
+            case 622:
+            case 623:
+            case 624:
+            case 625:
+            case 626:
+            case 627:
+            case 628:
+            case 629:
+            case 630:
+            case 631:
+            case 632:
+            case 633:
+            case 634:
+            case 636:
+            case 637:
+            case 640:
+            case 642:
+                addEntryToAccountIds(accountIds, '16', 'add', currentId);
+                break;
+            //=======================//
+            case 471:
+            case 472:
+            case 473:
+            case 474:
+            case 475:
+            case 476:
+            case 477:
+            case 478:
+            case 483:
+            case 484:
+            case 485:
+            case 486:
+            case 487:
+            case 488:
+            case 489:
+            case 490:
+            case 491:
+            case 492:
+            case 493:
+            case 494:
+            case 495:
+            case 496:
+            case 497:
+            case 498:
+            case 499:
+                addEntryToAccountIds(accountIds, '17', 'add', currentId);
+                break;
+            //=======================//
+            case 394:
+            case 395:
+            case 396:
+            case 397:
+            case 398:
+            case 399:
+            case 400:
+            case 401:
+            case 402:
+            case 403:
+            case 404:
+            case 405:
+            case 406:
+            case 407:
+            case 408:
+            case 409:
+            case 410:
+            case 411:
+                addEntryToAccountIds(accountIds, '19', 'add', currentId);
+                break;
+            case 529:
+            case 530:
+            case 531:
+            case 532:
+            case 533:
+            case 534:
+            case 535:
+            case 536:
+            case 537:
+            case 538:
+            case 539:
+            case 540:
+            case 541:
+            case 542:
+            case 543:
+            case 544:
+            case 545:
+            case 546:
+                addEntryToAccountIds(accountIds, '19', 'sub', currentId);
+                break;
+            //=======================//
+            case 426:
+            case 427:
+            case 428:
+            case 429:
+            case 430:
+            case 431:
+            case 432:
+            case 433:
+            case 434:
+            case 435:
+            case 436:
+            case 437:
+            case 438:
+            case 439:
+            case 440:
+                addEntryToAccountIds(accountIds, '20', 'add', currentId);
+                break;
+            case 559:
+            case 560:
+            case 561:
+            case 562:
+            case 563:
+            case 564:
+            case 565:
+            case 566:
+            case 567:
+            case 568:
+            case 569:
+            case 570:
+            case 571:
+            case 572:
+                addEntryToAccountIds(accountIds, '20', 'sub', currentId);
+                break;
+            //=======================//
+            case 635:
+            case 641:
+                addEntryToAccountIds(accountIds, '22', 'add', currentId);
+                break;
+            //=======================//
+            case 500:
+            case 501:
+            case 502:
+            case 503:
+            case 504:
+            case 505:
+                addEntryToAccountIds(accountIds, '23', 'add', currentId);
+                break;
+            //=======================//
+            case 644:
+                addEntryToAccountIds(accountIds, '25', 'add', currentId);
+                break; 
+            case 645:
+                addEntryToAccountIds(accountIds, '25', 'cond', currentId);
+                break;s
             default:
                 break;
         }
     });
 
-    console.log(accountIds);
+    console.log("Accounts to consider:", accountIds.all.length);
 }
 
 
