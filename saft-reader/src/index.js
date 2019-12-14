@@ -95,13 +95,24 @@ function createBalanceSheet () {
 
     saft.AuditFile.MasterFiles.GeneralLedgerAccounts.Account.forEach((account) => {
         const accountId = account.AccountID;
-        const accountBal = account.ClosingDebitBalance - account.ClosingCreditBalance;
-        // const accountBal = (account.ClosingDebitBalance - account.OpeningDebitBalance) - (account.ClosingCreditBalance - account.OpeningCreditBalance); // TODO: Check if this is the formula
-        // const accountBal =  (account.ClosingCreditBalance - account.OpeningCreditBalance) - (account.ClosingDebitBalance - account.OpeningDebitBalance); // TODO: Check if this is the formula
-
-        let accountTaxCode = account.TaxonomyCode;
         
+        let accountTaxCode = account.TaxonomyCode;
+        const accountGroupingCat = account.GroupingCategory;
+
         if (accountTaxCode === undefined)
+            return;
+    
+        if (accountGroupingCat !== 'GM') {
+            console.log("> Unexpected Grouping Category:", accountGroupingCat);
+            return;
+        }
+
+        const accountDebit = parseFloat(account.ClosingDebitBalance - account.OpeningDebitBalance);
+        const accountCredit = parseFloat(account.ClosingCreditBalance - account.OpeningCreditBalance);
+        const accountBal = Math.abs(accountDebit - accountCredit);
+        const isContaDevedora = (accountDebit > accountCredit);
+
+        if (accountBal === 0)
             return;
 
         accountTaxCode = parseInt(accountTaxCode);
@@ -116,10 +127,10 @@ function createBalanceSheet () {
             case 125:
             case 127:
             case 139:
-                if (accountBal >= 0) {
+                if (isContaDevedora) {
                     addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Créditos a receber'], accountBal);
                 } else {
-                    addValue(balanceSheet, ['Passivo', 'Passivo Não Corrente', 'Outras dívidas a pagar'], accountBal);
+                    addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Outras dívidas a pagar'], accountBal);
                 }
                 break;
             //=======================//
@@ -136,7 +147,7 @@ function createBalanceSheet () {
             case 20:
             case 21:
             case 22:
-                if (accountBal >= 0) {
+                if (isContaDevedora) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Clientes'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Adiantamentos de clientes'], accountBal);
@@ -151,43 +162,43 @@ function createBalanceSheet () {
             case 83:
             case 84:
             case 85:
-                if (accountBal >= 0) {
+                if (isContaDevedora) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Estado e outros entes públicos'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Estado e outros entes públicos'], accountBal);
-                }                           
+                }                     
                 break;
             //=======================//
             case 2:
             case 3:
-                if (accountBal >= 0) {
+                if (isContaDevedora) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Caixa e depósitos bancários'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Financiamentos obtidos'], accountBal);
-                } 
+                }
                 break;
             //=======================//
             case 332:
                 addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], -accountBal);
                 break;
             case 333:
-                if (accountBal >= 0) {
+                if (isContaDevedora) {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], -accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], accountBal);
-                } 
+                }
                 break;
             //=======================//
             case 338:
-                if (accountBal >= 0) {
+                if (isContaDevedora) {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultados transitados'], -accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultados transitados'], accountBal);
-                } 
+                }
                 break;
             //=======================//
             case 646:
-                if (accountBal >= 0) {
+                if (isContaDevedora) {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultado líquido do período'], -accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultado líquido do período'], accountBal);
@@ -200,11 +211,11 @@ function createBalanceSheet () {
             case 347:
             case 348:
             case 352:
-                if (accountBal >= 0) {
+                if (isContaDevedora) {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ajustamentos / outras variações no capital próprio'], -accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ajustamentos / outras variações no capital próprio'], accountBal);
-                } 
+                }
                 break;
             //=======================//
             case 37:
@@ -221,11 +232,11 @@ function createBalanceSheet () {
             case 48:
             case 49:
             case 50:
-                if (accountBal >= 0) {
+                if (isContaDevedora) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Outros créditos a receber'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Fornecedores'], accountBal);
-                }                           
+                }                      
                 break;
             case 61:
             case 63:
@@ -235,11 +246,11 @@ function createBalanceSheet () {
             case 124:
             case 126:
             case 138:
-                if (accountBal >= 0) {
+                if (isContaDevedora) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Outros créditos a receber'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Outras dívidas a pagar'], accountBal);
-                }                           
+                }                     
                 break;
             //=======================//
 
@@ -822,10 +833,12 @@ function createBalanceSheet () {
     });
 
     // balanceSheet['Ativo']['Total do Ativo']
-    let totalDoAtivo = sumProperties(balanceSheet['Ativo']['Ativo corrente']);  // validated
+    let totalDoAtivo = sumProperties(balanceSheet['Ativo']['Ativo corrente'])
+                        + sumProperties(balanceSheet['Ativo']['Ativo não corrente']); // validated
+
 
     // balanceSheet["Capital Próprio e Passivo"]["Capital Próprio"]["Total do Capital Próprio"];
-    let totalDoCapitalProprio = sumProperties(balanceSheet["Capital Próprio e Passivo"]["Capital Próprio"])  // validated (kinda)
+    let totalDoCapitalProprio = sumProperties(balanceSheet["Capital Próprio e Passivo"]["Capital Próprio"]);  // validated
 
     // balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Total do Passivo"]
     let totalDoPassivo = sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Corrente"]) 
@@ -834,6 +847,12 @@ function createBalanceSheet () {
 
     displayFullBalanceSheet(balanceSheet);
 
+    // console.log("Total do Ativo Corrente:", sumProperties(balanceSheet['Ativo']['Ativo corrente']));
+    // console.log("Total do Ativo Não Corrente:", sumProperties(balanceSheet['Ativo']['Ativo não corrente']));
+    // console.log("Total do Capital Proprio:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Capital Próprio"]));
+    // console.log("Total do Passivo Corrente:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Corrente"]));
+    // console.log("Total do Passivo Não Corrente:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Não Corrente"]));
+
     console.log("Ativo = CP + Passivo");
     console.log("Total do Ativo:        ", totalDoAtivo);
     console.log("Total do CP + Passivo:", totalDoCapitalProprio + totalDoPassivo);
@@ -841,7 +860,6 @@ function createBalanceSheet () {
     console.log("Total do Capital Proprio:", totalDoCapitalProprio);
     console.log("Total do Passivo:", totalDoPassivo);
 
-    // TODO: 157 - NÃO APARECE NAS TAXONOMIAS!
 }
 
 
@@ -853,13 +871,6 @@ function createDemoResultados () {
 
 
 function addValue(obj, path, value) {
-    // To see if there is an unexpected value
-    if (path[0] === 'Ativo' && value < 0) {
-        console.log("ERROR IN ATIVO");
-    }
-    if (path[0] === 'Capital Próprio e Passivo' && value > 0) {
-        console.log("ERROR IN CP E PASSIVO");
-    }
 
     let fullPath = obj[path[0]];
     // check if path exists
