@@ -34,6 +34,31 @@ Send `get` request to `/api/users`.
 
 Send `get` request to `/api/orders`.
 
+Example response:
+
+```json
+{
+    "pendingValue": 230.63,
+    "pendingNum": 1,
+    "ordersByTimestamp": {
+        "2019-12": {
+            "fulfilled": 16,
+            "canceled": 0
+        },
+    },
+    "ordersProducts": [
+        {
+            "id": "39c5913b-4962-42b4-b539-0f19f0977219",
+            "description": "Folha Dupla Vermelha",
+            "state": "Pending",
+            "quantity": 1250,
+            "value": 230.63,
+            "date": "2019-12-27"
+        },
+    ]
+}
+```
+
 ### Get Invoice
 
 Send `get` request to `/api/invoice`.
