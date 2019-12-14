@@ -30,7 +30,7 @@ const AppRouter = ({ loadUser }) => {
 
     useEffect(() => {
         loadUser();
-    }, []);
+    }, [loadUser]);
 
     const hasPermission = path => {
         if (USER_PERMISSIONS[userRole]) {
