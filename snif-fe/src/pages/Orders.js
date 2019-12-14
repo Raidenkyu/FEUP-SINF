@@ -21,17 +21,15 @@ const Orders = ({ path }) => {
         Axios.get("http://localhost:9000/api/orders", {
             headers: {
                 auth_token: localStorage.getItem("auth_token"),
-            }
+            },
         }).then(({ data }) => {
             setPendingValue(data.pendingValue);
             setPendingOrders(data.pendingNum);
-            setOrdersChartCancelled(Object.keys(data.ordersByTimestamp).map(key => data.ordersByTimestamp[key].canceled));
-            setOrdersChartFulfilled(Object.keys(data.ordersByTimestamp).map(key => data.ordersByTimestamp[key].fulfilled));
+            setOrdersChartCancelled(Object.keys(data.ordersByTimestamp).map((key) => data.ordersByTimestamp[key].canceled));
+            setOrdersChartFulfilled(Object.keys(data.ordersByTimestamp).map((key) => data.ordersByTimestamp[key].fulfilled));
             setProductRows(data.ordersProducts);
-            console.log(data);
             setLoading(false);
-        }).catch((error) => {
-            console.log(error);
+        }).catch(() => {
             setLoading(false);
         });
     }, []);
@@ -53,8 +51,6 @@ const Orders = ({ path }) => {
             },
         },
     };
-    console.log(ordersChart);
-    
 
     const productHeaders = [
         { index: "orderId", value: "Order id" },
@@ -64,23 +60,6 @@ const Orders = ({ path }) => {
         { index: "value", value: "Value (€)" },
         { index: "date", value: "Date" },
     ];
-
-    // const productRows = [
-    //     { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    //     { orderId: "4FN2SNB3", product: "Mint Smell", state: "Delivered", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    //     { orderId: "4FN2SNB3", product: "Mint Smell", state: "Processed", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    //     { orderId: "4FN2SNB3", product: "Mint Smell", state: "Cancelled", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    //     { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    //     { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    //     { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    //     { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    //     { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    //     { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    //     { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    //     { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    //     { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    //     { orderId: "4FN2SNB3", product: "Mint Smell", state: "Pending", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    // ];
 
     return (
         <Layout navbar sidebar path={path}>
