@@ -8,7 +8,7 @@ function startUp () {
     
     console.log('Saft Version:', saft.AuditFile.Header.AuditFileVersion);
     // createBalanceSheet();
-    createDemoResultados();
+    createMonthlyResults();
 
 }
 
@@ -863,23 +863,58 @@ function createBalanceSheet () {
 }
 
 
-function createDemoResultados () {
+function createMonthlyResults () {
 
-    // TODO: Lógica semelhante ao balance sheet
-    
+    // Returns a map with the total credit and total debit of each month
     let monthlyResults = {
-        '01': [],
-        '02': [],
-        '03': [],
-        '04': [],
-        '05': [],
-        '06': [],
-        '07': [],
-        '08': [],
-        '09': [],
-        '10': [],
-        '11': [],
-        '12': [],
+        '01': {
+            'debit': 0,
+            'credit': 0
+        },
+        '02': {
+            'debit': 0,
+            'credit': 0
+        },
+        '03': {
+            'debit': 0,
+            'credit': 0
+        },
+        '04': {
+            'debit': 0,
+            'credit': 0
+        },
+        '05': {
+            'debit': 0,
+            'credit': 0
+        },
+        '06': {
+            'debit': 0,
+            'credit': 0
+        },
+        '07': {
+            'debit': 0,
+            'credit': 0
+        },
+        '08': {
+            'debit': 0,
+            'credit': 0
+        },
+        '09': {
+            'debit': 0,
+            'credit': 0
+        },
+        '10': {
+            'debit': 0,
+            'credit': 0
+        },
+        '11': {
+            'debit': 0,
+            'credit': 0
+        },
+        '12': {
+            'debit': 0,
+            'credit': 0
+        }
     }
 
     let numberOfEntries = 0;
@@ -887,38 +922,53 @@ function createDemoResultados () {
     saft.AuditFile.GeneralLedgerEntries.Journal.forEach((journalEntry) => {
         console.log("Transaction Length:", journalEntry.Transaction.length);
         journalEntry.Transaction.forEach((transaction) => {
+            // TODO: verify if this is ok
+            if (transaction.TransactionType === "A") {
+                return;
+            }
+            
             const month = getMonth(transaction.TransactionDate);
             numberOfEntries++;
 
-            // se exitir
+            // se existir
             if (transaction.Lines.DebitLine !== undefined) {
                 // se for array
                 if (transaction.Lines.DebitLine.length !== undefined) {
-                    // TODO
+                    transaction.Lines.DebitLine.forEach((line) => {
+                        addTransactionLine(monthlyResults, month, parseInt(line.DebitAmount), 'debit');
+                    });
                 }
                 // se for único
                 else {
-                    // TODO
+                    addTransactionLine(monthlyResults, month, parseInt(transaction.Lines.DebitLine.DebitAmount), 'debit');
                 }
-            } 
+            } else {
+                console.log(" > Error: Expected a DebitLine");
+            }
 
             // se existir
             if (transaction.Lines.CreditLine !== undefined) {
                 // se for array
                 if (transaction.Lines.CreditLine.length !== undefined) {
-                    // TODO
+                    transaction.Lines.CreditLine.forEach((line) => {
+                        addTransactionLine(monthlyResults, month, parseInt(line.CreditAmount), 'credit');
+                    });
                 }
                 // se for único
                 else {
-                    // TODO
+                    addTransactionLine(monthlyResults, month, parseInt(transaction.Lines.CreditLine.CreditAmount), 'credit');
                 }
-            } 
+            } else {
+                console.log(" > Error: Expected a CreditLine");
+            }
 
         });
     });
 
     console.log("Number of Entries:", numberOfEntries);
     console.log("Excepted Count:", saft.AuditFile.GeneralLedgerEntries.NumberOfEntries);
+
+    console.log(monthlyResults);
 }
 
 
@@ -990,4 +1040,21 @@ function displayFullBalanceSheet (balanceSheet) {
 
 function getMonth (date) {
    return date.substr(5,2);
+}
+
+function addTransactionLine (monthlyResults, month, value, type) {
+    if (monthlyResults[month] === undefined) {
+        console.log(" > Error: Unexpected Month:", month);
+        return;
+    }
+    if (value === undefined) {
+        console.log(" > Error: Unexpected Undefined Value");
+        return;
+    }
+    if (type !== "debit" && type !== "credit") {
+        console.log(" > Error: Unexpected Type");
+        return;
+    }
+
+    monthlyResults[month][type] += value;
 }
