@@ -61,7 +61,38 @@ Example response:
 
 ### Get Invoice
 
-Send `get` request to `/api/invoice`.
+Send `get` request to `/api/sales`.
+
+Example response:
+
+```json
+{
+    "growth": 0,
+    "margin": 81.30076654191977,
+    "salesByTimestamp": {
+        "2019-11": {
+            "revenue": 381.29999999999995,
+            "income": 310
+        },
+    },
+    "products": {
+        "Folha Dupla com Cheiro a Menta": {
+            "units": 1500,
+            "revenue": 369
+        },
+    },
+    "salesList": [
+        {
+            "id": "55403bed-b6df-4bae-b01a-16ff581d242e",
+            "product": "Folha Dupla com Cheiro a Menta",
+            "quantity": 1500,
+            "value": 300,
+            "date": "2019-12-14",
+            "revenue": 369
+        },
+    ]
+}
+```
 
 ### Get Logged User
 

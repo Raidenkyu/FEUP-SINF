@@ -4,7 +4,7 @@ const { requestInvoice } = require("../utils/api/jasmin");
 const { extractTimestamp } = require("../utils/regex");
 const { getYearProfit } = require("../utils/sales");
 
-router.get("/invoice", (_req, res) => {
+router.get("/", (_req, res) => {
     requestInvoice().then(
         (invoiceData) => {
             const response = {
