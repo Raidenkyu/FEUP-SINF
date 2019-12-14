@@ -1,11 +1,63 @@
 const express = require('express');
 const router = express.Router();
 const { requestInvoice } = require("../utils/api/jasmin");
-
+const { extractTimestamp } = require("../utils/regex");
+const { getYearProfit } = require("../utils/sales");
 
 router.get("/invoice", (_req, res) => {
     requestInvoice().then(
-        (invoiceData) => res.json(invoiceData)
+        (invoiceData) => {
+            const response = {
+                growth: 0,
+                margin: 0,
+                salesByTimestamp: {},
+                salesList: []
+            };
+            invoiceData.map((bill) => {
+                bill.documentLines.map((sale) => {
+                    response.salesList.push({
+                        id: sale.invoiceId,
+                        product: sale.description,
+                        quantity: sale.quantity,
+                        value: sale.grossValue.amount,
+                        date: sale.deliveryDate.split("T")[0],
+                        revenue: sale.lineExtensionAmount.amount
+                    });
+                });
+
+            });
+
+            const accumulatedValue = response.salesList.reduce((accumulator, currentValue) => {
+
+                const timestamp = extractTimestamp(currentValue.date);
+
+                if (accumulator[timestamp] == undefined) {
+                    accumulator[timestamp] = {
+                        revenue: 0,
+                        income: 0
+                    };
+                }
+
+                accumulator[timestamp].revenue = accumulator[timestamp].revenue + currentValue.revenue;
+                accumulator[timestamp].income = accumulator[timestamp].income + currentValue.value;
+
+                return accumulator;
+            }, {});
+
+            Object.keys(accumulatedValue).sort().forEach((key) => {
+                response.salesByTimestamp[key] = accumulatedValue[key];
+            }, {});
+
+            const currYear = new Date().getFullYear();
+            const prevYear = currYear - 1;
+            const profit = getYearProfit(currYear, response.salesByTimestamp);
+            const prevProfit = getYearProfit(prevYear, response.salesByTimestamp);
+
+            response.growth = (prevProfit.revenue == 0 ? 0 : (profit.revenue - prevProfit.revenue) / prevProfit.revenue);
+            response.margin = (profit.income / profit.revenue) * 100; 
+
+            res.json(response);
+        }
     ).catch(
         () => {
             var err = new Error("Failed to fetch invoice");

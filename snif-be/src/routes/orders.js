@@ -51,7 +51,10 @@ router.get("/", (_req, res) => {
 
             response.pendingValue = accumulatedValue.pendingValue;
             response.pendingNum = accumulatedValue.pendingNum;
-            response.ordersByTimestamp = accumulatedValue.ordersByTimestamp;
+
+            Object.keys(accumulatedValue.ordersByTimestamp).sort().forEach((key) => {
+                response.ordersByTimestamp[key] = accumulatedValue.ordersByTimestamp[key];
+              });
 
             res.json(response);
         }
