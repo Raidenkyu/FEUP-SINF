@@ -1,16 +1,17 @@
 const saftFile = require('../files/json/saft-demo2');
 const saft = saftFile.jsonObj;
 
+const { BalanceSheet } = require('./document.model.js');
 
 startUp();
 
 function startUp () {
     
     console.log('Saft Version:', saft.AuditFile.Header.AuditFileVersion);
-    // createBalanceSheet();
+    createBalanceSheet();
     // createMonthlyResults();
-    getDRAccountIds();
-    createDemonstResultados();
+    // getDRAccountIds();
+    // createDemonstResultados();
 
 }
 
@@ -847,20 +848,41 @@ function createBalanceSheet () {
                         + sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Não Corrente"]);  // validated
 
 
-    displayFullBalanceSheet(balanceSheet);
+    // displayFullBalanceSheet(balanceSheet);
 
-    console.log("Total do Ativo Corrente:", sumProperties(balanceSheet['Ativo']['Ativo corrente']));
-    console.log("Total do Ativo Não Corrente:", sumProperties(balanceSheet['Ativo']['Ativo não corrente']));
-    console.log("Total do Capital Proprio:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Capital Próprio"]));
-    console.log("Total do Passivo Corrente:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Corrente"]));
-    console.log("Total do Passivo Não Corrente:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Não Corrente"]));
+    // console.log("Total do Ativo Corrente:", sumProperties(balanceSheet['Ativo']['Ativo corrente']));
+    // console.log("Total do Ativo Não Corrente:", sumProperties(balanceSheet['Ativo']['Ativo não corrente']));
+    // console.log("Total do Capital Proprio:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Capital Próprio"]));
+    // console.log("Total do Passivo Corrente:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Corrente"]));
+    // console.log("Total do Passivo Não Corrente:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Não Corrente"]));
 
-    console.log("Ativo = CP + Passivo");
-    console.log("Total do Ativo:        ", totalDoAtivo);
-    console.log("Total do CP + Passivo:", totalDoCapitalProprio + totalDoPassivo);
-    console.log("//=============//")
-    console.log("Total do Capital Proprio:", totalDoCapitalProprio);
-    console.log("Total do Passivo:", totalDoPassivo);
+    // console.log("Ativo = CP + Passivo");
+    // console.log("Total do Ativo:        ", totalDoAtivo);
+    // console.log("Total do CP + Passivo:", totalDoCapitalProprio + totalDoPassivo);
+    // console.log("//=============//")
+    // console.log("Total do Capital Proprio:", totalDoCapitalProprio);
+    // console.log("Total do Passivo:", totalDoPassivo);
+
+
+    console.log("BEFORE DROP");
+    BalanceSheet.collection.drop();
+    BalanceSheet.create({
+        document: balanceSheet
+    })
+    .then(() => {
+        console.log("THEN");
+        BalanceSheet.find({}, (err, obj) => {
+            if (!err) {
+                console.log('BalSheet:', obj);
+            } else {
+                console.log('Err:', err);
+            }
+        })
+    }).catch((e) => {
+        console.log("Catch:", e);
+    })
+
+    console.log("AFTER CREATE");
 
 }
 
