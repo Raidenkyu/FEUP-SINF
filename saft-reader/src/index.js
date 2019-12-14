@@ -7,7 +7,7 @@ startUp();
 function startUp () {
     
     console.log('Saft Version:', saft.AuditFile.Header.AuditFileVersion);
-    createBalanceSheet();
+    // createBalanceSheet();
     createDemoResultados();
 
 }
@@ -110,7 +110,7 @@ function createBalanceSheet () {
         const accountDebit = parseFloat(account.ClosingDebitBalance - account.OpeningDebitBalance);
         const accountCredit = parseFloat(account.ClosingCreditBalance - account.OpeningCreditBalance);
         const accountBal = Math.abs(accountDebit - accountCredit);
-        const isContaDevedora = (accountDebit > accountCredit);
+        const isContaDevedora = true; // (accountDebit > accountCredit); TODO: Rever isto, quando substituo-o, os valores dão muito diferentes
 
         if (accountBal === 0)
             return;
@@ -667,7 +667,7 @@ function createBalanceSheet () {
             // case 347:
             // case 348:
             // case 352:
-                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ajustamentos / outras variações no capital próprio'], accountBal);
+                addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ajustamentos / outras variações no capital próprio'], -accountBal);
                 break; 
             //=======================//
             // case 646:
@@ -847,11 +847,11 @@ function createBalanceSheet () {
 
     displayFullBalanceSheet(balanceSheet);
 
-    // console.log("Total do Ativo Corrente:", sumProperties(balanceSheet['Ativo']['Ativo corrente']));
-    // console.log("Total do Ativo Não Corrente:", sumProperties(balanceSheet['Ativo']['Ativo não corrente']));
-    // console.log("Total do Capital Proprio:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Capital Próprio"]));
-    // console.log("Total do Passivo Corrente:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Corrente"]));
-    // console.log("Total do Passivo Não Corrente:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Não Corrente"]));
+    console.log("Total do Ativo Corrente:", sumProperties(balanceSheet['Ativo']['Ativo corrente']));
+    console.log("Total do Ativo Não Corrente:", sumProperties(balanceSheet['Ativo']['Ativo não corrente']));
+    console.log("Total do Capital Proprio:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Capital Próprio"]));
+    console.log("Total do Passivo Corrente:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Corrente"]));
+    console.log("Total do Passivo Não Corrente:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Não Corrente"]));
 
     console.log("Ativo = CP + Passivo");
     console.log("Total do Ativo:        ", totalDoAtivo);
@@ -866,7 +866,59 @@ function createBalanceSheet () {
 function createDemoResultados () {
 
     // TODO: Lógica semelhante ao balance sheet
+    
+    let monthlyResults = {
+        '01': [],
+        '02': [],
+        '03': [],
+        '04': [],
+        '05': [],
+        '06': [],
+        '07': [],
+        '08': [],
+        '09': [],
+        '10': [],
+        '11': [],
+        '12': [],
+    }
 
+    let numberOfEntries = 0;
+    console.log("Journal Length:", saft.AuditFile.GeneralLedgerEntries.Journal.length);
+    saft.AuditFile.GeneralLedgerEntries.Journal.forEach((journalEntry) => {
+        console.log("Transaction Length:", journalEntry.Transaction.length);
+        journalEntry.Transaction.forEach((transaction) => {
+            const month = getMonth(transaction.TransactionDate);
+            numberOfEntries++;
+
+            // se exitir
+            if (transaction.Lines.DebitLine !== undefined) {
+                // se for array
+                if (transaction.Lines.DebitLine.length !== undefined) {
+                    // TODO
+                }
+                // se for único
+                else {
+                    // TODO
+                }
+            } 
+
+            // se existir
+            if (transaction.Lines.CreditLine !== undefined) {
+                // se for array
+                if (transaction.Lines.CreditLine.length !== undefined) {
+                    // TODO
+                }
+                // se for único
+                else {
+                    // TODO
+                }
+            } 
+
+        });
+    });
+
+    console.log("Number of Entries:", numberOfEntries);
+    console.log("Excepted Count:", saft.AuditFile.GeneralLedgerEntries.NumberOfEntries);
 }
 
 
@@ -934,4 +986,8 @@ function displayFullBalanceSheet (balanceSheet) {
     // addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos fixos tangíveis'], 123);
     // addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos fixos tangíveis'], 123);
     // addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Provisões'], 999);
+}
+
+function getMonth (date) {
+   return date.substr(5,2);
 }
