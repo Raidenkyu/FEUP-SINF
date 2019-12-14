@@ -1437,11 +1437,13 @@ function createDemonstResultados () {
                 if (transaction.Lines.DebitLine.length !== undefined) {
                     transaction.Lines.DebitLine.forEach((line) => {
                         addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseInt(line.DebitAmount), 'debit');
+                        addValueToMonthlyDR(monthlyTotalValues, parseInt(line.AccountID), parseInt(line.DebitAmount), month, 'debit');
                     });
                 }
                 // se for único
                 else {
                     addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.DebitLine.AccountID), parseInt(transaction.Lines.DebitLine.DebitAmount), 'debit');
+                    addValueToMonthlyDR(monthlyTotalValues, parseInt(transaction.Lines.DebitLine.AccountID), parseInt(transaction.Lines.DebitLine.DebitAmount), month, 'debit');
                 }
             } else {
                 console.log(" > Error: Expected a DebitLine");
@@ -1453,11 +1455,13 @@ function createDemonstResultados () {
                 if (transaction.Lines.CreditLine.length !== undefined) {
                     transaction.Lines.CreditLine.forEach((line) => {
                         addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseInt(line.CreditAmount), 'credit');
+                        addValueToMonthlyDR(monthlyTotalValues, parseInt(line.AccountID), parseInt(line.CreditAmount), month, 'credit');
                     });
                 }
                 // se for único
                 else {
                     addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.CreditLine.AccountID), parseInt(transaction.Lines.CreditLine.CreditAmount), 'credit');
+                    addValueToMonthlyDR(monthlyTotalValues, parseInt(transaction.Lines.CreditLine.AccountID), parseInt(transaction.Lines.CreditLine.CreditAmount), month, 'credit');
                 }
             } else {
                 console.log(" > Error: Expected a CreditLine");
@@ -1467,7 +1471,12 @@ function createDemonstResultados () {
 
     calculateDependentValues(anualTotalValues);
     // console.log("Anual Total Values", anualTotalValues);
-    console.log("Monthly Total Values", monthlyTotalValues);
+    // console.log("Monthly Total Values", monthlyTotalValues);
+    // let auxSum = 0;
+    // for (let month of Object.keys(monthlyTotalValues)){
+    //     auxSum += monthlyTotalValues[month]['1'];
+    //     console.log(monthlyTotalValues[month]['1']);
+    // }
     console.log("GlobalCount:", global.countDR);
     console.log("Number of Entries:", numberOfEntries);
     console.log("Excepted Count:", saft.AuditFile.GeneralLedgerEntries.NumberOfEntries);
@@ -1614,6 +1623,57 @@ function addValueToTotalDR (anualTotalValues, accountID, value, type) {
                 anualTotalValues[index] += value;
             } else {
                 anualTotalValues[index] -= value;
+            }
+            return false;
+        }
+
+        return true;
+    });
+}
+
+function addValueToMonthlyDR (monthlyTotalValues, accountID, value, month, type) {
+    if (global.countDR === undefined) global.countDR = 0;
+    
+    const localAccountIdsForDR = global.accountIdsForDR;
+
+    // check only available types
+    if (type !== 'debit' && type !== 'credit') {
+        console.log(" > Error: Unexpected Type");
+        return;
+    }
+
+    // account needs to be found and added
+    if (!localAccountIdsForDR.all.includes(accountID)) 
+        return;
+
+    const DRIndexes = ['1','2','3','4','5','6','7','8','10','11','12','13','15','16','17','19','20','22','23','25'];
+
+    DRIndexes.every((index) => {
+        global.countDR++;
+        if (localAccountIdsForDR[index]['add'].includes(accountID)) {
+            if (monthlyTotalValues[month][index] === undefined)
+                monthlyTotalValues[month][index] = 0;
+
+            monthlyTotalValues[month][index] += value;
+            return false;
+        }
+
+        if (localAccountIdsForDR[index]['sub'].includes(accountID)) {
+            if (monthlyTotalValues[month][index] === undefined)
+                monthlyTotalValues[month][index] = 0;
+
+            monthlyTotalValues[month][index] -= value;
+            return false;
+        }
+
+        if (localAccountIdsForDR[index]['cond'].includes(accountID)) {
+            if (monthlyTotalValues[month][index] === undefined)
+                monthlyTotalValues[month][index] = 0;
+            
+            if (type === 'credit') {
+                monthlyTotalValues[month][index] += value;
+            } else {
+                monthlyTotalValues[month][index] -= value;
             }
             return false;
         }
