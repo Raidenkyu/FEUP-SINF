@@ -10,6 +10,7 @@ function startUp () {
     // createBalanceSheet();
     // createMonthlyResults();
     getDRAccountIds();
+    createDemonstResultados();
 
 }
 
@@ -975,7 +976,7 @@ function createMonthlyResults () {
 
 function getDRAccountIds () {
 
-    let accountIds = {
+    const accountIds = {
         '1': { 'add': [], 'sub': [], 'cond': [] },
         '2': { 'add': [], 'sub': [], 'cond': [] },
         '3': { 'add': [], 'sub': [], 'cond': [] },
@@ -1399,9 +1400,24 @@ function getDRAccountIds () {
         }
     });
 
-    console.log("Accounts to consider:", accountIds.all.length);
+    global.accountIdsForDR = accountIds;
 }
 
+function createDemonstResultados () {
+
+    const localAccountIds = global.accountIdsForDR;
+    console.log("Accounts to consider:", localAccountIds.all.length);
+
+    
+
+}
+
+
+
+
+//================================//
+//       MÉTODOS AUXILIARES       //
+//================================//
 
 function addValue(obj, path, value) {
 
