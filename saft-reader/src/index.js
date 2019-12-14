@@ -1405,11 +1405,72 @@ function getDRAccountIds () {
 
 function createDemonstResultados () {
 
-    const localAccountIds = global.accountIdsForDR;
-    console.log("Accounts to consider:", localAccountIds.all.length);
+    // const localAccountIds = global.accountIdsForDR;
+    // console.log("Accounts to consider:", localAccountIds.all.length);
 
-    
+    // TODO: Fazer o acumulativo mensal
 
+    const anualTotalValues = {
+        '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '10': 0, '11': 0, '12': 0, '13': 0, '15': 0, '16': 0, '17': 0, '18': 0, '19': 0, '20': 0, '21': 0, '22': 0, '23': 0, '24': 0, '25': 0, '26': 0, '27': 0
+    };
+
+    const monthlyTotalValues = {
+        '01': {}, '02': {}, '03': {}, '04': {}, '05': {}, '06': {}, '07': {}, '08': {}, '09': {}, '10': {}, '11': {}, '12': {}
+    };
+
+    let numberOfEntries = 0;
+    console.log("Journal Length:", saft.AuditFile.GeneralLedgerEntries.Journal.length);
+    saft.AuditFile.GeneralLedgerEntries.Journal.forEach((journalEntry) => {
+        
+        journalEntry.Transaction.forEach((transaction) => {
+            // TODO: verify if this is ok
+            if (transaction.TransactionType === "A") {
+                return;
+            }
+            
+            const month = getMonth(transaction.TransactionDate);
+            numberOfEntries++;
+
+            // se existir
+            if (transaction.Lines.DebitLine !== undefined) {
+                // se for array
+                if (transaction.Lines.DebitLine.length !== undefined) {
+                    transaction.Lines.DebitLine.forEach((line) => {
+                        addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseInt(line.DebitAmount), 'debit');
+                    });
+                }
+                // se for único
+                else {
+                    addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.DebitLine.AccountID), parseInt(transaction.Lines.DebitLine.DebitAmount), 'debit');
+                }
+            } else {
+                console.log(" > Error: Expected a DebitLine");
+            }
+
+            // se existir
+            if (transaction.Lines.CreditLine !== undefined) {
+                // se for array
+                if (transaction.Lines.CreditLine.length !== undefined) {
+                    transaction.Lines.CreditLine.forEach((line) => {
+                        addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseInt(line.CreditAmount), 'credit');
+                    });
+                }
+                // se for único
+                else {
+                    addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.CreditLine.AccountID), parseInt(transaction.Lines.CreditLine.CreditAmount), 'credit');
+                }
+            } else {
+                console.log(" > Error: Expected a CreditLine");
+            }
+        });
+    });
+
+    calculateDependentValues(anualTotalValues);
+    // console.log("Anual Total Values", anualTotalValues);
+    console.log("Monthly Total Values", monthlyTotalValues);
+    console.log("GlobalCount:", global.countDR);
+    console.log("Number of Entries:", numberOfEntries);
+    console.log("Excepted Count:", saft.AuditFile.GeneralLedgerEntries.NumberOfEntries);
 }
 
 
@@ -1515,4 +1576,68 @@ function addEntryToAccountIds (accountIds, category, method, currentId) {
 
     accountIds[category][method].push(currentId);
     accountIds["all"].push(currentId);
+}
+
+function addValueToTotalDR (anualTotalValues, accountID, value, type) {
+    if (global.countDR === undefined) global.countDR = 0;
+    
+    const localAccountIdsForDR = global.accountIdsForDR;
+
+    // check only available types
+    if (type !== 'debit' && type !== 'credit') {
+        console.log(" > Error: Unexpected Type");
+        return;
+    }
+
+    // account needs to be found and added
+    if (!localAccountIdsForDR.all.includes(accountID)) 
+        return;
+
+    // console.log(localAccountIdsForDR.all.length);
+
+    const DRIndexes = ['1','2','3','4','5','6','7','8','10','11','12','13','15','16','17','19','20','22','23','25'];
+
+    DRIndexes.every((index) => {
+        global.countDR++;
+        if (localAccountIdsForDR[index]['add'].includes(accountID)) {
+            anualTotalValues[index] += value;
+            return false;
+        }
+
+        if (localAccountIdsForDR[index]['sub'].includes(accountID)) {
+            anualTotalValues[index] -= value;
+            return false;
+        }
+
+        if (localAccountIdsForDR[index]['cond'].includes(accountID)) {
+            if (type === 'credit') {
+                anualTotalValues[index] += value;
+            } else {
+                anualTotalValues[index] -= value;
+            }
+            return false;
+        }
+
+        return true;
+    });
+}
+
+function calculateDependentValues (anualTotalValues) {
+
+    // EBITDA
+    anualTotalValues['18'] = anualTotalValues['1'] + anualTotalValues['2'] + anualTotalValues['3'] + anualTotalValues['4'] + anualTotalValues['5']
+                            - anualTotalValues['6'] - anualTotalValues['7'] - anualTotalValues['8'] - anualTotalValues['10'] - anualTotalValues['11'] - anualTotalValues['12'] - anualTotalValues['13']
+                            + anualTotalValues['15'] + anualTotalValues['16'] + anualTotalValues['17'];
+
+    // Resultado Operacional
+    anualTotalValues['21'] = anualTotalValues['18'] - anualTotalValues['19'] - anualTotalValues['20'];
+
+    // EBIT
+    anualTotalValues['24'] = anualTotalValues['21'] + anualTotalValues['22'] - anualTotalValues['23'];
+
+    // Net Income
+    anualTotalValues['26'] = anualTotalValues['24'] - anualTotalValues['25'];
+
+    // TODO: O que fazer com o 27 ???
+
 }
