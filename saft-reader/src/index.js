@@ -920,7 +920,7 @@ function createMonthlyResults () {
     }
 
     let numberOfEntries = 0;
-    console.log("Journal Length:", saft.AuditFile.GeneralLedgerEntries.Journal.length);
+    // console.log("Journal Length:", saft.AuditFile.GeneralLedgerEntries.Journal.length);
     saft.AuditFile.GeneralLedgerEntries.Journal.forEach((journalEntry) => {
         console.log("Transaction Length:", journalEntry.Transaction.length);
         journalEntry.Transaction.forEach((transaction) => {
@@ -1419,11 +1419,11 @@ function createDemonstResultados () {
     };
 
     let numberOfEntries = 0;
-    console.log("Journal Length:", saft.AuditFile.GeneralLedgerEntries.Journal.length);
+    // console.log("Journal Length:", saft.AuditFile.GeneralLedgerEntries.Journal.length);
     saft.AuditFile.GeneralLedgerEntries.Journal.forEach((journalEntry) => {
         
         journalEntry.Transaction.forEach((transaction) => {
-            // TODO: verify if this is ok
+            // TODO: verify if this is correct
             if (transaction.TransactionType === "A") {
                 return;
             }
@@ -1436,14 +1436,12 @@ function createDemonstResultados () {
                 // se for array
                 if (transaction.Lines.DebitLine.length !== undefined) {
                     transaction.Lines.DebitLine.forEach((line) => {
-                        addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseInt(line.DebitAmount), 'debit');
-                        addValueToMonthlyDR(monthlyTotalValues, parseInt(line.AccountID), parseInt(line.DebitAmount), month, 'debit');
+                        addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseInt(line.DebitAmount), 'debit', monthlyTotalValues, month);
                     });
                 }
                 // se for único
                 else {
-                    addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.DebitLine.AccountID), parseInt(transaction.Lines.DebitLine.DebitAmount), 'debit');
-                    addValueToMonthlyDR(monthlyTotalValues, parseInt(transaction.Lines.DebitLine.AccountID), parseInt(transaction.Lines.DebitLine.DebitAmount), month, 'debit');
+                    addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.DebitLine.AccountID), parseInt(transaction.Lines.DebitLine.DebitAmount), 'debit', monthlyTotalValues, month);
                 }
             } else {
                 console.log(" > Error: Expected a DebitLine");
@@ -1454,14 +1452,12 @@ function createDemonstResultados () {
                 // se for array
                 if (transaction.Lines.CreditLine.length !== undefined) {
                     transaction.Lines.CreditLine.forEach((line) => {
-                        addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseInt(line.CreditAmount), 'credit');
-                        addValueToMonthlyDR(monthlyTotalValues, parseInt(line.AccountID), parseInt(line.CreditAmount), month, 'credit');
+                        addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseInt(line.CreditAmount), 'credit', monthlyTotalValues, month);
                     });
                 }
                 // se for único
                 else {
-                    addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.CreditLine.AccountID), parseInt(transaction.Lines.CreditLine.CreditAmount), 'credit');
-                    addValueToMonthlyDR(monthlyTotalValues, parseInt(transaction.Lines.CreditLine.AccountID), parseInt(transaction.Lines.CreditLine.CreditAmount), month, 'credit');
+                    addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.CreditLine.AccountID), parseInt(transaction.Lines.CreditLine.CreditAmount), 'credit', monthlyTotalValues, month);
                 }
             } else {
                 console.log(" > Error: Expected a CreditLine");
@@ -1469,14 +1465,10 @@ function createDemonstResultados () {
         });
     });
 
-    calculateDependentValues(anualTotalValues);
-    // console.log("Anual Total Values", anualTotalValues);
+    calculateDependentTotalValues(anualTotalValues);
+    calculateDependentMonthlyValues(monthlyTotalValues);
+    console.log("Anual Total Values", anualTotalValues);
     // console.log("Monthly Total Values", monthlyTotalValues);
-    // let auxSum = 0;
-    // for (let month of Object.keys(monthlyTotalValues)){
-    //     auxSum += monthlyTotalValues[month]['1'];
-    //     console.log(monthlyTotalValues[month]['1']);
-    // }
     console.log("GlobalCount:", global.countDR);
     console.log("Number of Entries:", numberOfEntries);
     console.log("Excepted Count:", saft.AuditFile.GeneralLedgerEntries.NumberOfEntries);
@@ -1587,7 +1579,7 @@ function addEntryToAccountIds (accountIds, category, method, currentId) {
     accountIds["all"].push(currentId);
 }
 
-function addValueToTotalDR (anualTotalValues, accountID, value, type) {
+function addValueToTotalDR (anualTotalValues, accountID, value, type, monthlyTotalValues, month) {
     if (global.countDR === undefined) global.countDR = 0;
     
     const localAccountIdsForDR = global.accountIdsForDR;
@@ -1609,52 +1601,12 @@ function addValueToTotalDR (anualTotalValues, accountID, value, type) {
     DRIndexes.every((index) => {
         global.countDR++;
         if (localAccountIdsForDR[index]['add'].includes(accountID)) {
+            if (monthlyTotalValues[month][index] === undefined)
+                monthlyTotalValues[month][index] = 0;
+            
             anualTotalValues[index] += value;
-            return false;
-        }
-
-        if (localAccountIdsForDR[index]['sub'].includes(accountID)) {
-            anualTotalValues[index] -= value;
-            return false;
-        }
-
-        if (localAccountIdsForDR[index]['cond'].includes(accountID)) {
-            if (type === 'credit') {
-                anualTotalValues[index] += value;
-            } else {
-                anualTotalValues[index] -= value;
-            }
-            return false;
-        }
-
-        return true;
-    });
-}
-
-function addValueToMonthlyDR (monthlyTotalValues, accountID, value, month, type) {
-    if (global.countDR === undefined) global.countDR = 0;
-    
-    const localAccountIdsForDR = global.accountIdsForDR;
-
-    // check only available types
-    if (type !== 'debit' && type !== 'credit') {
-        console.log(" > Error: Unexpected Type");
-        return;
-    }
-
-    // account needs to be found and added
-    if (!localAccountIdsForDR.all.includes(accountID)) 
-        return;
-
-    const DRIndexes = ['1','2','3','4','5','6','7','8','10','11','12','13','15','16','17','19','20','22','23','25'];
-
-    DRIndexes.every((index) => {
-        global.countDR++;
-        if (localAccountIdsForDR[index]['add'].includes(accountID)) {
-            if (monthlyTotalValues[month][index] === undefined)
-                monthlyTotalValues[month][index] = 0;
-
             monthlyTotalValues[month][index] += value;
+
             return false;
         }
 
@@ -1662,7 +1614,9 @@ function addValueToMonthlyDR (monthlyTotalValues, accountID, value, month, type)
             if (monthlyTotalValues[month][index] === undefined)
                 monthlyTotalValues[month][index] = 0;
 
+            anualTotalValues[index] -= value;
             monthlyTotalValues[month][index] -= value;
+            
             return false;
         }
 
@@ -1670,11 +1624,16 @@ function addValueToMonthlyDR (monthlyTotalValues, accountID, value, month, type)
             if (monthlyTotalValues[month][index] === undefined)
                 monthlyTotalValues[month][index] = 0;
             
+            // TODO: Confirm if this is correct (this might not be the way to tell if an account is Credora ou Devedora)
+            // Solution will probably involve creating an array of "devedoras" and "credoras" early on, and checking in which the accountId is in
             if (type === 'credit') {
+                anualTotalValues[index] += value;
                 monthlyTotalValues[month][index] += value;
             } else {
+                anualTotalValues[index] -= value;
                 monthlyTotalValues[month][index] -= value;
             }
+
             return false;
         }
 
@@ -1682,7 +1641,7 @@ function addValueToMonthlyDR (monthlyTotalValues, accountID, value, month, type)
     });
 }
 
-function calculateDependentValues (anualTotalValues) {
+function calculateDependentTotalValues (anualTotalValues) {
 
     // EBITDA
     anualTotalValues['18'] = anualTotalValues['1'] + anualTotalValues['2'] + anualTotalValues['3'] + anualTotalValues['4'] + anualTotalValues['5']
@@ -1700,4 +1659,29 @@ function calculateDependentValues (anualTotalValues) {
 
     // TODO: O que fazer com o 27 ???
 
+}
+
+function calculateDependentMonthlyValues (monthlyTotalValues) {
+
+    for (let month in monthlyTotalValues) {
+        // EBITDA
+        monthlyTotalValues[month]['18'] = getPropVal(monthlyTotalValues[month],'1') + getPropVal(monthlyTotalValues[month],'2') + getPropVal(monthlyTotalValues[month],'3') + getPropVal(monthlyTotalValues[month],'4') + getPropVal(monthlyTotalValues[month],'5')
+                                        - getPropVal(monthlyTotalValues[month],'6') - getPropVal(monthlyTotalValues[month],'7') - getPropVal(monthlyTotalValues[month],'8') - getPropVal(monthlyTotalValues[month],'10') - getPropVal(monthlyTotalValues[month],'11') - getPropVal(monthlyTotalValues[month],'12') - getPropVal(monthlyTotalValues[month],'13') 
+                                        + getPropVal(monthlyTotalValues[month],'15') + getPropVal(monthlyTotalValues[month],'16') + getPropVal(monthlyTotalValues[month],'17');
+
+        // Resultado Operacional
+        monthlyTotalValues[month]['21'] = getPropVal(monthlyTotalValues[month],'18') - getPropVal(monthlyTotalValues[month],'19') - getPropVal(monthlyTotalValues[month],'20');
+
+        // EBIT
+        monthlyTotalValues[month]['24'] = getPropVal(monthlyTotalValues[month],'21') + getPropVal(monthlyTotalValues[month],'22') - getPropVal(monthlyTotalValues[month],'23');
+
+        // Net Income
+        monthlyTotalValues[month]['26'] = getPropVal(monthlyTotalValues[month],'24') - getPropVal(monthlyTotalValues[month],'25');
+    }
+
+    // TODO: O que fazer com o 27 ???
+}
+
+function getPropVal(obj, prop) {
+    return obj[prop] || 0;
 }
