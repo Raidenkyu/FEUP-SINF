@@ -1466,6 +1466,11 @@ function createOtherFinValues () {
         'acidRatio': getAcidRatio(),
     }
 
+    const stockFinObject = {
+        'turnover': getTurnOver(),
+        'avgInvPeriod': getAvgInvPeriod(),
+    }
+
     // db interaction
     // mongoose.connect('mongodb://localhost:27017/snif',
     // { 
@@ -1599,6 +1604,15 @@ function getAcidRatio () {
     return (totalAtivoCorrente - inventories) / totalPassivoCorrente;
 }
 
+function getTurnOver () {
+    // Cost of Goods Sold / Inventories
+
+}
+
+function getAvgInvPeriod () {
+    // (Inventories / Cost of Goods Sold) * 365
+
+}
 
 
 
