@@ -9,10 +9,11 @@ function startUp () {
     
     console.log('Saft Version:', saft.AuditFile.Header.AuditFileVersion);
     createBalanceSheet();
-    createMonthlyResults();
-    getDRAccountIds();
-    createDemonstResultados();
+    // createMonthlyResults();
+    // getDRAccountIds();
+    // createDemonstResultados();
 
+    displayFullBalanceSheet();
 
     // db interaction
 
@@ -67,6 +68,8 @@ function createBalanceSheet () {
                 'Caixa e depósitos bancários': 0                    //  1+2+3 (Se Saldo devedor, ver taxonomias)  -  2+3
             },
 
+            'Total do Ativo não corrente': 0,
+            'Total do Ativo corrente': 0,
             'Total do Ativo': 0
         },
 
@@ -106,6 +109,9 @@ function createBalanceSheet () {
                     'Outros passivos financeiros': 0,                       //  9
                     'Passivos não correntes detidos para venda': 0,         //  325
                 },
+                
+                'Total do Passivo não corrente': 0,
+                'Total do Passivo corrente': 0,
                 'Total do Passivo': 0
             },
 
@@ -131,7 +137,7 @@ function createBalanceSheet () {
         const accountDebit = parseFloat(account.ClosingDebitBalance - account.OpeningDebitBalance);
         const accountCredit = parseFloat(account.ClosingCreditBalance - account.OpeningCreditBalance);
         const accountBal = Math.abs(accountDebit - accountCredit);
-        const isContaDevedora = true; // (accountDebit > accountCredit); TODO: Rever isto, quando substituo-o, os valores dão muito diferentes
+        const isContaDevedora = true; // (accountDebit > accountCredit); // TODO: Rever isto, quando substituo-o, os valores dão muito diferentes
 
         if (accountBal === 0)
             return;
@@ -853,33 +859,25 @@ function createBalanceSheet () {
 
     });
 
-    // balanceSheet['Ativo']['Total do Ativo']
-    let totalDoAtivo = sumProperties(balanceSheet['Ativo']['Ativo corrente'])
-                        + sumProperties(balanceSheet['Ativo']['Ativo não corrente']); // validated
 
+    // ATIVO
+    balanceSheet['Ativo']['Total do Ativo corrente'] = sumProperties(balanceSheet['Ativo']['Ativo corrente']);
+    balanceSheet['Ativo']['Total do Ativo não corrente'] = sumProperties(balanceSheet['Ativo']['Ativo não corrente']);
+    balanceSheet['Ativo']['Total do Ativo'] = balanceSheet['Ativo']['Total do Ativo corrente'] + balanceSheet['Ativo']['Total do Ativo não corrente'];
 
-    // balanceSheet["Capital Próprio e Passivo"]["Capital Próprio"]["Total do Capital Próprio"];
-    let totalDoCapitalProprio = sumProperties(balanceSheet["Capital Próprio e Passivo"]["Capital Próprio"]);  // validated
+    // CAPITAL PRÓPRIO
+    balanceSheet['Capital Próprio e Passivo']['Capital Próprio']['Total do Capital Próprio'] = sumProperties(balanceSheet['Capital Próprio e Passivo']['Capital Próprio']);
 
-    // balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Total do Passivo"]
-    let totalDoPassivo = sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Corrente"]) 
-                        + sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Não Corrente"]);  // validated
+    // PASSIVO
+    balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo corrente'] = sumProperties(balanceSheet['Capital Próprio e Passivo']['Passivo']['Passivo Corrente']);
+    balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo não corrente'] = sumProperties(balanceSheet['Capital Próprio e Passivo']['Passivo']['Passivo Não Corrente']);
+    balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo'] = balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo corrente'] + balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo não corrente'];
 
+    // CP + PASSIVO
+    balanceSheet['Capital Próprio e Passivo']['Total do Capital Próprio e do Passivo'] = balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo']
+                                                                                        + balanceSheet['Capital Próprio e Passivo']['Capital Próprio']['Total do Capital Próprio'];
 
-    displayFullBalanceSheet(balanceSheet);
-
-    // console.log("Total do Ativo Corrente:", sumProperties(balanceSheet['Ativo']['Ativo corrente']));
-    // console.log("Total do Ativo Não Corrente:", sumProperties(balanceSheet['Ativo']['Ativo não corrente']));
-    // console.log("Total do Capital Proprio:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Capital Próprio"]));
-    // console.log("Total do Passivo Corrente:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Corrente"]));
-    // console.log("Total do Passivo Não Corrente:", sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Não Corrente"]));
-
-    // console.log("Ativo = CP + Passivo");
-    // console.log("Total do Ativo:        ", totalDoAtivo);
-    // console.log("Total do CP + Passivo:", totalDoCapitalProprio + totalDoPassivo);
-    // console.log("//=============//")
-    // console.log("Total do Capital Proprio:", totalDoCapitalProprio);
-    // console.log("Total do Passivo:", totalDoPassivo);
+    global.balanceSheet = balanceSheet;
 
 }
 
@@ -1537,18 +1535,6 @@ function sumProperties (obj) {
     return count;
 }
 
-function displayFullBalanceSheet (balanceSheet) {
-    console.log("//==========//");
-    console.log(balanceSheet);
-    console.log("//==========//");
-    console.log(balanceSheet['Capital Próprio e Passivo']['Passivo']);
-
-    // for tests
-    // addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos fixos tangíveis'], 123);
-    // addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos fixos tangíveis'], 123);
-    // addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Provisões'], 999);
-}
-
 function getMonth (date) {
    return date.substr(5,2);
 }
@@ -1687,3 +1673,39 @@ function calculateDependentMonthlyValues (monthlyTotalValues) {
 function getPropVal(obj, prop) {
     return obj[prop] || 0;
 }
+
+
+
+
+
+
+
+//================================//
+//       MÉTODOS DE DISPLAY       //
+//================================//
+
+function displayFullBalanceSheet () {
+    
+    const balanceSheet = global.balanceSheet;
+    
+    // console.log(balanceSheet);
+    // console.log(balanceSheet['Capital Próprio e Passivo']['Passivo']);
+
+    // ATIVO
+    console.log("Total do Ativo Corrente:", balanceSheet['Ativo']['Total do Ativo corrente']);
+    console.log("Total do Ativo Não Corrente:", balanceSheet['Ativo']['Total do Ativo não corrente']);
+    console.log("Total do Ativo:", balanceSheet['Ativo']['Total do Ativo']);
+
+    // CAPITAL PRÓPRIO
+    console.log("Total do Capital Próprio:", balanceSheet['Capital Próprio e Passivo']['Capital Próprio']['Total do Capital Próprio']);
+
+    // PASSIVO
+    console.log("Total do Passivo Corrente:", balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo corrente']);
+    console.log("Total do Passivo Não Corrente:", balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo não corrente']);
+    console.log("Total do Passivo:", balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo']);
+
+    // CP + PASSIVO
+    console.log("Total do CP + Passivo:", balanceSheet['Capital Próprio e Passivo']['Total do Capital Próprio e do Passivo']);
+}
+
+
