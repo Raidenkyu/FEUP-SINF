@@ -9,11 +9,14 @@ function startUp () {
     
     console.log('Saft Version:', saft.AuditFile.Header.AuditFileVersion);
     createBalanceSheet();
-    // createMonthlyResults();
-    // getDRAccountIds();
-    // createDemonstResultados();
+    createMonthlyResults();
+    getDRAccountIds();
+    createDemonstResultados();
 
     displayFullBalanceSheet();
+    displayMonthlyResults();
+    displayMonthlyDR();
+    displayAnualDR();
 
     // db interaction
 
@@ -924,10 +927,8 @@ function createMonthlyResults () {
         }
     }
 
-    // let numberOfEntries = 0;
-    // console.log("Journal Length:", saft.AuditFile.GeneralLedgerEntries.Journal.length);
     saft.AuditFile.GeneralLedgerEntries.Journal.forEach((journalEntry) => {
-        // console.log("Transaction Length:", journalEntry.Transaction.length);
+
         journalEntry.Transaction.forEach((transaction) => {
             // TODO: verify if this is ok
             if (transaction.TransactionType === "A") {
@@ -935,7 +936,6 @@ function createMonthlyResults () {
             }
             
             const month = getMonth(transaction.TransactionDate);
-            // numberOfEntries++;
 
             // se existir
             if (transaction.Lines.DebitLine !== undefined) {
@@ -972,11 +972,8 @@ function createMonthlyResults () {
         });
     });
 
-    // console.log("Number of Entries:", numberOfEntries);
-    // console.log("Excepted Count:", saft.AuditFile.GeneralLedgerEntries.NumberOfEntries);
+    global.monthlyResults = monthlyResults;
 
-    console.log("//============================//");
-    console.log(monthlyResults);
 }
 
 
@@ -1466,12 +1463,10 @@ function createDemonstResultados () {
 
     calculateDependentTotalValues(anualTotalValues);
     calculateDependentMonthlyValues(monthlyTotalValues);
-    console.log("//============================//");
-    console.log("Anual Total Values", anualTotalValues);
-    console.log("//============================//");
-    console.log("Monthly Total Values", monthlyTotalValues);
-    console.log("//============================//");
-    // console.log("GlobalCount:", global.countDR);
+
+    global.anualResultsReport = anualTotalValues;
+    global.monthlyResultsReport = monthlyTotalValues;
+
 }
 
 
@@ -1568,7 +1563,6 @@ function addEntryToAccountIds (accountIds, category, method, currentId) {
 }
 
 function addValueToTotalDR (anualTotalValues, accountID, value, type, monthlyTotalValues, month) {
-    if (global.countDR === undefined) global.countDR = 0;
     
     const localAccountIdsForDR = global.accountIdsForDR;
 
@@ -1578,16 +1572,14 @@ function addValueToTotalDR (anualTotalValues, accountID, value, type, monthlyTot
         return;
     }
 
-    // account needs to be found and added
+    // if true, account needs to be found and added
     if (!localAccountIdsForDR.all.includes(accountID)) 
         return;
-
-    // console.log(localAccountIdsForDR.all.length);
 
     const DRIndexes = ['1','2','3','4','5','6','7','8','10','11','12','13','15','16','17','19','20','22','23','25'];
 
     DRIndexes.every((index) => {
-        global.countDR++;
+
         if (localAccountIdsForDR[index]['add'].includes(accountID)) {
             if (monthlyTotalValues[month][index] === undefined)
                 monthlyTotalValues[month][index] = 0;
@@ -1708,4 +1700,21 @@ function displayFullBalanceSheet () {
     console.log("Total do CP + Passivo:", balanceSheet['Capital Próprio e Passivo']['Total do Capital Próprio e do Passivo']);
 }
 
+function displayMonthlyResults () {
+    console.log("//============================//");
+    console.log("Monthly Credit/Debit Results", global.monthlyResults);
+    console.log("//============================//");
+}
+
+function displayMonthlyDR () {
+    console.log("//============================//");
+    console.log("Monthly Total Values:\n", global.monthlyResultsReport);
+    console.log("//============================//");
+}
+
+function displayAnualDR () {
+    console.log("//============================//");
+    console.log("Anual Total Values:\n", global.anualResultsReport);
+    console.log("//============================//");
+}
 
