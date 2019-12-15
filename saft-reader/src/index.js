@@ -8,15 +8,19 @@ startUp();
 function startUp () {
     
     console.log('Saft Version:', saft.AuditFile.Header.AuditFileVersion);
+    console.log('Year:', saft.AuditFile.Header.FiscalYear);
+    // global.fiscalYear = saft.AuditFile.Header.FiscalYear;
+
     createBalanceSheet();
     createMonthlyResults();
     getDRAccountIds();
     createDemonstResultados();
+    createOtherFinValues();
 
-    displayFullBalanceSheet();
-    displayMonthlyResults();
-    displayMonthlyDR();
-    displayAnualDR();
+    // displayFullBalanceSheet();
+    // displayMonthlyResults();
+    // displayMonthlyDR();
+    // displayAnualDR();
 
     // db interaction
 
@@ -1469,6 +1473,78 @@ function createDemonstResultados () {
 
 }
 
+function createOtherFinValues () {
+
+    const finObject = {
+        'grossNetMargin': makeGrossNetMarginObj(),
+        'returnOn': makeReturnOnObj(),
+        'ebitda': getEbidta(),
+        'ebit': getEbit(),
+        'avgColPeriod': getAvgColPeriod(),
+        'avgPayPeriod': getAvgPayPeriod(),
+    }
+
+    console.log(finObject);
+
+}
+
+function makeGrossNetMarginObj () {
+    const monthlyDR = global.monthlyResultsReport;
+
+    const netValues = [];
+    const grossValues = [];
+
+    let auxLastMonthNet = 0;
+    let auxLastMonthGross = 0;
+
+    ['01','02','03','04','05','06','07','08','09','10','11','12'].forEach((month) => {
+        const auxCurrMonthNet = monthlyDR[month]['26'];
+        const auxCurrMonthGross = getPropVal(monthlyDR[month], '1') - getPropVal(monthlyDR[month],'6'); // TODO: check if formula for gross is (sales - cost of goods)
+        
+        netValues.push(auxCurrMonthNet + auxLastMonthNet);
+        grossValues.push(auxCurrMonthGross + auxLastMonthGross); 
+        
+        auxLastMonthNet = auxCurrMonthNet + auxLastMonthNet;
+        auxLastMonthGross = auxCurrMonthGross + auxLastMonthGross;
+    });
+
+    const grossNetMargin = {
+        type: "line",
+        labels: ["January 2019", "February 2019", "March 2019", "April 2019",
+            "May 2019", "June 2019", "July 2019", "August 2019", "September 2019",
+            "October 2019", "November 2019", "December 2019"],
+        datasets: {
+            "Net": {
+                values: netValues,
+            },
+            "Gross": {
+                values: grossValues,
+            },
+        },
+    };
+
+    return grossNetMargin;
+}
+
+function makeReturnOnObj () {
+    // TODO: Implement this
+}
+
+function getEbidta () {
+    // TODO: Implement this
+}
+
+function getEbit () {
+    // TODO: Implement this
+}
+
+function getAvgColPeriod () {
+    // TODO: Implement this
+}
+
+function getAvgPayPeriod () {
+    // TODO: Implement this
+}
 
 
 
