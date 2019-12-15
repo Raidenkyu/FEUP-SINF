@@ -96,12 +96,39 @@ Example response:
 
 ### Get Logged User
 
-Send `get` request o `/api/users`
+Send `get` request to `/api/users`
 
 ```json
 {
     "email": "<user_email>",
     "username": "<user_name>",
     "role": "<user_role>",
+}
+```
+
+### Get Stock
+
+Send `get` request to `api/stock`
+
+```json
+{
+    "assetsInStock": {
+        "products": 5000,
+        "resources": 52.5
+    },
+    "products": [
+        {
+            "name": "Folha Dupla Vermelha",
+            "quantity": 5000,
+            "value": 750
+        },
+    ],
+    "resources": [
+        {
+            "name": "Sortido",
+            "quantity": 1500,
+            "value": 0.035
+        }
+    ]
 }
 ```
