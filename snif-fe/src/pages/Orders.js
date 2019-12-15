@@ -27,7 +27,7 @@ const Orders = ({ path }) => {
             setPendingValue(data.pendingValue.toFixed(2));
             setPendingOrders(data.pendingNum);
 
-            let ordersLabels = [];
+            const ordersLabels = [];
             setOrdersChartCancelled(Object.keys(data.ordersByTimestamp).map((key) => {
                 ordersLabels.push(key);
                 return data.ordersByTimestamp[key].canceled;
