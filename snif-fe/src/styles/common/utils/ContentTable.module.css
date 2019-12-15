@@ -1,3 +1,7 @@
+.table {
+    align-self: flex-start;
+}
+
 .headerContainer {
     border-bottom: 1px solid var(--light-green);
 }
@@ -13,5 +17,20 @@
 
 .row:hover {
     color: var(--light-green) !important;
+    cursor: pointer;
+}
+
+.errorRow {
+    color: var(--red);
+}
+
+.errorRow:hover {
+    color: var(--red) !important;
+    cursor: pointer;
+}
+
+.commandIcon {
+    width: 20px;
+    height: 20px;
     cursor: pointer;
 }

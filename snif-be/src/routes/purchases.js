@@ -5,7 +5,10 @@ const { requestPrimavera } = require("../utils/api/jasmin");
 
 router.get("/", (_req, res) => {
     requestPrimavera("/invoiceReceipt/expenses").then(
-        (purchasesData) => res.json(purchasesData)
+        (purchasesData) => {
+            
+            res.json(purchasesData);
+        }
     ).catch(
         () => {
             var err = new Error("Failed to fetch purchases");

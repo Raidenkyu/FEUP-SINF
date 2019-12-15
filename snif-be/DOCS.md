@@ -48,7 +48,7 @@ Example response:
     },
     "ordersProducts": [
         {
-            "orderId": "39c5913b-4962-42b4-b539-0f19f0977219",
+            "id": "39c5913b-4962-42b4-b539-0f19f0977219",
             "product": "Folha Dupla Vermelha",
             "state": "Pending",
             "quantity": 1250,
@@ -59,7 +59,7 @@ Example response:
 }
 ```
 
-### Get Invoice
+### Get Sales
 
 Send `get` request to `/api/sales`.
 
@@ -96,12 +96,56 @@ Example response:
 
 ### Get Logged User
 
-Send `get` request o `/api/users`
+Send `get` request to `/api/users`
 
 ```json
 {
     "email": "<user_email>",
     "username": "<user_name>",
     "role": "<user_role>",
+}
+```
+
+### Get Stock
+
+Send `get` request to `api/stock`
+
+```json
+{
+    "assetsInStock": {
+        "products": 5000,
+        "resources": 52.5
+    },
+    "products": [
+        {
+            "name": "Folha Dupla Vermelha",
+            "quantity": 5000,
+            "value": 750
+        },
+    ],
+    "resources": [
+        {
+            "name": "Sortido",
+            "quantity": 1500,
+            "value": 0.035
+        }
+    ]
+}
+```
+
+### Get Customers
+
+Send `get` request to `api/customers`
+
+```json
+{
+    "customers": [
+        {
+            "name": "Cliente Indiferenciado",
+            "lastDate": "2019-10-14",
+            "totalOrders": 1,
+            "value": 98.4
+        },
+    ]
 }
 ```

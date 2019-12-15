@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
+import Axios from "axios";
 
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
@@ -8,21 +9,32 @@ import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
 
 const Stocks = ({ path }) => {
+    const [loading, setLoading] = useState(true);
+    const [productRows, setProductRows] = useState([]);
+    const [resourcesRows, setResourcesRows] = useState([]);
+    const [productsStock, setProductsStock] = useState(true);
+    const [resourcesStock, setResourcesStock] = useState(true);
+
+    useEffect(() => {
+        Axios.get("http://localhost:9000/api/stock", {
+            headers: {
+                auth_token: localStorage.getItem("auth_token"),
+            },
+        }).then(({ data }) => {
+            setProductRows(data.products);
+            setResourcesRows(data.resources);
+            setProductsStock(data.assetsInStock.products.toFixed(2));
+            setResourcesStock(data.assetsInStock.resources.toFixed(2));
+            setLoading(false);
+        }).catch(() => {
+            setLoading(false);
+        });
+    }, []);
+
     const productHeaders = [
         { index: "name", value: "Name" },
         { index: "quantity", value: "Quantity" },
         { index: "value", value: "Value (€)" },
-    ];
-
-    const productRows = [
-        { name: "Mint Smell", quantity: "50.000", value: "40.000" },
-        { name: "Mint Smell", quantity: "50.000", value: "40.000" },
-        { name: "Mint Smell", quantity: "50.000", value: "40.000" },
-        { name: "Mint Smell", quantity: "50.000", value: "40.000" },
-        { name: "Mint Smell", quantity: "50.000", value: "40.000" },
-        { name: "Mint Smell", quantity: "50.000", value: "40.000" },
-        { name: "Mint Smell", quantity: "50.000", value: "40.000" },
-        { name: "Mint Smell", quantity: "50.000", value: "40.000" },
     ];
 
     const resourcesHeaders = [
@@ -31,48 +43,44 @@ const Stocks = ({ path }) => {
         { index: "value", value: "Value (€/kg)" },
     ];
 
-    const resourcesRows = [
-        { name: "Paper", quantity: "50.000", value: "1" },
-        { name: "Paper", quantity: "50.000", value: "1" },
-        { name: "Paper", quantity: "50.000", value: "1" },
-        { name: "Paper", quantity: "50.000", value: "1" },
-        { name: "Paper", quantity: "50.000", value: "1" },
-        { name: "Paper", quantity: "50.000", value: "1" },
-        { name: "Paper", quantity: "50.000", value: "1" },
-        { name: "Paper", quantity: "50.000", value: "1" },
-    ];
-
     return (
         <Layout navbar sidebar path={path}>
             <Container>
                 <Row className="mb-5">
                     <Col xs="6">
-                        <ContentCard header="Products">
+                        <ContentCard loading={loading} header="Products">
                             <ContentTable headers={productHeaders} rows={productRows} />
                         </ContentCard>
                     </Col>
                     <Col xs="6">
-                        <ContentCard header="Resources">
+                        <ContentCard loading={loading} header="Resources">
                             <ContentTable headers={resourcesHeaders} rows={resourcesRows} />
                         </ContentCard>
                     </Col>
                 </Row>
                 <Row className="mb-5">
-                    <Col xs="3">
-                        <ContentCard header="Turnover">
+                    <Col xs="6">
+                        <ContentCard loading={loading} header="Turnover">
+                            {/* TODO: get this value from financial */}
                             <Indicator value={7.3} />
                         </ContentCard>
                     </Col>
-                    <Col xs="3">
-                        <ContentCard header="Average Inventory Period">
+                    <Col xs="6">
+                        <ContentCard loading={loading} header="Average Inventory Period">
+                            {/* TODO: get this value from financial */}
                             <Indicator value="3 months" />
                         </ContentCard>
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs="3">
-                        <ContentCard header="Assets in stocks">
-                            <Indicator value="200.000 €" />
+                    <Col xs="6">
+                        <ContentCard loading={loading} header="Products value in stock (€)">
+                            <Indicator value={productsStock} />
+                        </ContentCard>
+                    </Col>
+                    <Col xs="6">
+                        <ContentCard loading={loading} header="Resources value in stock (€)">
+                            <Indicator value={resourcesStock} />
                         </ContentCard>
                     </Col>
                 </Row>

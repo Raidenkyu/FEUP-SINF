@@ -19,6 +19,7 @@ const salesRouter = require('./routes/sales');
 const customersRouter = require('./routes/customers');
 const purchasesRouter = require('./routes/purchases');
 const financialRouter = require('./routes/financial');
+const stockRouter = require('./routes/stock');
 
 const withAuth = require('./middlewares/auth')
 
@@ -57,6 +58,7 @@ app.use('/api/sales', salesRouter);
 app.use("/api/customers", customersRouter);
 app.use("/api/purchases", purchasesRouter);
 app.use("/api/financial", financialRouter);
+app.use("/api/stock", stockRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

@@ -24,7 +24,7 @@ router.get("/", (req, res) => {
             ordersData.map((order) => {
                 order.documentLines.map((product) => {
                     response.ordersProducts.push({
-                        orderId: product.orderId,
+                        id: product.orderId,
                         product: product.description,
                         state: (product.isDeleted ? "Cancelled" : (product.documentLineStatus == 1 ? "Pending" : "Processed")),
                         quantity: product.quantity,
