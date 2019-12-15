@@ -28,3 +28,9 @@
     color: var(--red) !important;
     cursor: pointer;
 }
+
+.commandIcon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
