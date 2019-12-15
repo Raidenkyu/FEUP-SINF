@@ -1462,11 +1462,9 @@ function createOtherFinValues () {
         'ebit': getEbit(),
         'avgColPeriod': getAvgColPeriod(),
         'avgPayPeriod': getAvgPayPeriod(),
+        'cashRatio': getCashRatio(),
+        'acidRatio': getAcidRatio(),
     }
-
-
-    console.log(finObject);
-
 
     // db interaction
     // mongoose.connect('mongodb://localhost:27017/snif',
@@ -1478,11 +1476,21 @@ function createOtherFinValues () {
     // const connection = mongoose.connection;
     // connection.once('open', () => {
     //     console.log("MongoDB database connection established successfully");
+    //     console.log('>>> Before clear');
     //     clearDb();
+    //     console.log('>>> After clear');
 
     //     FinancialObject.create({
     //         document: finObject
-    //     });
+    //     }).then(() => {
+    //         console.log('>>> After then');
+
+    //         FinancialObject.find({}, (err, obj) => {
+    //             console.log('DB:', obj);
+    //         })
+
+    //         console.log('>>> After find');
+    //     })
     // })
 
 }
@@ -1577,6 +1585,21 @@ function getAvgPayPeriod () {
 
     return (accountsPayables / global.anualResultsReport['1']) * 365;
 }
+
+function getCashRatio () {
+    // Cash / Total Ativo não corrente
+    return ( getPropVal(global.balanceSheet['Ativo']['Ativo corrente'],'Caixa e depósitos bancários') / getPropVal(global.balanceSheet['Ativo'],'Total do Ativo não corrente') )
+}
+
+function getAcidRatio () {
+    // (Total de Ativo Corrente - Inventories) / Passivo Corrente
+    const totalAtivoCorrente = getPropVal(global.balanceSheet['Ativo'], 'Total do Ativo corrente');
+    const inventories = getPropVal(global.balanceSheet['Ativo']['Ativo corrente'], 'Inventários');
+    const totalPassivoCorrente = getPropVal(global.balanceSheet['Capital Próprio e Passivo']['Passivo'], 'Total do Passivo não corrente');
+    return (totalAtivoCorrente - inventories) / totalPassivoCorrente;
+}
+
+
 
 
 
