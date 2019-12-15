@@ -9,10 +9,32 @@ function startUp () {
     
     console.log('Saft Version:', saft.AuditFile.Header.AuditFileVersion);
     createBalanceSheet();
-    // createMonthlyResults();
-    // getDRAccountIds();
-    // createDemonstResultados();
+    createMonthlyResults();
+    getDRAccountIds();
+    createDemonstResultados();
 
+
+    // db interaction
+
+    // console.log("BEFORE DROP");
+    // BalanceSheet.collection.drop();
+    // BalanceSheet.create({
+    //     document: balanceSheet
+    // })
+    // .then(() => {
+    //     console.log("THEN");
+    //     BalanceSheet.find({}, (err, obj) => {
+    //         if (!err) {
+    //             console.log('BalSheet:', obj);
+    //         } else {
+    //             console.log('Err:', err);
+    //         }
+    //     })
+    // }).catch((e) => {
+    //     console.log("Catch:", e);
+    // })
+
+    // console.log("AFTER CREATE");
 }
 
 
@@ -29,8 +51,6 @@ function createBalanceSheet () {
                 'Outros investimentos financeiros': 0,              // 218+219+220+223+224+225+228+229+230+231+232+233+234+235-241-242-243-246-247-248-251-252-253-254-255-256-257-258+304+308-312-316
                 'Créditos a receber': 0,                            // 62+64-68-70+112+114-121-123+125+127+129+139-141-145 (Se saldo devedor ver taxonomias)  -  62+64+114+125+127+139
                 'Ativos por impostos diferidos': 0,                 // 133-143
-                'Investimentos financeiros': 0,                     // TODO: Ver isto com o prof
-                'Créditos e outros ativos não correntes': 0         // TODO: Ver isto com o prof
             },
 
             'Ativo corrente': {
@@ -44,7 +64,6 @@ function createBalanceSheet () {
                 'Ativos financeiros detidos para negociação': 0,    //  4+6
                 'Outros ativos financeiros': 0,                     //  8
                 'Ativos não correntes detidos para venda': 0,       //  320+321+322+323+324-326-327-328-329-330
-                'Outros ativos correntes': 0,                       //  TODO: Ver isto com o prof
                 'Caixa e depósitos bancários': 0                    //  1+2+3 (Se Saldo devedor, ver taxonomias)  -  2+3
             },
 
@@ -86,7 +105,6 @@ function createBalanceSheet () {
                     'Passivos financeiros detidos para negociação': 0,      //  5+7
                     'Outros passivos financeiros': 0,                       //  9
                     'Passivos não correntes detidos para venda': 0,         //  325
-                    'Outros passivos correntes': 0,                         //  TODO: Ver com o prof
                 },
                 'Total do Passivo': 0
             },
@@ -432,7 +450,7 @@ function createBalanceSheet () {
                 addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Ativos por impostos diferidos'], -accountBal);
                 break;
             //=======================//
-            // TODO: Ver os TODOs no balancete
+
             //=======================//
             // ATIVO CORRENTE
             //=======================//    
@@ -848,7 +866,7 @@ function createBalanceSheet () {
                         + sumProperties(balanceSheet["Capital Próprio e Passivo"]["Passivo"]["Passivo Não Corrente"]);  // validated
 
 
-    // displayFullBalanceSheet(balanceSheet);
+    displayFullBalanceSheet(balanceSheet);
 
     // console.log("Total do Ativo Corrente:", sumProperties(balanceSheet['Ativo']['Ativo corrente']));
     // console.log("Total do Ativo Não Corrente:", sumProperties(balanceSheet['Ativo']['Ativo não corrente']));
@@ -863,27 +881,6 @@ function createBalanceSheet () {
     // console.log("Total do Capital Proprio:", totalDoCapitalProprio);
     // console.log("Total do Passivo:", totalDoPassivo);
 
-
-    console.log("BEFORE DROP");
-    BalanceSheet.collection.drop();
-    BalanceSheet.create({
-        document: balanceSheet
-    })
-    .then(() => {
-        console.log("THEN");
-        BalanceSheet.find({}, (err, obj) => {
-            if (!err) {
-                console.log('BalSheet:', obj);
-            } else {
-                console.log('Err:', err);
-            }
-        })
-    }).catch((e) => {
-        console.log("Catch:", e);
-    })
-
-    console.log("AFTER CREATE");
-
 }
 
 
@@ -892,59 +889,47 @@ function createMonthlyResults () {
     // Returns a map with the total credit and total debit of each month
     let monthlyResults = {
         '01': {
-            'debit': 0,
-            'credit': 0
+            'debit': 0, 'credit': 0
         },
         '02': {
-            'debit': 0,
-            'credit': 0
+            'debit': 0, 'credit': 0
         },
         '03': {
-            'debit': 0,
-            'credit': 0
+            'debit': 0, 'credit': 0
         },
         '04': {
-            'debit': 0,
-            'credit': 0
+            'debit': 0, 'credit': 0
         },
         '05': {
-            'debit': 0,
-            'credit': 0
+            'debit': 0, 'credit': 0
         },
         '06': {
-            'debit': 0,
-            'credit': 0
+            'debit': 0, 'credit': 0
         },
         '07': {
-            'debit': 0,
-            'credit': 0
+            'debit': 0, 'credit': 0
         },
         '08': {
-            'debit': 0,
-            'credit': 0
+            'debit': 0, 'credit': 0
         },
         '09': {
-            'debit': 0,
-            'credit': 0
+            'debit': 0, 'credit': 0
         },
         '10': {
-            'debit': 0,
-            'credit': 0
+            'debit': 0, 'credit': 0
         },
         '11': {
-            'debit': 0,
-            'credit': 0
+            'debit': 0, 'credit': 0
         },
         '12': {
-            'debit': 0,
-            'credit': 0
+            'debit': 0, 'credit': 0
         }
     }
 
-    let numberOfEntries = 0;
+    // let numberOfEntries = 0;
     // console.log("Journal Length:", saft.AuditFile.GeneralLedgerEntries.Journal.length);
     saft.AuditFile.GeneralLedgerEntries.Journal.forEach((journalEntry) => {
-        console.log("Transaction Length:", journalEntry.Transaction.length);
+        // console.log("Transaction Length:", journalEntry.Transaction.length);
         journalEntry.Transaction.forEach((transaction) => {
             // TODO: verify if this is ok
             if (transaction.TransactionType === "A") {
@@ -952,7 +937,7 @@ function createMonthlyResults () {
             }
             
             const month = getMonth(transaction.TransactionDate);
-            numberOfEntries++;
+            // numberOfEntries++;
 
             // se existir
             if (transaction.Lines.DebitLine !== undefined) {
@@ -989,9 +974,10 @@ function createMonthlyResults () {
         });
     });
 
-    console.log("Number of Entries:", numberOfEntries);
-    console.log("Excepted Count:", saft.AuditFile.GeneralLedgerEntries.NumberOfEntries);
+    // console.log("Number of Entries:", numberOfEntries);
+    // console.log("Excepted Count:", saft.AuditFile.GeneralLedgerEntries.NumberOfEntries);
 
+    console.log("//============================//");
     console.log(monthlyResults);
 }
 
@@ -1427,11 +1413,6 @@ function getDRAccountIds () {
 
 function createDemonstResultados () {
 
-    // const localAccountIds = global.accountIdsForDR;
-    // console.log("Accounts to consider:", localAccountIds.all.length);
-
-    // TODO: Fazer o acumulativo mensal
-
     const anualTotalValues = {
         '1': 0, '2': 0, '3': 0, '4': 0, '5': 0, '6': 0, '7': 0, '8': 0, '10': 0, '11': 0, '12': 0, '13': 0, '15': 0, '16': 0, '17': 0, '18': 0, '19': 0, '20': 0, '21': 0, '22': 0, '23': 0, '24': 0, '25': 0, '26': 0, '27': 0
     };
@@ -1440,8 +1421,7 @@ function createDemonstResultados () {
         '01': {}, '02': {}, '03': {}, '04': {}, '05': {}, '06': {}, '07': {}, '08': {}, '09': {}, '10': {}, '11': {}, '12': {}
     };
 
-    let numberOfEntries = 0;
-    // console.log("Journal Length:", saft.AuditFile.GeneralLedgerEntries.Journal.length);
+
     saft.AuditFile.GeneralLedgerEntries.Journal.forEach((journalEntry) => {
         
         journalEntry.Transaction.forEach((transaction) => {
@@ -1451,7 +1431,6 @@ function createDemonstResultados () {
             }
             
             const month = getMonth(transaction.TransactionDate);
-            numberOfEntries++;
 
             // se existir
             if (transaction.Lines.DebitLine !== undefined) {
@@ -1489,11 +1468,12 @@ function createDemonstResultados () {
 
     calculateDependentTotalValues(anualTotalValues);
     calculateDependentMonthlyValues(monthlyTotalValues);
+    console.log("//============================//");
     console.log("Anual Total Values", anualTotalValues);
-    // console.log("Monthly Total Values", monthlyTotalValues);
-    console.log("GlobalCount:", global.countDR);
-    console.log("Number of Entries:", numberOfEntries);
-    console.log("Excepted Count:", saft.AuditFile.GeneralLedgerEntries.NumberOfEntries);
+    console.log("//============================//");
+    console.log("Monthly Total Values", monthlyTotalValues);
+    console.log("//============================//");
+    // console.log("GlobalCount:", global.countDR);
 }
 
 
