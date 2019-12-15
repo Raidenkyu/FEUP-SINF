@@ -8,7 +8,17 @@ const FinancialObjectSchema = new mongoose.Schema({
 });
 
 FinancialObjectSchema.statics.getFinancialDocument = (callback) => {
-    // FinancialObjectSchema.findOne({}) TODO
+    FinancialObject.findOne({})
+        .exec(function (err, finObj) {
+            if (err) {
+                return callback(err)
+            } else if (!finObj) {
+                var err = new Error('Financial Object not found.');
+                err.status = 401;
+                return callback(err);
+            }
+            return callback(null, finObj);
+        });
 }
 
 const FinancialObject = mongoose.model('FinancialObject', FinancialObjectSchema);

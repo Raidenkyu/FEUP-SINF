@@ -1472,31 +1472,21 @@ function createOtherFinValues () {
     }
 
     // db interaction
-    // mongoose.connect('mongodb://localhost:27017/snif',
-    // { 
-    //     useNewUrlParser: true,
-    //     useUnifiedTopology: true,
-    //     useCreateIndex: true
-    // });
-    // const connection = mongoose.connection;
-    // connection.once('open', () => {
-    //     console.log("MongoDB database connection established successfully");
-    //     console.log('>>> Before clear');
-    //     clearDb();
-    //     console.log('>>> After clear');
-
-    //     FinancialObject.create({
-    //         document: finObject
-    //     }).then(() => {
-    //         console.log('>>> After then');
-
-    //         FinancialObject.find({}, (err, obj) => {
-    //             console.log('DB:', obj);
-    //         })
-
-    //         console.log('>>> After find');
-    //     })
-    // })
+    mongoose.connect('mongodb://localhost:27017/snif',
+    { 
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true
+    });
+    const connection = mongoose.connection;
+    connection.once('open', () => {
+        console.log("MongoDB database connection established successfully");
+        clearDb();
+        FinancialObject.create({
+            document: finObject
+        });
+    })
+    // TODO: close connection
 
 }
 
