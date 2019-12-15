@@ -20,30 +20,31 @@ const ContentTable = ({ headers, rows }) => {
     };
 
     return(
-    <Table borderless hover>
-        <thead>
-            <tr className={ContentTableStyles.headerContainer}>
-                {headers.map((header, index) => (
-                    <th className={ContentTableStyles.header + " text-center"} key={index}>
-                        {header.value}
-                    </th>
-                ))}
-            </tr>
-        </thead>
-        <tbody>
-            {rows.map((row, index) => (
-                <tr onClick={() => action(row)} key={index} className={ContentTableStyles.row}>
-                    {headers.map((header, subIndex) => (
-                        <td key={subIndex} className="text-center">
-                            {row[header.index]}
-                        </td>
+        <Table borderless hover className={ContentTableStyles.table}>
+            <thead>
+                <tr className={ContentTableStyles.headerContainer}>
+                    {headers.map((header, index) => (
+                        <th className={ContentTableStyles.header + " text-center"} key={index}>
+                            {header.value}
+                        </th>
                     ))}
                 </tr>
-            ))}
-        </tbody>
-        <Popup isOpen={modal} toggle={toggle} headers={headers} data={modalData}/>
-    </Table>
-)};
+            </thead>
+            <tbody>
+                {rows.map((row, index) => (
+                    <tr onClick={() => action(row)} key={index} className={row.error ? ContentTableStyles.errorRow : ContentTableStyles.row}>
+                        {headers.map((header, subIndex) => (
+                            <td key={subIndex} className="text-center">
+                                {row[header.index]}
+                            </td>
+                        ))}
+                    </tr>
+                ))}
+            </tbody>
+            <Popup isOpen={modal} toggle={toggle} headers={headers} data={modalData}/>
+        </Table>
+    );
+};
 
 ContentTable.propTypes = {
     headers: PropTypes.arrayOf(PropTypes.object).isRequired,

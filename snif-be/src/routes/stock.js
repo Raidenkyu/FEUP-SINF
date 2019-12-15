@@ -14,13 +14,14 @@ router.get("/", (_req, res) => {
             };
 
             stockData.forEach((materialItem) => {
-                if (materialItem.itemSubtype == "4") {
+                if (materialItem.itemSubtype == "4" || materialItem.itemSubtype == "3") {
                     const quantity = getStockQuantity(materialItem);
                     const value = getUnitPrice(materialItem);
                     response.resources.push({
                         name: materialItem.description,
                         quantity: quantity,
-                        value: value
+                        value: value,
+                        error: quantity < 0,
                     });
                     response.assetsInStock.resources += quantity * value;
                 }
@@ -30,7 +31,8 @@ router.get("/", (_req, res) => {
                     response.products.push({
                         name: materialItem.description,
                         quantity: quantity,
-                        value: value
+                        value: value,
+                        error: quantity < 0,
                     });
                     response.assetsInStock.products += value;
                 }
