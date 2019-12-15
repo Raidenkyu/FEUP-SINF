@@ -1456,7 +1456,7 @@ function createDemonstResultados () {
 function createOtherFinValues () {
 
     const finObject = {
-        // 'grossNetMargin': makeGrossNetMarginObj(),
+        'grossNetMargin': makeGrossNetMarginObj(),
         'returnOn': makeReturnOnObj(),
         'ebitda': getEbidta(),
         'ebit': getEbit(),
@@ -1534,7 +1534,6 @@ function makeReturnOnObj () {
     ['01','02','03','04','05','06','07','08','09','10','11','12'].forEach((month) => {
         const currSales = getPropVal(monthlyDR[month], '1');
         const currEbit = getPropVal(monthlyDR[month], '21');
-        console.log("EBIT:", currEbit);
 
         salesValues.push( ((currSales + auxLastMonthSales)/currEbit) * 100 );
         assetsValues.push( ((totalDoAtivo)/currEbit) * 100 );
@@ -1553,19 +1552,30 @@ function makeReturnOnObj () {
 }
 
 function getEbidta () {
-    // TODO: Implement this
+    // EBITDA => [18]
+    return global.anualResultsReport['18'];
 }
 
 function getEbit () {
-    // TODO: Implement this
+    // EBIT => [21]
+    return global.anualResultsReport['21'];
 }
 
 function getAvgColPeriod () {
-    // TODO: Implement this
+    // (Account Receivables / Sales) * 365 => ['Créditos a receber' + 'Outros créditos a receber'] / [21]
+    const accountsReceivables = getPropVal(global.balanceSheet['Ativo']['Ativo não corrente'], 'Créditos a receber')
+                            + getPropVal(global.balanceSheet['Ativo']['Ativo corrente'], 'Outros créditos a receber');
+
+    return (accountsReceivables / global.anualResultsReport['1']) * 365;
 }
 
 function getAvgPayPeriod () {
-    // TODO: Implement this
+    // (Account Payables / Sales) * 365 => ['Outras dívidas a pagar' + 'Outras dívidas a pagar'] / [21]
+    // TODO: Ver o que é o Accounts Payables    
+    const accountsPayables = getPropVal(global.balanceSheet['Capital Próprio e Passivo']['Passivo']['Passivo Não Corrente'], 'Outras dívidas a pagar')
+                            + getPropVal(global.balanceSheet['Capital Próprio e Passivo']['Passivo']['Passivo Corrente'], 'Outras dívidas a pagar');
+
+    return (accountsPayables / global.anualResultsReport['1']) * 365;
 }
 
 

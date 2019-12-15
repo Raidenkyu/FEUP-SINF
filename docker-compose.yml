@@ -25,17 +25,6 @@ services:
     depends_on:
       - mongo
 
-  saft-reader:
-    build: ./saft-reader
-    container_name: saft-reader
-    volumes:
-      - "./saft-reader/src/:/app/src/"
-    working_dir: /app
-    ports:
-      - "9090:9090"
-    depends_on:
-      - mongo
-
   mongo:
     image: mongo:latest
     restart: always
