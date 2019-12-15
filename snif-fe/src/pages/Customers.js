@@ -15,14 +15,14 @@ const Customers = ({ path }) => {
         Axios.get("http://localhost:9000/api/customers", {
             headers: {
                 auth_token: localStorage.getItem("auth_token"),
-            }
+            },
         }).then(({ data }) => {
             setCustomersRows(data.customers);
             setLoading(false);
         }).catch(() => {
             setLoading(false);
-        })
-    }, [])
+        });
+    }, []);
 
     const customersHeaders = [
         { index: "name", value: "Name" },
