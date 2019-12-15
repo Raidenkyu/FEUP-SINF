@@ -24,7 +24,7 @@ router.get("/", (_req, res) => {
                         name: customer.name,
                         lastDate: info.lastDate,
                         totalOrders: info.totalOrders,
-                        value: info.value
+                        value: info.value.toFixed(2)
                     });
                 });
 

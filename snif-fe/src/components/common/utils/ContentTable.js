@@ -24,7 +24,7 @@ const ContentTable = ({ headers, rows, handlePrevious, handleReset, handleNext }
     };
 
     return(
-        <div>
+        <div className="w-100">
             <Table borderless hover className={ContentTableStyles.table}>
                 <thead>
                     <tr className={ContentTableStyles.headerContainer}>
