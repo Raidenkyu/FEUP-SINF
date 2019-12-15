@@ -132,3 +132,20 @@ Send `get` request to `api/stock`
     ]
 }
 ```
+
+### Get Customers
+
+Send `get` request to `api/customers`
+
+```json
+{
+    "customers": [
+        {
+            "name": "Cliente Indiferenciado",
+            "lastDate": "2019-10-14",
+            "totalOrders": 1,
+            "value": 98.4
+        },
+    ]
+}
+```
