@@ -23,13 +23,6 @@ const getStockValue = (item) => {
     }, 0);
 }
 
-const getAssetsInStock = (item) => {
-    return item.materialsItemWarehouses.reduce((accumulator, currValue) => {
-        accumulator+= currValue.inventoryBalance.amount;
-        return accumulator;
-    }, 0);
-}
-
 module.exports = {
     getStockQuantity,
     getUnitPrice,
