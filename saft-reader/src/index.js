@@ -1464,12 +1464,11 @@ function createOtherFinValues () {
         'avgPayPeriod': getAvgPayPeriod(),
         'cashRatio': getCashRatio(),
         'acidRatio': getAcidRatio(),
-    }
-
-    const stockFinObject = {
         'turnover': getTurnOver(),
         'avgInvPeriod': getAvgInvPeriod(),
     }
+
+    console.log(finObject);
 
     // db interaction
     mongoose.connect('mongodb://localhost:27017/snif',
@@ -1596,12 +1595,20 @@ function getAcidRatio () {
 
 function getTurnOver () {
     // Cost of Goods Sold / Inventories
+    
+    const costOfGoodsSold = getPropVal(global.anualResultsReport ,'6');
+    const inventories = getPropVal(global.balanceSheet['Ativo']['Ativo corrente'], 'Inventários');
 
+    return (costOfGoodsSold / inventories);
 }
 
 function getAvgInvPeriod () {
     // (Inventories / Cost of Goods Sold) * 365
 
+    const costOfGoodsSold = getPropVal(global.anualResultsReport ,'6');
+    const inventories = getPropVal(global.balanceSheet['Ativo']['Ativo corrente'], 'Inventários');
+
+    return (inventories / costOfGoodsSold) * 365;
 }
 
 
