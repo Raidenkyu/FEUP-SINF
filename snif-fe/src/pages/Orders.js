@@ -77,7 +77,7 @@ const Orders = ({ path }) => {
                             <Graph data={ordersChart}/>
                         </ContentCard>
                     </Col>
-                    <Col xs="3" className="d-flex align-items-stretch flex-wrap w-100">
+                    <Col xs="3" className="d-flex flex-column align-items-stretch flex-wrap w-100">
                         <Row className="flex-grow-1">
                             <Col xs="12">
                                 <ContentCard header="Orders value (€)" loading={loading}>
