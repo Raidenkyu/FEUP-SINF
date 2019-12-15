@@ -1,7 +1,8 @@
 const saftFile = require('../files/json/saft-demo2');
 const saft = saftFile.jsonObj;
 
-const { BalanceSheet } = require('./document.model.js');
+const { FinancialObject } = require('./document.model.js');
+const mongoose = require('mongoose');
 
 startUp();
 
@@ -22,27 +23,6 @@ function startUp () {
     // displayMonthlyDR();
     // displayAnualDR();
 
-    // db interaction
-
-    // console.log("BEFORE DROP");
-    // BalanceSheet.collection.drop();
-    // BalanceSheet.create({
-    //     document: balanceSheet
-    // })
-    // .then(() => {
-    //     console.log("THEN");
-    //     BalanceSheet.find({}, (err, obj) => {
-    //         if (!err) {
-    //             console.log('BalSheet:', obj);
-    //         } else {
-    //             console.log('Err:', err);
-    //         }
-    //     })
-    // }).catch((e) => {
-    //     console.log("Catch:", e);
-    // })
-
-    // console.log("AFTER CREATE");
 }
 
 
@@ -1476,7 +1456,7 @@ function createDemonstResultados () {
 function createOtherFinValues () {
 
     const finObject = {
-        'grossNetMargin': makeGrossNetMarginObj(),
+        // 'grossNetMargin': makeGrossNetMarginObj(),
         'returnOn': makeReturnOnObj(),
         'ebitda': getEbidta(),
         'ebit': getEbit(),
@@ -1484,7 +1464,26 @@ function createOtherFinValues () {
         'avgPayPeriod': getAvgPayPeriod(),
     }
 
+
     console.log(finObject);
+
+
+    // db interaction
+    // mongoose.connect('mongodb://localhost:27017/snif',
+    // { 
+    //     useNewUrlParser: true,
+    //     useUnifiedTopology: true,
+    //     useCreateIndex: true
+    // });
+    // const connection = mongoose.connection;
+    // connection.once('open', () => {
+    //     console.log("MongoDB database connection established successfully");
+    //     clearDb();
+
+    //     FinancialObject.create({
+    //         document: finObject
+    //     });
+    // })
 
 }
 
@@ -1504,30 +1503,53 @@ function makeGrossNetMarginObj () {
         netValues.push(auxCurrMonthNet + auxLastMonthNet);
         grossValues.push(auxCurrMonthGross + auxLastMonthGross); 
         
-        auxLastMonthNet = auxCurrMonthNet + auxLastMonthNet;
-        auxLastMonthGross = auxCurrMonthGross + auxLastMonthGross;
+        auxLastMonthNet += auxCurrMonthNet;
+        auxLastMonthGross += auxCurrMonthGross;
     });
 
     const grossNetMargin = {
-        type: "line",
-        labels: ["January 2019", "February 2019", "March 2019", "April 2019",
-            "May 2019", "June 2019", "July 2019", "August 2019", "September 2019",
-            "October 2019", "November 2019", "December 2019"],
-        datasets: {
-            "Net": {
-                values: netValues,
-            },
-            "Gross": {
-                values: grossValues,
-            },
-        },
+        'gross': grossValues,
+        'net': netValues,
     };
 
     return grossNetMargin;
 }
 
 function makeReturnOnObj () {
-    // TODO: Implement this
+    // SALES => Sales / EBIT => [1]/[21]
+    // ASSETS => Total Ativo / EBIT => [Total do Ativo]/[21]
+    // EQUITY => Total Capital Próprio / EBIT => [Total do Capital Próprio]/[21]
+
+    const monthlyDR = global.monthlyResultsReport;
+
+    const totalDoAtivo = global.balanceSheet['Ativo']['Total do Ativo'];
+    const totalDoCP = global.balanceSheet['Capital Próprio e Passivo']['Capital Próprio']['Total do Capital Próprio'];
+
+    const salesValues = [];
+    const assetsValues = [];
+    const equityValues = [];
+
+    let auxLastMonthSales = 0;
+
+    ['01','02','03','04','05','06','07','08','09','10','11','12'].forEach((month) => {
+        const currSales = getPropVal(monthlyDR[month], '1');
+        const currEbit = getPropVal(monthlyDR[month], '21');
+        console.log("EBIT:", currEbit);
+
+        salesValues.push( ((currSales + auxLastMonthSales)/currEbit) * 100 );
+        assetsValues.push( ((totalDoAtivo)/currEbit) * 100 );
+        equityValues.push( (totalDoCP)/currEbit * 100 );
+        
+        auxLastMonthSales += currSales;
+    });
+
+    const returnOn = {
+        'sales': salesValues,
+        'assets': assetsValues,
+        'equity': equityValues,
+    }
+
+    return returnOn;
 }
 
 function getEbidta () {
@@ -1792,5 +1814,12 @@ function displayAnualDR () {
     console.log("//============================//");
     console.log("Anual Total Values:\n", global.anualResultsReport);
     console.log("//============================//");
+}
+
+
+
+function clearDb () {
+    // drop collections
+    FinancialObject.collection.drop();
 }
 
