@@ -11,6 +11,7 @@ import ContentTable from "../components/common/utils/ContentTable";
 
 const Orders = ({ path }) => {
     const [loading, setLoading] = useState(true);
+    const [ordersChartLabels, setOrdersChartLabels] = useState([]);
     const [ordersChartCancelled, setOrdersChartCancelled] = useState([]);
     const [ordersChartFulfilled, setOrdersChartFulfilled] = useState([]);
     const [productRows, setProductRows] = useState([]);
@@ -23,9 +24,16 @@ const Orders = ({ path }) => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            setPendingValue(data.pendingValue);
+            setPendingValue(data.pendingValue.toFixed(2));
             setPendingOrders(data.pendingNum);
-            setOrdersChartCancelled(Object.keys(data.ordersByTimestamp).map((key) => data.ordersByTimestamp[key].canceled));
+
+            let ordersLabels = [];
+            setOrdersChartCancelled(Object.keys(data.ordersByTimestamp).map((key) => {
+                ordersLabels.push(key);
+                return data.ordersByTimestamp[key].canceled;
+            }));
+            setOrdersChartLabels(ordersLabels);
+
             setOrdersChartFulfilled(Object.keys(data.ordersByTimestamp).map((key) => data.ordersByTimestamp[key].fulfilled));
             setProductRows(data.ordersProducts);
             setLoading(false);
@@ -36,8 +44,7 @@ const Orders = ({ path }) => {
 
     const ordersChart = {
         type: "bar",
-        labels: ["December 2018", "January 2019", "February 2019", "March 2019", "April 2019",
-            "May 2019", "June 2019", "July 2019", "August 2019", "September 2019", "October 2019", "November 2019"],
+        labels: ordersChartLabels,
         datasets: {
             "cancelled": {
                 backgroundColor: colors.red.border,
@@ -53,7 +60,7 @@ const Orders = ({ path }) => {
     };
 
     const productHeaders = [
-        { index: "orderId", value: "Order id" },
+        { index: "id", value: "Order id" },
         { index: "product", value: "Product" },
         { index: "state", value: "State" },
         { index: "quantity", value: "Quantity" },
@@ -66,14 +73,14 @@ const Orders = ({ path }) => {
             <Container>
                 <Row className="mb-5">
                     <Col xs="9">
-                        <ContentCard header="Products" loading={loading}>
+                        <ContentCard header="Orders chart" loading={loading}>
                             <Graph data={ordersChart}/>
                         </ContentCard>
                     </Col>
                     <Col xs="3" className="d-flex align-items-stretch flex-wrap w-100">
                         <Row className="flex-grow-1">
                             <Col xs="12">
-                                <ContentCard header="Order's value (€)" loading={loading}>
+                                <ContentCard header="Orders value (€)" loading={loading}>
                                     <Indicator value={pendingValue} />
                                 </ContentCard>
                             </Col>

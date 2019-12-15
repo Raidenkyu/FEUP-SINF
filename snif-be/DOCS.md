@@ -48,7 +48,7 @@ Example response:
     },
     "ordersProducts": [
         {
-            "orderId": "39c5913b-4962-42b4-b539-0f19f0977219",
+            "id": "39c5913b-4962-42b4-b539-0f19f0977219",
             "product": "Folha Dupla Vermelha",
             "state": "Pending",
             "quantity": 1250,
@@ -59,7 +59,7 @@ Example response:
 }
 ```
 
-### Get Invoice
+### Get Sales
 
 Send `get` request to `/api/sales`.
 
