@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
+import Axios from "axios";
 
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
@@ -9,27 +10,68 @@ import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
 
 const Sales = ({ path }) => {
+    const [loading, setLoading] = useState(true);
+    const [growth, setGrowth] = useState(0);
+    const [margin, setMargin] = useState(0);
+    const [monthlySalesLabels, setMonthlySalesLabels] = useState([]);
+    const [monthlySalesValues, setMonthlySalesValues] = useState([]);
+    const [cumulativeSalesValues, setCumulativeSalesValues] = useState([]);
+    const [topSellingRows, setTopSellingRows] = useState([]);
+    const [salesRows, setSalesRows] = useState([]);
+
+    useEffect(() => {
+        Axios.get("http://localhost:9000/api/sales", {
+            headers: {
+                auth_token: localStorage.getItem("auth_token"),
+            },
+        }).then(({ data }) => {
+            setGrowth(data.growth);
+            setMargin(data.margin.toFixed(2));
+
+            const cumulativeSalesArr = [];
+            const monthlySalesLabelsArr = [];
+            let cumulativeCounter = 0;
+            setMonthlySalesValues(Object.keys(data.salesByTimestamp).map((key) => {
+                cumulativeCounter += data.salesByTimestamp[key].revenue;
+                monthlySalesLabelsArr.push(key);
+                cumulativeSalesArr.push(cumulativeCounter);
+                return data.salesByTimestamp[key].revenue;
+            }));
+            setMonthlySalesLabels(monthlySalesLabelsArr);
+            setCumulativeSalesValues(cumulativeSalesArr);
+
+            setTopSellingRows(Object.keys(data.products).map((key) => ({
+                name: key,
+                units: data.products[key].units,
+                revenue: data.products[key].revenue.toFixed(2),
+            })));
+            setSalesRows(data.salesList);
+            setLoading(false);
+        }).catch(() => {
+            setLoading(false);
+        });
+    }, []);
+
     const monthlySales = {
         type: "line",
-        labels: ["December 2018", "January 2019", "February 2019", "March 2019", "April 2019",
-            "May 2019", "June 2019", "July 2019", "August 2019", "September 2019", "October 2019"],
+        labels: monthlySalesLabels,
         datasets: {
             "sales": {
                 backgroundColor: colors.lightGreen.background,
                 borderColor: colors.lightGreen.border,
-                values: [40000, 50000, 45000, 40000, 30000, 25000, 20000, 17000, 20000, 25000, 35000],
+                values: monthlySalesValues,
             },
         },
     };
 
     const cumulativeSales = {
         type: "line",
-        labels: [2008, 2010, 2012, 2014, 2016, 2018],
+        labels: monthlySalesLabels,
         datasets: {
             "sales": {
                 backgroundColor: colors.lightGreen.background,
                 borderColor: colors.lightGreen.border,
-                values: [0, 100000, 1000000, 2000000, 2500000, 4200000],
+                values: cumulativeSalesValues,
             },
         },
     };
@@ -40,42 +82,12 @@ const Sales = ({ path }) => {
         { index: "revenue", value: "Revenue (€)" },
     ];
 
-    const topSellingRows = [
-        { name: "Mint Smell", units: "61.344", revenue: "345000" },
-        { name: "Mint Smell", units: "61.344", revenue: "345000" },
-        { name: "Mint Smell", units: "61.344", revenue: "345000" },
-        { name: "Mint Smell", units: "61.344", revenue: "345000" },
-        { name: "Mint Smell", units: "61.344", revenue: "345000" },
-        { name: "Mint Smell", units: "61.344", revenue: "345000" },
-        { name: "Mint Smell", units: "61.344", revenue: "345000" },
-        { name: "Mint Smell", units: "61.344", revenue: "345000" },
-    ];
-
     const salesHeaders = [
-        { index: "saleId", value: "Sale id" },
+        { index: "id", value: "Sale id" },
         { index: "product", value: "Product" },
         { index: "quantity", value: "Quantity" },
         { index: "value", value: "Value (€)" },
         { index: "date", value: "Date" },
-    ];
-
-    const salesRows = [
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { saleId: "4FN2SNB3", product: "Mint Smell", quantity: "30.000", value: "1.500", date: "27/10/2019" },
     ];
 
     return (
@@ -83,42 +95,42 @@ const Sales = ({ path }) => {
             <Container>
                 <Row className="mb-5">
                     <Col xs="12">
-                        <ContentCard header="Monthly Sales">
+                        <ContentCard loading={loading} header="Monthly Sales">
                             <Graph data={monthlySales} />
                         </ContentCard>
                     </Col>
                 </Row>
                 <Row className="mb-5">
-                    <Col xs="6">
-                        <Row className="mb-5">
+                    <Col xs="6" className="d-flex flex-column align-items-stretch flex-wrap w-100">
+                        <Row className="mb-5 flex-grow-1">
                             <Col xs="6">
-                                <ContentCard header="Growth">
-                                    <Indicator value={0.9} />
+                                <ContentCard loading={loading} header="Growth">
+                                    <Indicator value={growth} />
                                 </ContentCard>
                             </Col>
                             <Col xs="6">
-                                <ContentCard header="Average Profit Margin">
-                                    <Indicator value={2.3} />
+                                <ContentCard loading={loading} header="Average Profit Margin">
+                                    <Indicator value={margin} />
                                 </ContentCard>
                             </Col>
                         </Row>
-                        <Row>
+                        <Row className="flex-grow-1">
                             <Col xs="12">
-                                <ContentCard header="Cumulative Sales">
+                                <ContentCard loading={loading} header="Cumulative Sales">
                                     <Graph data={cumulativeSales} />
                                 </ContentCard>
                             </Col>
                         </Row>
                     </Col>
                     <Col xs="6">
-                        <ContentCard header="Top Selling Products">
+                        <ContentCard loading={loading} header="Top Selling Products">
                             <ContentTable headers={topSellingHeaders} rows={topSellingRows} />
                         </ContentCard>
                     </Col>
                 </Row>
                 <Row>
                     <Col xs="12">
-                        <ContentCard header="Sales">
+                        <ContentCard loading={loading} header="Sales">
                             <ContentTable headers={salesHeaders} rows={salesRows} />
                         </ContentCard>
                     </Col>
