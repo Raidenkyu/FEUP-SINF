@@ -21,7 +21,7 @@ function startUp () {
     // displayFullBalanceSheet();
     // displayMonthlyResults();
     // displayMonthlyDR();
-    // displayAnualDR();
+    displayAnualDR();
 
 }
 
@@ -1474,25 +1474,26 @@ function createOtherFinValues () {
     // console.log(finObject);
     // console.log(finStockObject);
 
+    // TODO: uncomment this
     // db interaction
-    mongoose.connect('mongodb://localhost:27017/snif',
-    { 
-        useNewUrlParser: true,
-        useUnifiedTopology: true,
-        useCreateIndex: true
-    });
-    const connection = mongoose.connection;
-    connection.once('open', () => {
-        console.log("MongoDB database connection established successfully");
-        clearDb();
-        FinancialObject.create({
-            document: finObject
-        });
-        FinancialStockObject.create({
-            document: finStockObject
-        })
-        console.log("Done");
-    })
+    // mongoose.connect('mongodb://localhost:27017/snif',
+    // { 
+    //     useNewUrlParser: true,
+    //     useUnifiedTopology: true,
+    //     useCreateIndex: true
+    // });
+    // const connection = mongoose.connection;
+    // connection.once('open', () => {
+    //     console.log("MongoDB database connection established successfully");
+    //     clearDb();
+    //     FinancialObject.create({
+    //         document: finObject
+    //     });
+    //     FinancialStockObject.create({
+    //         document: finStockObject
+    //     })
+    //     console.log("Done");
+    // })
     // TODO: close connection
 
 }
@@ -1572,6 +1573,8 @@ function getEbit () {
 }
 
 function getAvgColPeriod () {
+    // TODO: replace
+    // Receivables => Clientes
     // (Account Receivables / Sales) * 365 => ['Créditos a receber' + 'Outros créditos a receber'] / [21]
     const accountsReceivables = getPropVal(global.balanceSheet['Ativo']['Ativo não corrente'], 'Créditos a receber')
                             + getPropVal(global.balanceSheet['Ativo']['Ativo corrente'], 'Outros créditos a receber');
@@ -1580,6 +1583,8 @@ function getAvgColPeriod () {
 }
 
 function getAvgPayPeriod () {
+    // TODO: replace
+    // Payables => Fornecedores
     // (Account Payables / Sales) * 365 => ['Outras dívidas a pagar' + 'Outras dívidas a pagar'] / [21]
     // TODO: Ver o que é o Accounts Payables    
     const accountsPayables = getPropVal(global.balanceSheet['Capital Próprio e Passivo']['Passivo']['Passivo Não Corrente'], 'Outras dívidas a pagar')
