@@ -149,3 +149,50 @@ Send `get` request to `api/customers`
     ]
 }
 ```
+
+### Get Financial
+
+Send `get` request to `api/financial`
+
+```json
+        "document": {
+            "grossNetMargin": {
+                "gross": [ ],
+                "net": [ ]
+            },
+            "returnOn": {
+                "sales": [ ],
+                "assets": [ ],
+                "equity": [ ]
+            },
+            "ebitda": 620719,
+            "ebit": 274256,
+            "avgColPeriod": 23.695467637278,
+            "avgPayPeriod": 1.1356754799350746,
+            "cashRatio": 0.036856836750076734,
+            "acidRatio": 1.5089861570419254
+    }
+}
+```
+
+`grossNetMargin.gross` is the array of monthly values (January to December) with values for Gross Margin
+
+`grossNetMargin.net` is the array of monthly values (January to December) with values for Net Profit Margin
+
+`returnOn.sales` is the array of monthly values (January to December) with values for Return on Sales
+
+`returnOn.assets` is the array of monthly values (January to December) with values for Return on Assets
+
+`returnOn.equity` is the array of monthly values (January to December) with values for Return on Equity
+
+`ebitda` is the value of EBITDA 
+
+`ebit` is the value of EBIT 
+
+`avgColPeriod` is the value of Average Collection Period
+
+`avgPayPeriod` is the value of Average Payment Period
+
+`cashRatio` is the value of Cash Ratio
+
+`acidRatio` is the value of Acid Ratio

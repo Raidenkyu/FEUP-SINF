@@ -53,4 +53,4 @@ npm start
 Nota: para já é preciso fazer ctrl+c 1/2 segundos depois, bug que ainda não corrigi
 
 ### After running
-Depois de correr, tem-se acesso aos dados financeiros na rota /api/financial e aos dados financeiros de stock em /api/stock/financial
+Depois de correr, tem-se acesso aos dados gerais financeiros na rota /api/financial e aos dados financeiros de stock em /api/stock/financial
