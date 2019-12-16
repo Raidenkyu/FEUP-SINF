@@ -4,9 +4,13 @@ const { requestInvoice } = require("../utils/api/jasmin");
 const { extractTimestamp } = require("../utils/regex");
 const { getYearProfit } = require("../utils/sales");
 
-router.get("/", (_req, res) => {
+router.get("/", (req, res) => {
     requestInvoice().then(
         (invoiceData) => {
+
+            const page = req.query.page || 1;
+            const pageSize = req.query.pageSize || 15;
+
             const response = {
                 growth: 0,
                 margin: 0,
@@ -14,9 +18,12 @@ router.get("/", (_req, res) => {
                 products: {},
                 salesList: [],
             };
+
+            const salesList = [];
+
             invoiceData.map((bill) => {
                 bill.documentLines.map((sale) => {
-                    response.salesList.push({
+                    salesList.push({
                         id: sale.invoiceId,
                         product: sale.description,
                         quantity: sale.quantity,
@@ -40,7 +47,7 @@ router.get("/", (_req, res) => {
 
             });
 
-            const accumulatedValue = response.salesList.reduce((accumulator, currentValue) => {
+            const accumulatedValue = salesList.reduce((accumulator, currentValue) => {
 
                 const timestamp = extractTimestamp(currentValue.date);
 
@@ -68,6 +75,18 @@ router.get("/", (_req, res) => {
 
             response.growth = (prevProfit.revenue == 0 ? 0 : (profit.revenue - prevProfit.revenue) / prevProfit.revenue);
             response.margin = (profit.income / profit.revenue) * 100;
+
+            response.salesList = salesList.sort((a, b) => {
+                if (a.date < b.date) {
+                    return 1;
+                }
+
+                else if (a.date > b.date) {
+                    return -1;
+                }
+
+                return 0;
+            }).slice((page - 1) * pageSize, page * pageSize)
 
             res.json(response);
         }
