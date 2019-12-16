@@ -7,7 +7,16 @@ const FinancialObjectSchema = new mongoose.Schema({
     }
 })
 
+const FinancialStockObjectSchema = new mongoose.Schema({
+    document: {
+        type: Object,
+        required: true,
+    }
+})
+
 const FinancialObject = mongoose.model('FinancialObject', FinancialObjectSchema);
+const FinancialStockObject = mongoose.model('FinancialStockObject', FinancialStockObjectSchema);
 module.exports = {
-    FinancialObject
+    FinancialObject: FinancialObject,
+    FinancialStockObject: FinancialStockObject 
 }

@@ -1,7 +1,7 @@
 const saftFile = require('../files/json/saft-demo2');
 const saft = saftFile.jsonObj;
 
-const { FinancialObject } = require('./document.model.js');
+const { FinancialObject, FinancialStockObject } = require('./document.model.js');
 const mongoose = require('mongoose');
 
 startUp();
@@ -1464,11 +1464,15 @@ function createOtherFinValues () {
         'avgPayPeriod': getAvgPayPeriod(),
         'cashRatio': getCashRatio(),
         'acidRatio': getAcidRatio(),
+    }
+
+    const finStockObject = {
         'turnover': getTurnOver(),
         'avgInvPeriod': getAvgInvPeriod(),
     }
 
-    console.log(finObject);
+    // console.log(finObject);
+    // console.log(finStockObject);
 
     // db interaction
     mongoose.connect('mongodb://localhost:27017/snif',
@@ -1484,6 +1488,10 @@ function createOtherFinValues () {
         FinancialObject.create({
             document: finObject
         });
+        FinancialStockObject.create({
+            document: finStockObject
+        })
+        console.log("Done");
     })
     // TODO: close connection
 
@@ -1864,6 +1872,7 @@ function displayAnualDR () {
 
 function clearDb () {
     // drop collections
-    FinancialObject.collection.drop();
+    FinancialObject.collection.drop().catch(() => {});
+    FinancialStockObject.collection.drop().catch(() => {});
 }
 
