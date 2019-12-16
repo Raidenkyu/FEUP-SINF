@@ -110,6 +110,8 @@ Send `get` request to `/api/users`
 
 Send `get` request to `api/stock`
 
+Example response:
+
 ```json
 {
     "assetsInStock": {
@@ -137,6 +139,8 @@ Send `get` request to `api/stock`
 
 Send `get` request to `api/customers`
 
+Example response:
+
 ```json
 {
     "customers": [
@@ -150,6 +154,61 @@ Send `get` request to `api/customers`
 }
 ```
 
+### Get Monthy Purchases
+
+Send `get` request to `api/purchases/monthly`
+
+Example response:
+
+```json
+{
+    "purchasesByTimestamp": {
+        "2019-12": 1073.5
+    }
+}
+```
+
+### Get Purchases List
+
+Send `get` request to `api/purchases/list`
+
+Query Params: page, pageSize
+
+Example response:
+
+```json
+{
+    "purchasesList": [
+        {
+            "purchaseId": "a759e462-7007-46f7-954e-427e335d6e95",
+            "name": "Folha Simples",
+            "quantity": 5000,
+            "value": 169.5,
+            "date": "2020-03-20"
+        },
+    ]
+}
+```
+
+### Get Suppliers List
+
+Send `get` request to `api/purchases/suppliers`
+
+Query Params: page, pageSize
+
+Example response:
+
+```json
+{
+    "suppliers": [
+        {
+            "supplierId": "519951018",
+            "quantity": 15000,
+            "priceRatio": 0.05000000000000001
+        },
+    ]
+}
+```
 ### Get Financial
 
 Send `get` request to `api/financial`
