@@ -117,7 +117,7 @@ function createBalanceSheet () {
             return;
     
         if (accountGroupingCat !== 'GM') {
-            console.log("> Unexpected Grouping Category:", accountGroupingCat);
+            console.log('> Unexpected Grouping Category:', accountGroupingCat);
             return;
         }
 
@@ -840,7 +840,7 @@ function createBalanceSheet () {
             //=======================//
 
             default:
-                // console.log("Unhandled Taxonomy Code:", accountTaxCode, "\tWith balance of:", accountBal); //"  -->  ", account.ClosingCreditBalance, account.OpeningCreditBalance, account.ClosingDebitBalance, account.OpeningDebitBalance);
+                // console.log('Unhandled Taxonomy Code:', accountTaxCode, '\tWith balance of:', accountBal); //'  -->  ', account.ClosingCreditBalance, account.OpeningCreditBalance, account.ClosingDebitBalance, account.OpeningDebitBalance);
                 break;
         }
 
@@ -915,7 +915,7 @@ function createMonthlyResults () {
 
         journalEntry.Transaction.forEach((transaction) => {
             // TODO: verify if this is ok
-            if (transaction.TransactionType === "A") {
+            if (transaction.TransactionType === 'A') {
                 return;
             }
             
@@ -934,7 +934,7 @@ function createMonthlyResults () {
                     addTransactionLine(monthlyResults, month, parseInt(transaction.Lines.DebitLine.DebitAmount), 'debit');
                 }
             } else {
-                console.log(" > Error: Expected a DebitLine");
+                console.log(' > Error: Expected a DebitLine');
             }
 
             // se existir
@@ -950,7 +950,7 @@ function createMonthlyResults () {
                     addTransactionLine(monthlyResults, month, parseInt(transaction.Lines.CreditLine.CreditAmount), 'credit');
                 }
             } else {
-                console.log(" > Error: Expected a CreditLine");
+                console.log(' > Error: Expected a CreditLine');
             }
 
         });
@@ -998,7 +998,7 @@ function getDRAccountIds () {
             return;
     
         if (accountGroupingCat !== 'GM') {
-            console.log("> Unexpected Grouping Category:", accountGroupingCat);
+            console.log('> Unexpected Grouping Category:', accountGroupingCat);
             return;
         }
 
@@ -1405,7 +1405,7 @@ function createDemonstResultados () {
         
         journalEntry.Transaction.forEach((transaction) => {
             // TODO: verify if this is correct
-            if (transaction.TransactionType === "A") {
+            if (transaction.TransactionType === 'A') {
                 return;
             }
             
@@ -1424,7 +1424,7 @@ function createDemonstResultados () {
                     addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.DebitLine.AccountID), parseInt(transaction.Lines.DebitLine.DebitAmount), 'debit', monthlyTotalValues, month);
                 }
             } else {
-                console.log(" > Error: Expected a DebitLine");
+                console.log(' > Error: Expected a DebitLine');
             }
 
             // se existir
@@ -1440,7 +1440,7 @@ function createDemonstResultados () {
                     addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.CreditLine.AccountID), parseInt(transaction.Lines.CreditLine.CreditAmount), 'credit', monthlyTotalValues, month);
                 }
             } else {
-                console.log(" > Error: Expected a CreditLine");
+                console.log(' > Error: Expected a CreditLine');
             }
         });
     });
@@ -1484,7 +1484,7 @@ function createOtherFinValues () {
     // });
     // const connection = mongoose.connection;
     // connection.once('open', () => {
-    //     console.log("MongoDB database connection established successfully");
+    //     console.log('MongoDB database connection established successfully');
     //     clearDb();
     //     FinancialObject.create({
     //         document: finObject
@@ -1492,7 +1492,7 @@ function createOtherFinValues () {
     //     FinancialStockObject.create({
     //         document: finStockObject
     //     })
-    //     console.log("Done");
+    //     console.log('Done');
     // })
     // TODO: close connection
 
@@ -1669,7 +1669,7 @@ function addValue(obj, path, value) {
             break;
 
         default:
-            console.log("ERROR: Entered default in object addValue");
+            console.log('ERROR: Entered default in object addValue');
             break;
     }
 
@@ -1691,15 +1691,15 @@ function getMonth (date) {
 
 function addTransactionLine (monthlyResults, month, value, type) {
     if (monthlyResults[month] === undefined) {
-        console.log(" > Error: Unexpected Month:", month);
+        console.log(' > Error: Unexpected Month:', month);
         return;
     }
     if (value === undefined) {
-        console.log(" > Error: Unexpected Undefined Value");
+        console.log(' > Error: Unexpected Undefined Value');
         return;
     }
-    if (type !== "debit" && type !== "credit") {
-        console.log(" > Error: Unexpected Type");
+    if (type !== 'debit' && type !== 'credit') {
+        console.log(' > Error: Unexpected Type');
         return;
     }
 
@@ -1709,12 +1709,12 @@ function addTransactionLine (monthlyResults, month, value, type) {
 function addEntryToAccountIds (accountIds, category, method, currentId) {
 
     if (accountIds[category] === undefined || accountIds[category][method] === undefined) {
-        console.log(" > Error: Unexpected Undefined Value in addEntryToAccountIds");
+        console.log(' > Error: Unexpected Undefined Value in addEntryToAccountIds');
         return;
     }
 
     accountIds[category][method].push(currentId);
-    accountIds["all"].push(currentId);
+    accountIds['all'].push(currentId);
 }
 
 function addValueToTotalDR (anualTotalValues, accountID, value, type, monthlyTotalValues, month) {
@@ -1723,7 +1723,7 @@ function addValueToTotalDR (anualTotalValues, accountID, value, type, monthlyTot
 
     // check only available types
     if (type !== 'debit' && type !== 'credit') {
-        console.log(" > Error: Unexpected Type");
+        console.log(' > Error: Unexpected Type');
         return;
     }
 
@@ -1760,7 +1760,7 @@ function addValueToTotalDR (anualTotalValues, accountID, value, type, monthlyTot
                 monthlyTotalValues[month][index] = 0;
             
             // TODO: Confirm if this is correct (this might not be the way to tell if an account is Credora ou Devedora)
-            // Solution will probably involve creating an array of "devedoras" and "credoras" early on, and checking in which the accountId is in
+            // Solution will probably involve creating an array of 'devedoras' and 'credoras' early on, and checking in which the accountId is in
             if (type === 'credit') {
                 anualTotalValues[index] += value;
                 monthlyTotalValues[month][index] += value;
@@ -1839,38 +1839,38 @@ function displayFullBalanceSheet () {
     // console.log(balanceSheet['Capital Próprio e Passivo']['Passivo']);
 
     // ATIVO
-    console.log("Total do Ativo Corrente:", balanceSheet['Ativo']['Total do Ativo corrente']);
-    console.log("Total do Ativo Não Corrente:", balanceSheet['Ativo']['Total do Ativo não corrente']);
-    console.log("Total do Ativo:", balanceSheet['Ativo']['Total do Ativo']);
+    console.log('Total do Ativo Corrente:', balanceSheet['Ativo']['Total do Ativo corrente']);
+    console.log('Total do Ativo Não Corrente:', balanceSheet['Ativo']['Total do Ativo não corrente']);
+    console.log('Total do Ativo:', balanceSheet['Ativo']['Total do Ativo']);
 
     // CAPITAL PRÓPRIO
-    console.log("Total do Capital Próprio:", balanceSheet['Capital Próprio e Passivo']['Capital Próprio']['Total do Capital Próprio']);
+    console.log('Total do Capital Próprio:', balanceSheet['Capital Próprio e Passivo']['Capital Próprio']['Total do Capital Próprio']);
 
     // PASSIVO
-    console.log("Total do Passivo Corrente:", balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo corrente']);
-    console.log("Total do Passivo Não Corrente:", balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo não corrente']);
-    console.log("Total do Passivo:", balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo']);
+    console.log('Total do Passivo Corrente:', balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo corrente']);
+    console.log('Total do Passivo Não Corrente:', balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo não corrente']);
+    console.log('Total do Passivo:', balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo']);
 
     // CP + PASSIVO
-    console.log("Total do CP + Passivo:", balanceSheet['Capital Próprio e Passivo']['Total do Capital Próprio e do Passivo']);
+    console.log('Total do CP + Passivo:', balanceSheet['Capital Próprio e Passivo']['Total do Capital Próprio e do Passivo']);
 }
 
 function displayMonthlyResults () {
-    console.log("//============================//");
-    console.log("Monthly Credit/Debit Results", global.monthlyResults);
-    console.log("//============================//");
+    console.log('//============================//');
+    console.log('Monthly Credit/Debit Results', global.monthlyResults);
+    console.log('//============================//');
 }
 
 function displayMonthlyDR () {
-    console.log("//============================//");
-    console.log("Monthly Total Values:\n", global.monthlyResultsReport);
-    console.log("//============================//");
+    console.log('//============================//');
+    console.log('Monthly Total Values:\n', global.monthlyResultsReport);
+    console.log('//============================//');
 }
 
 function displayAnualDR () {
-    console.log("//============================//");
-    console.log("Anual Total Values:\n", global.anualResultsReport);
-    console.log("//============================//");
+    console.log('//============================//');
+    console.log('Anual Total Values:\n', global.anualResultsReport);
+    console.log('//============================//');
 }
 
 
