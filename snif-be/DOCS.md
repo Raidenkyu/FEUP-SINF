@@ -196,3 +196,20 @@ Send `get` request to `api/financial`
 `cashRatio` is the value of Cash Ratio
 
 `acidRatio` is the value of Acid Ratio
+
+
+### Get Financial values for Stocks' Page
+
+Send `get` request to `api/stock/financial`
+
+```json
+        "document": {
+            "turnover": 38.74924550847282,
+            "avgInvPeriod": 9.419538244175358
+        },
+}
+```
+
+`turnover` is the value of Inventory Turnover
+
+`avgInvPeriod` is the value of Average Inventory Period
