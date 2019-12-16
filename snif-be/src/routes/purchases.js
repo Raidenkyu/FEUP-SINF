@@ -96,4 +96,38 @@ router.get("/suppliers", (_req, res) => {
         }
     );
 });
+router.get("/debt", (_req, res) => {
+    requestPrimavera("/purchases/orders").then(
+        async (orderData) => {
+            
+            const totalOrders = orderData.reduce((acumulator, order) => {
+                if (order.documentStatus == "2") {
+                    acumulator += order.payableAmount.amount
+                }
+                return acumulator;
+            },0);
+
+            const invoiceData = await requestPrimavera("/accountsPayable/payments");
+
+            const totalPaid = invoiceData.reduce((acumulator, invoice) => {
+                        acumulator += invoice.payableAmount.amount
+                        return acumulator;
+                    },0);
+            
+            const debt = totalOrders - totalPaid;
+
+            res.json({ debt: debt });
+        }
+    ).catch(
+        () => {
+            var err = new Error("Failed to fetch debt");
+            err.status = 401;
+            res.json({
+                message: err.message,
+                error: err
+            });
+        }
+    );
+});
+
 module.exports = router;
