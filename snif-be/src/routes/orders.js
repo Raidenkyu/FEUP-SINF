@@ -14,6 +14,10 @@ router.get("/", (req, res) => {
 
     requestOrders().then(
         (ordersData) => {
+
+            const page = req.query.page || 1;
+            const pageSize = req.query.pageSize || 15;
+
             const response = {
                 pendingValue: 0,
                 pendingNum: 0,
@@ -21,9 +25,11 @@ router.get("/", (req, res) => {
                 ordersProducts: []
             };
 
+            const ordersProducts = []
+
             ordersData.map((order) => {
                 order.documentLines.map((product) => {
-                    response.ordersProducts.push({
+                    ordersProducts.push({
                         id: product.orderId,
                         product: product.description,
                         state: (product.isDeleted ? "Cancelled" : (product.documentLineStatus == 1 ? "Pending" : "Processed")),
@@ -34,7 +40,7 @@ router.get("/", (req, res) => {
                 });
             });
 
-            const accumulatedValue = response.ordersProducts.reduce((accumulator, currentValue) => {
+            const accumulatedValue = ordersProducts.reduce((accumulator, currentValue) => {
                 if (currentValue.state == "Pending") {
                     accumulator.pendingValue += currentValue.value;
                     accumulator.pendingNum++;
@@ -63,6 +69,18 @@ router.get("/", (req, res) => {
             Object.keys(accumulatedValue.ordersByTimestamp).sort().forEach((key) => {
                 response.ordersByTimestamp[key] = accumulatedValue.ordersByTimestamp[key];
               });
+
+            response.ordersProducts = ordersProducts.sort((a, b) => {
+                if (a.date < b.date) {
+                    return 1;
+                }
+
+                else if (a.date > b.date) {
+                    return -1;
+                }
+
+                return 0;
+            }).slice((page - 1) * pageSize, page * pageSize);
 
             res.json(response);
         }
