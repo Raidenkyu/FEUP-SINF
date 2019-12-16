@@ -10,9 +10,7 @@ router.get("/", (_req, res) => {
                 error: error
             });
         } else {
-            return res.status(200).json({
-                message: finObj,
-            });
+            return res.status(200).json(finObj);
         }
     });
 });
