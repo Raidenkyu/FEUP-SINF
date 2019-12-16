@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { requestPrimavera } = require("../utils/api/jasmin");
 const { getStockQuantity, getUnitPrice, getStockValue } = require("../utils/stock");
+var { FinancialStockObject } = require('../models/financial.model.js');
 
 
 router.get("/", (_req, res) => {
@@ -50,6 +51,21 @@ router.get("/", (_req, res) => {
             });
         }
     );
+});
+
+router.get("/financial", (_req, res) => {
+    FinancialStockObject.getFinancialStockDocument((error, finObj) => {
+        if (error || !finObj) {
+            return res.status(400).json({
+                message: error.message,
+                error: error
+            });
+        } else {
+            return res.status(200).json({
+                message: finObj,
+            });
+        }
+    });
 });
 
 module.exports = router;

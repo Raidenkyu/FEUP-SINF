@@ -42,3 +42,15 @@ This will create a development server with hot reloading which will listen on `h
 
 ### Contributing to the front-end
 Run `npm install` in the front-end directory for the git hooks to work. This way, the linter will run before every commit, preventing possible errors in the code. 
+
+
+### How to run the SAF-T reader
+```
+cd saft-reader
+npm install
+npm start
+```
+Nota: para já é preciso fazer ctrl+c 1/2 segundos depois, bug que ainda não corrigi
+
+### After running
+Depois de correr, tem-se acesso aos dados financeiros na rota /api/financial e aos dados financeiros de stock em /api/stock/financial

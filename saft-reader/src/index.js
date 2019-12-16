@@ -1,7 +1,7 @@
 const saftFile = require('../files/json/saft-demo2');
 const saft = saftFile.jsonObj;
 
-const { FinancialObject, FinancialStockObject } = require('./document.model.js');
+const { FinancialObject, FinancialStockObject } = require('./financial.model.js');
 const mongoose = require('mongoose');
 
 startUp();

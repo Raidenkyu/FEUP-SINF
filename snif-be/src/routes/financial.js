@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-var { FinancialObject } = require('../models/document.model.js');
+var { FinancialObject } = require('../models/financial.model.js');
 
 router.get("/", (_req, res) => {
     FinancialObject.getFinancialDocument((error, finObj) => {
