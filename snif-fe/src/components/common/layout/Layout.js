@@ -13,12 +13,13 @@ const Layout = ({ path, navbar, sidebar, children }) => {
 
     const [collapsed, setCollapsed] = useState(true);
 
-    const toggleSidebar = () => setCollapsed(!collapsed);
+    const openSidebar = () => setCollapsed(false);
+    const closeSidebar = () => setCollapsed(true);
 
     return (
         <React.Fragment>
-            {navbar && <Navbar toggleSidebar={toggleSidebar} sidebar={sidebar} />}
-            {sidebar && <Sidebar path={path} collapsed={collapsed} toggleSidebar={toggleSidebar} />}
+            {navbar && <Navbar openSidebar={openSidebar} sidebar={sidebar} />}
+            {sidebar && <Sidebar path={path} collapsed={collapsed} closeSidebar={closeSidebar} />}
             <div className={(navbar ? LayoutStyles.layoutContainer + " px-5 pb-5" : LayoutStyles.layoutContainerNoNav) }>
                 {checkingToken ? <Loading navbar={navbar} /> : children}
             </div>
