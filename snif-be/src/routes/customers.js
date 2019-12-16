@@ -3,10 +3,13 @@ const router = express.Router();
 const { requestPrimavera, requestOrders } = require("../utils/api/jasmin");
 const { getCustomerOrdersInfo } = require("../utils/customers");
 
-router.get("/", (_req, res) => {
+router.get("/", (req, res) => {
     requestPrimavera("/salesCore/customerParties/")
         .then(
             async (customersData) => {
+
+                const page = req.query.page || 1;
+                const pageSize = req.query.pageSize || 15;
 
                 const orders = await requestOrders();
 
@@ -32,12 +35,13 @@ router.get("/", (_req, res) => {
                     if (a.value > b.value) {
                         return 1;
                     }
+
                     if (a.value < b.value) {
                         return -1;
                     }
 
                     return 0;
-                });
+                }).slice((page - 1) * pageSize, page * pageSize);
 
                 res.json(response);
             }
