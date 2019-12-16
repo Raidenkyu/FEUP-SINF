@@ -7,6 +7,7 @@ import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
+import Financial from "../components/stocks/Financial";
 
 const Stocks = ({ path }) => {
     const [loading, setLoading] = useState(true);
@@ -16,7 +17,7 @@ const Stocks = ({ path }) => {
     const [resourcesStock, setResourcesStock] = useState(true);
 
     useEffect(() => {
-        Axios.get("http://localhost:9000/api/stock", {
+        Axios.get("http://localhost:9000/api/stocks", {
             headers: {
                 auth_token: localStorage.getItem("auth_token"),
             },
@@ -58,20 +59,7 @@ const Stocks = ({ path }) => {
                         </ContentCard>
                     </Col>
                 </Row>
-                <Row className="mb-5">
-                    <Col xs="6">
-                        <ContentCard loading={loading} header="Turnover">
-                            {/* TODO: get this value from financial */}
-                            <Indicator value={7.3} />
-                        </ContentCard>
-                    </Col>
-                    <Col xs="6">
-                        <ContentCard loading={loading} header="Average Inventory Period">
-                            {/* TODO: get this value from financial */}
-                            <Indicator value="3 months" />
-                        </ContentCard>
-                    </Col>
-                </Row>
+                <Financial />
                 <Row>
                     <Col xs="6">
                         <ContentCard loading={loading} header="Products value in stock (€)">
