@@ -1,112 +1,149 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "reactstrap";
+import Axios from "axios";
+import { PropTypes } from "prop-types";
 
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 import Indicator from "../components/common/utils/Indicator";
 import { Graph, colors } from "../components/common/utils/Graph";
 
-const Financial = () => {
+const Financial = ({ path }) => {
+    const [loading, setLoading] = useState(true);
+    const [netProfitValues, setNetProfitValues] = useState([]);
+    const [grossProfitValues, setGrossProfitValues] = useState([]);
+    const [equityReturnValues, setEquityReturnValues] = useState([]);
+    const [assetsReturnValues, setAssetsReturnValues] = useState([]);
+    const [salesReturnValues, setSalesReturnValues] = useState([]);
+    const [ebitda, setEbitda] = useState(0);
+    const [ebit, setEbit] = useState(0);
+    const [avgColPeriod, setAvgColPeriod] = useState(0);
+    const [avgPayPeriod, setAvgPayPeriod] = useState(0);
+    const [cashRatio, setCashRatio] = useState(0);
+    const [acidRatio, setAcidRatio] = useState(0);
+
+    useEffect(() => {
+        Axios.get("http://localhost:9000/api/financial", {
+            headers: {
+                auth_token: localStorage.getItem("auth_token"),
+            },
+        }).then(({ data }) => {
+            setNetProfitValues(data.document.grossNetMargin.net);
+            setGrossProfitValues(data.document.grossNetMargin.gross);
+            setEquityReturnValues(data.document.returnOn.equity);
+            setAssetsReturnValues(data.document.returnOn.assets);
+            setSalesReturnValues(data.document.returnOn.sales);
+            setEbitda(data.document.ebitda);
+            setEbit(data.document.ebit);
+            setAvgColPeriod(data.document.avgColPeriod.toFixed(2));
+            setAvgPayPeriod(data.document.avgPayPeriod.toFixed(2));
+            setCashRatio(data.document.cashRatio.toFixed(2));
+            setAcidRatio(data.document.acidRatio.toFixed(2));
+            setLoading(false);
+        }).catch(() => {
+            setLoading(false);
+        });
+    }, []);
 
     const grossNetProfit = {
         type: "line",
-        labels: ["December 2018", "January 2019", "February 2019", "March 2019", "April 2019",
-            "May 2019", "June 2019", "July 2019", "August 2019", "September 2019", "October 2019", "November 2019"],
+        labels: ["2019-01", "2019-02", "2019-03", "2019-04", "2019-05", "2019-06",
+            "2019-07", "2019-08", "2019-09", "2019-10", "2019-11", "2019-12"],
         datasets: {
             "Net": {
                 backgroundColor: colors.lightGreen.background,
                 borderColor: colors.lightGreen.border,
-                values: [50, 150, 130, 170, 220, 250, 270, 300, 340, 360, 350, 400],
+                values: netProfitValues,
             },
             "Gross": {
                 backgroundColor: colors.middleGreen.background,
                 borderColor: colors.middleGreen.border,
-                values: [0, 50, 50, 150, 190, 200, 230, 270, 300, 340, 350, 380],
+                values: grossProfitValues,
             },
         },
     };
 
     const returnSales = {
         type: "line",
-        labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday",
-            "Saturday", "Sunday"],
+        labels: ["2019-01", "2019-02", "2019-03", "2019-04", "2019-05", "2019-06",
+            "2019-07", "2019-08", "2019-09", "2019-10", "2019-11", "2019-12"],
         datasets: {
             "Equity": {
                 backgroundColor: colors.lightGreen.background,
                 borderColor: colors.lightGreen.border,
-                values: [500, 150, 120, 210, 370, 380, 476],
+                values: equityReturnValues,
             },
             "Assets": {
                 backgroundColor: colors.middleGreen.background,
                 borderColor: colors.middleGreen.border,
-                values: [420, 100, 170, 150, 340, 450, 480],
+                values: assetsReturnValues,
             },
             "Sales": {
                 backgroundColor: colors.darkGreen.background,
                 borderColor: colors.darkGreen.border,
-                values: [220, 70, 146, 120, 314, 430, 510],
+                values: salesReturnValues,
             },
         },
     };
 
     return (
-        <Layout navbar sidebar>
+        <Layout path={path} navbar sidebar>
             <Container>
                 <Row className="mb-5">
                     <Col xs="6">
-                        <ContentCard header="Gross and Net profit margin">
+                        <ContentCard loading={loading} header="Gross and Net profit margin">
                             <Graph data={grossNetProfit} />
                         </ContentCard>
                     </Col>
                     <Col xs="6">
-                        <Row className="flex-grow-1">
-                            <Col xs="12">
-                                <ContentCard header="Return on sales, assets and equity">
-                                    <Graph data={returnSales} />
-                                </ContentCard>
-                            </Col>
-                        </Row>
-                    </Col>
-                </Row>
-
-                <Row className="mb-5">
-                    <Col lg="3" xs="12">
-                        <ContentCard header="Cash Ratio">
-                            <Indicator value="2024" />
-                        </ContentCard>
-                    </Col>
-                    <Col lg="3" xs="12">
-                        <ContentCard header="Debt to Equity">
-                            <Indicator value="15 days" />
-                        </ContentCard>
-                    </Col>
-                    <Col lg="3" xs="12">
-                        <ContentCard header="Average collection period">
-                            <Indicator value="40 days" />
-                        </ContentCard>
-                    </Col>
-                    <Col lg="3" xs="12">
-                        <ContentCard header="Average payment period">
-                            <Indicator value="50 days" />
+                        <ContentCard loading={loading} header="Return on sales, assets and equity">
+                            <Graph data={returnSales} />
                         </ContentCard>
                     </Col>
                 </Row>
 
                 <Row className="mb-5">
                     <Col lg="3" xs="12">
-                        <ContentCard header="Acid Ratio">
-                            <Indicator value="4096" />
+                        <ContentCard loading={loading} header="EBITDA">
+                            <Indicator value={ebitda} />
                         </ContentCard>
                     </Col>
                     <Col lg="3" xs="12">
-                        <ContentCard header="EBIT">
-                            <Indicator value="20.000€" />
+                        <ContentCard loading={loading} header="EBIT">
+                            <Indicator value={ebit} />
+                        </ContentCard>
+                    </Col>
+                    <Col lg="3" xs="12">
+                        <ContentCard loading={loading} header="Average collection period">
+                            <Indicator value={avgColPeriod} />
+                        </ContentCard>
+                    </Col>
+                    <Col lg="3" xs="12">
+                        <ContentCard loading={loading} header="Average payment period">
+                            <Indicator value={avgPayPeriod} />
+                        </ContentCard>
+                    </Col>
+                </Row>
+
+                <Row className="mb-5">
+                    <Col lg="3" xs="12">
+                        <ContentCard loading={loading} header="Cash ratio">
+                            <Indicator value={cashRatio} />
+                        </ContentCard>
+                    </Col>
+                    <Col lg="3" xs="12">
+                        <ContentCard loading={loading} header="Acid ratio">
+                            <Indicator value={acidRatio} />
                         </ContentCard>
                     </Col>
                 </Row>
             </Container>
         </Layout>
     );
+};
+
+Financial.propTypes = {
+    path: PropTypes.string.isRequired,
 };
 
 export default Financial;

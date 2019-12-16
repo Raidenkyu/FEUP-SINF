@@ -155,22 +155,23 @@ Send `get` request to `api/customers`
 Send `get` request to `api/financial`
 
 ```json
-        "document": {
-            "grossNetMargin": {
-                "gross": [ ],
-                "net": [ ]
-            },
-            "returnOn": {
-                "sales": [ ],
-                "assets": [ ],
-                "equity": [ ]
-            },
-            "ebitda": 620719,
-            "ebit": 274256,
-            "avgColPeriod": 23.695467637278,
-            "avgPayPeriod": 1.1356754799350746,
-            "cashRatio": 0.036856836750076734,
-            "acidRatio": 1.5089861570419254
+{
+    "document": {
+        "grossNetMargin": {
+            "gross": [ ],
+            "net": [ ]
+        },
+        "returnOn": {
+            "sales": [ ],
+            "assets": [ ],
+            "equity": [ ]
+        },
+        "ebitda": 620719,
+        "ebit": 274256,
+        "avgColPeriod": 23.695467637278,
+        "avgPayPeriod": 1.1356754799350746,
+        "cashRatio": 0.036856836750076734,
+        "acidRatio": 1.5089861570419254
     }
 }
 ```
@@ -203,10 +204,11 @@ Send `get` request to `api/financial`
 Send `get` request to `api/stock/financial`
 
 ```json
-        "document": {
-            "turnover": 38.74924550847282,
-            "avgInvPeriod": 9.419538244175358
-        },
+{
+    "document": {
+        "turnover": 38.74924550847282,
+        "avgInvPeriod": 9.419538244175358
+    },
 }
 ```
 
