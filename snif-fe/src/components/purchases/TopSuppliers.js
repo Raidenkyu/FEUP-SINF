@@ -14,7 +14,7 @@ const TopSuppliers = () => {
     ];
     
     const [loading, setLoading] = useState(true);
-    const [suppliers, setSuppliers] = useState(0);
+    const [suppliers, setSuppliers] = useState([]);
 
     useEffect(() => {
         Axios.get("http://localhost:9000/api/purchases/suppliers", {
