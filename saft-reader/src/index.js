@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 startUp();
 
 function startUp () {
-    
+
     console.log('Saft Version:', saft.AuditFile.Header.AuditFileVersion);
     console.log('Year:', saft.AuditFile.Header.FiscalYear);
     // global.fiscalYear = saft.AuditFile.Header.FiscalYear;
@@ -926,12 +926,12 @@ function createMonthlyResults () {
                 // se for array
                 if (transaction.Lines.DebitLine.length !== undefined) {
                     transaction.Lines.DebitLine.forEach((line) => {
-                        addTransactionLine(monthlyResults, month, parseInt(line.DebitAmount), 'debit');
+                        addTransactionLine(monthlyResults, month, parseFloat(line.DebitAmount), 'debit');
                     });
                 }
                 // se for único
                 else {
-                    addTransactionLine(monthlyResults, month, parseInt(transaction.Lines.DebitLine.DebitAmount), 'debit');
+                    addTransactionLine(monthlyResults, month, parseFloat(transaction.Lines.DebitLine.DebitAmount), 'debit');
                 }
             } else {
                 console.log(' > Error: Expected a DebitLine');
@@ -942,12 +942,12 @@ function createMonthlyResults () {
                 // se for array
                 if (transaction.Lines.CreditLine.length !== undefined) {
                     transaction.Lines.CreditLine.forEach((line) => {
-                        addTransactionLine(monthlyResults, month, parseInt(line.CreditAmount), 'credit');
+                        addTransactionLine(monthlyResults, month, parseFloat(line.CreditAmount), 'credit');
                     });
                 }
                 // se for único
                 else {
-                    addTransactionLine(monthlyResults, month, parseInt(transaction.Lines.CreditLine.CreditAmount), 'credit');
+                    addTransactionLine(monthlyResults, month, parseFloat(transaction.Lines.CreditLine.CreditAmount), 'credit');
                 }
             } else {
                 console.log(' > Error: Expected a CreditLine');
@@ -1381,7 +1381,7 @@ function getDRAccountIds () {
                 break; 
             case 645:
                 addEntryToAccountIds(accountIds, '25', 'cond', currentId);
-                break;s
+                break;
             default:
                 break;
         }
@@ -1416,12 +1416,12 @@ function createDemonstResultados () {
                 // se for array
                 if (transaction.Lines.DebitLine.length !== undefined) {
                     transaction.Lines.DebitLine.forEach((line) => {
-                        addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseInt(line.DebitAmount), 'debit', monthlyTotalValues, month);
+                        addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseFloat(line.DebitAmount), 'debit', monthlyTotalValues, month);
                     });
                 }
                 // se for único
                 else {
-                    addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.DebitLine.AccountID), parseInt(transaction.Lines.DebitLine.DebitAmount), 'debit', monthlyTotalValues, month);
+                    addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.DebitLine.AccountID), parseFloat(transaction.Lines.DebitLine.DebitAmount), 'debit', monthlyTotalValues, month);
                 }
             } else {
                 console.log(' > Error: Expected a DebitLine');
@@ -1432,12 +1432,12 @@ function createDemonstResultados () {
                 // se for array
                 if (transaction.Lines.CreditLine.length !== undefined) {
                     transaction.Lines.CreditLine.forEach((line) => {
-                        addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseInt(line.CreditAmount), 'credit', monthlyTotalValues, month);
+                        addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseFloat(line.CreditAmount), 'credit', monthlyTotalValues, month);
                     });
                 }
                 // se for único
                 else {
-                    addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.CreditLine.AccountID), parseInt(transaction.Lines.CreditLine.CreditAmount), 'credit', monthlyTotalValues, month);
+                    addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.CreditLine.AccountID), parseFloat(transaction.Lines.CreditLine.CreditAmount), 'credit', monthlyTotalValues, month);
                 }
             } else {
                 console.log(' > Error: Expected a CreditLine');
@@ -1791,9 +1791,6 @@ function calculateDependentTotalValues (anualTotalValues) {
 
     // Net Income
     anualTotalValues['26'] = anualTotalValues['24'] - anualTotalValues['25'];
-
-    // TODO: O que fazer com o 27 ???
-
 }
 
 function calculateDependentMonthlyValues (monthlyTotalValues) {
@@ -1813,8 +1810,6 @@ function calculateDependentMonthlyValues (monthlyTotalValues) {
         // Net Income
         monthlyTotalValues[month]['26'] = getPropVal(monthlyTotalValues[month],'24') - getPropVal(monthlyTotalValues[month],'25');
     }
-
-    // TODO: O que fazer com o 27 ???
 }
 
 function getPropVal(obj, prop) {
