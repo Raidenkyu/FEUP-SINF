@@ -1,4 +1,4 @@
-const saftFile = require('../files/json/saft-demo2');
+const saftFile = require(`../files/json/${(process.argv[2] || 'saft-demo2')}`);
 const saft = saftFile.jsonObj;
 
 const { FinancialObject, FinancialStockObject } = require('./financial.model.js');
@@ -1661,6 +1661,10 @@ function addValue(obj, path, value) {
             obj[path[0]][path[1]][path[2]][path[3]] += value;
             break;
 
+        case 5:
+            obj[path[0]][path[1]][path[2]][path[3]][path[4]] += value;
+            break;
+
         default:
             console.log('ERROR: Entered default in object addValue');
             break;
@@ -1862,6 +1866,12 @@ function displayAnualDR () {
 }
 
 
+
+
+
+//================================//
+//          MÉTODOS DE DB         //
+//================================//
 
 function clearDb () {
     // drop collections
