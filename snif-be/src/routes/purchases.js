@@ -86,7 +86,7 @@ router.get("/suppliers", (_req, res) => {
                 suppliers.push({
                     supplierId: supplier.sellerSupplierPartyTaxId,
                     quantity: accumulator.quantity,
-                    priceRatio: accumulator.totalPrice / accumulator.num
+                    priceRatio: (accumulator.totalPrice / accumulator.num).toFixed(2)
                 });
 
             });
