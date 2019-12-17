@@ -16,13 +16,13 @@ function startUp () {
     createMonthlyResults();
     getDRAccountIds();
     createDemonstResultados();
-    createOtherFinValues();
 
     // displayFullBalanceSheet();
     // displayMonthlyResults();
     // displayMonthlyDR();
     // displayAnualDR();
 
+    createOtherFinValues();
 }
 
 
@@ -1108,7 +1108,7 @@ function getDRAccountIds () {
             case 387:
             case 388:
                 addEntryToAccountIds(accountIds, '8', 'cond', currentId);
-                break;
+                break;                
             //=======================//
             case 415:
             case 416:
@@ -1474,27 +1474,29 @@ function createOtherFinValues () {
     // console.log(finObject);
     // console.log(finStockObject);
 
-    // TODO: uncomment this
     // db interaction
-    // mongoose.connect('mongodb://localhost:27017/snif',
-    // { 
-    //     useNewUrlParser: true,
-    //     useUnifiedTopology: true,
-    //     useCreateIndex: true
-    // });
-    // const connection = mongoose.connection;
-    // connection.once('open', () => {
-    //     console.log('MongoDB database connection established successfully');
-    //     clearDb();
-    //     FinancialObject.create({
-    //         document: finObject
-    //     });
-    //     FinancialStockObject.create({
-    //         document: finStockObject
-    //     })
-    //     console.log('Done');
-    // })
-    // TODO: close connection
+    mongoose.connect('mongodb://localhost:27017/snif',
+    { 
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useCreateIndex: true,
+    });
+    const connection = mongoose.connection;
+
+    connection.once('open', () => {
+        console.log('MongoDB database connection established successfully');
+        clearDb();
+        FinancialObject.create({
+            document: finObject
+        });
+        FinancialStockObject.create({
+            document: finStockObject
+        })
+        console.log('Processing done');
+    }).then( () => {
+        console.log('Closing connection')
+        connection.close();
+    })
 
 }
 
