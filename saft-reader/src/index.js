@@ -1546,9 +1546,9 @@ function makeReturnOnObj () {
         const currSales = getPropVal(monthlyDR[month], '1');
         const currEbit = getPropVal(monthlyDR[month], '21');
 
-        salesValues.push( ((currSales + auxLastMonthSales)/currEbit) * 100 );
-        assetsValues.push( ((totalDoAtivo)/currEbit) * 100 );
-        equityValues.push( (totalDoCP)/currEbit * 100 );
+        salesValues.push( ((currSales + auxLastMonthSales)/currEbit) );
+        assetsValues.push( ((totalDoAtivo)/currEbit) );
+        equityValues.push( (totalDoCP)/currEbit );
         
         auxLastMonthSales += currSales;
     });
