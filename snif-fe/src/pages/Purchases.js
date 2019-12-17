@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
-import Axios from "axios";
 
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
@@ -11,19 +10,6 @@ import ContentTable from "../components/common/utils/ContentTable";
 import Monthly from "../components/purchases/Monthly";
 
 const Purchases = ({ path }) => {
-    const monthlyPurchases = {
-        type: "line",
-        labels: ["December 2018", "January 2019", "February 2019", "March 2019", "April 2019",
-            "May 2019", "June 2019", "July 2019", "August 2019", "September 2019", "October 2019"],
-        datasets: {
-            "sales": {
-                backgroundColor: colors.lightGreen.background,
-                borderColor: colors.lightGreen.border,
-                values: [40000, 50000, 45000, 40000, 30000, 25000, 20000, 17000, 20000, 25000, 35000],
-            },
-        },
-    };
-
     const cumulativePurchases = {
         type: "line",
         labels: [2008, 2010, 2012, 2014, 2016, 2018],
