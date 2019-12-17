@@ -8,6 +8,10 @@ router.get("/monthly", (_req, res) => {
         (purchasesData) => {
             const purchasesByTimestamp = {};
 
+            const response = {
+                purchasesByTimestamp: {}
+            };
+
             purchasesData.forEach((purchase) => {
                 const timestamp = extractTimestamp(purchase.documentDate.split("T")[0]);
 
@@ -17,9 +21,11 @@ router.get("/monthly", (_req, res) => {
 
                 purchasesByTimestamp[timestamp] += purchase.payableAmount.amount;
             });
-            res.json({
-                purchasesByTimestamp: purchasesByTimestamp
-            });
+
+            Object.keys(purchasesByTimestamp).sort().forEach((key) => {
+                response.purchasesByTimestamp[key] = purchasesByTimestamp[key];
+              });
+            res.json(response);
         }
     ).catch(
         () => {
