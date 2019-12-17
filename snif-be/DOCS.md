@@ -271,6 +271,6 @@ Send `get` request to `api/stock/financial`
 }
 ```
 
-`turnover` is the value of Inventory Turnover
+`turnover` is the value of Inventory Turnover. Use 2 decimal places and it has no unit (it represents how many times we sell our entire inventory in the consired time period).
 
-`avgInvPeriod` is the value of Average Inventory Period
+`avgInvPeriod` is the value of Average Inventory Period. Use 2 decimal places and the unit is 'days'.
