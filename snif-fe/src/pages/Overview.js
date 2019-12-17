@@ -10,6 +10,8 @@ import Axios from "axios";
 const Overview = ({ path }) => {
     const [loading, setLoading] = useState(true);
     const [monthlySalesValues, setMonthlySalesValues] = useState([]);
+    const [monthlyExpensesValues, setMonthlyExpensesValues] = useState([]);
+    const [monthlyDiffValues, setMonthlyDiffValues] = useState([]);
     const [totalSales, setTotalSales] = useState(0);
     const [totalExpenses, setTotalExpenses] = useState(0);
 
@@ -20,8 +22,10 @@ const Overview = ({ path }) => {
             },
         }).then(({ data }) => {
             setMonthlySalesValues(data.document.monthlySales);
-            setTotalSales(data.document.totalSales.toFixed(2));
-            setTotalExpenses(data.document.totalExpenses.toFixed(2));
+            setMonthlyExpensesValues(data.document.monthlyExpenses);
+            setMonthlyDiffValues(data.document.monthlyDiff);
+            setTotalSales(data.document.totalSales);
+            setTotalExpenses(data.document.totalExpenses);
             setLoading(false);
         }).catch(() => {
             setLoading(false);
@@ -41,12 +45,12 @@ const Overview = ({ path }) => {
             "Expenses": {
                 backgroundColor: colors.red.background,
                 borderColor: colors.red.border,
-                values: [-100000, -90000, -105000, -5000, 0, 0, 0, 0, 0, 0, 0, 0],
+                values: monthlyExpensesValues,
             },
             "Sales - Expenses": {
                 backgroundColor: colors.grey.background,
                 borderColor: colors.grey.border,
-                values: [-30000, 170000, -40000, 15000, 0, 0, 0, 0, 0, 0, 0, 0],
+                values: monthlyDiffValues,
             },
         },
     };
