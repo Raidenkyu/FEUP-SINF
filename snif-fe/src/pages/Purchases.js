@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
+import Axios from "axios";
 
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 import { Graph, colors } from "../components/common/utils/Graph";
 import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
+import Monthly from "../components/purchases/Monthly";
 
 const Purchases = ({ path }) => {
     const monthlyPurchases = {
@@ -81,13 +83,7 @@ const Purchases = ({ path }) => {
     return (
         <Layout navbar sidebar path={path}>
             <Container>
-                <Row className="mb-5">
-                    <Col xs="12">
-                        <ContentCard header="Monthly Purchases">
-                            <Graph data={monthlyPurchases}/>
-                        </ContentCard>
-                    </Col>
-                </Row>
+                <Monthly />
                 <Row className="mb-5">
                     <Col xs="6">
                         <Row className="mb-5">
