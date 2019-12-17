@@ -330,3 +330,41 @@ Send `get` request to `api/financial/overview`
     },
 }
 ```
+
+### Get Sales values for Overview Page
+
+Send `get` request to `api/overview/sales`
+
+```json
+    "salesByTimestamp": {
+        "2019-11": {
+            "revenue": 381.29999999999995,
+            "income": 310
+        },
+        "2019-12": {
+            "revenue": 10673.339999999997,
+            "income": 8677.5
+        }
+    }
+```
+
+### Get Purchases values for Overview Page
+
+Send `get` request to `api/overview/purchases`
+
+```json
+    "purchasesByTimestamp": {
+        "2019-12": 1073.5
+    }
+```
+
+### Get Stocks values for Overview Page
+
+Send `get` request to `api/overview/stock`
+
+```json
+    "assetsInStock": {
+        "products": 13372,
+        "resources": 9027.5
+    }
+```
