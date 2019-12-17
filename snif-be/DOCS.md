@@ -235,27 +235,27 @@ Send `get` request to `api/financial`
 }
 ```
 
-`grossNetMargin.gross` is the array of monthly values (January to December) with values for Gross Margin
+`grossNetMargin.gross` is the array of monthly values (January to December) with values for Gross Margin. The unit is €.
 
-`grossNetMargin.net` is the array of monthly values (January to December) with values for Net Profit Margin
+`grossNetMargin.net` is the array of monthly values (January to December) with values for Net Profit Margin. The unit is €.
 
-`returnOn.sales` is the array of monthly values (January to December) with values for Return on Sales
+`returnOn.sales` is the array of monthly values (January to December) with values for Return on Sales. The unit is % (it's a percentage).
 
-`returnOn.assets` is the array of monthly values (January to December) with values for Return on Assets
+`returnOn.assets` is the array of monthly values (January to December) with values for Return on Assets. The unit is % (it's a percentage).
 
-`returnOn.equity` is the array of monthly values (January to December) with values for Return on Equity
+`returnOn.equity` is the array of monthly values (January to December) with values for Return on Equity. The unit is % (it's a percentage).
 
-`ebitda` is the value of EBITDA 
+`ebitda` is the value of EBITDA. Use 2 decimal places and the unit is €.
 
-`ebit` is the value of EBIT 
+`ebit` is the value of EBIT. Use 2 decimal places and the unit is €.
 
-`avgColPeriod` is the value of Average Collection Period
+`avgColPeriod` is the value of Average Collection Period. Use 2 decimal places and the unit is 'days'.
 
-`avgPayPeriod` is the value of Average Payment Period
+`avgPayPeriod` is the value of Average Payment Period. Use 2 decimal places and the unit is 'days'.
 
-`cashRatio` is the value of Cash Ratio
+`cashRatio` is the value of Cash Ratio. Use 2 decimal places and the it has no unit (it's a ratio).
 
-`acidRatio` is the value of Acid Ratio
+`acidRatio` is the value of Acid Ratio. Use 2 decimal places and the it has no unit (it's a ratio).
 
 
 ### Get Financial values for Stocks' Page

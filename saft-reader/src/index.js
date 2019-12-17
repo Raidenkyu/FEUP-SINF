@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 startUp();
 
 function startUp () {
-    
+
     console.log('Saft Version:', saft.AuditFile.Header.AuditFileVersion);
     console.log('Year:', saft.AuditFile.Header.FiscalYear);
     // global.fiscalYear = saft.AuditFile.Header.FiscalYear;
@@ -21,7 +21,7 @@ function startUp () {
     // displayFullBalanceSheet();
     // displayMonthlyResults();
     // displayMonthlyDR();
-    displayAnualDR();
+    // displayAnualDR();
 
 }
 
@@ -117,14 +117,14 @@ function createBalanceSheet () {
             return;
     
         if (accountGroupingCat !== 'GM') {
-            console.log("> Unexpected Grouping Category:", accountGroupingCat);
+            console.log('> Unexpected Grouping Category:', accountGroupingCat);
             return;
         }
 
         const accountDebit = parseFloat(account.ClosingDebitBalance - account.OpeningDebitBalance);
         const accountCredit = parseFloat(account.ClosingCreditBalance - account.OpeningCreditBalance);
         const accountBal = Math.abs(accountDebit - accountCredit);
-        const isContaDevedora = true; // (accountDebit > accountCredit); // TODO: Rever isto, quando substituo-o, os valores dão muito diferentes
+        const isSaldoDevedor = (accountDebit > accountCredit); // TODO: Rever isto, quando substituo-o, os valores dão muito diferentes
 
         if (accountBal === 0)
             return;
@@ -141,7 +141,7 @@ function createBalanceSheet () {
             case 125:
             case 127:
             case 139:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Créditos a receber'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Outras dívidas a pagar'], accountBal);
@@ -161,7 +161,7 @@ function createBalanceSheet () {
             case 20:
             case 21:
             case 22:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Clientes'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Adiantamentos de clientes'], accountBal);
@@ -176,7 +176,7 @@ function createBalanceSheet () {
             case 83:
             case 84:
             case 85:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Estado e outros entes públicos'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Estado e outros entes públicos'], accountBal);
@@ -185,7 +185,7 @@ function createBalanceSheet () {
             //=======================//
             case 2:
             case 3:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Caixa e depósitos bancários'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Financiamentos obtidos'], accountBal);
@@ -196,7 +196,7 @@ function createBalanceSheet () {
                 addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], -accountBal);
                 break;
             case 333:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], -accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], accountBal);
@@ -204,7 +204,7 @@ function createBalanceSheet () {
                 break;
             //=======================//
             case 338:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultados transitados'], -accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultados transitados'], accountBal);
@@ -212,7 +212,7 @@ function createBalanceSheet () {
                 break;
             //=======================//
             case 646:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultado líquido do período'], -accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultado líquido do período'], accountBal);
@@ -225,7 +225,7 @@ function createBalanceSheet () {
             case 347:
             case 348:
             case 352:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ajustamentos / outras variações no capital próprio'], -accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ajustamentos / outras variações no capital próprio'], accountBal);
@@ -246,7 +246,7 @@ function createBalanceSheet () {
             case 48:
             case 49:
             case 50:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Outros créditos a receber'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Fornecedores'], accountBal);
@@ -260,7 +260,7 @@ function createBalanceSheet () {
             case 124:
             case 126:
             case 138:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Outros créditos a receber'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Outras dívidas a pagar'], accountBal);
@@ -840,7 +840,7 @@ function createBalanceSheet () {
             //=======================//
 
             default:
-                // console.log("Unhandled Taxonomy Code:", accountTaxCode, "\tWith balance of:", accountBal); //"  -->  ", account.ClosingCreditBalance, account.OpeningCreditBalance, account.ClosingDebitBalance, account.OpeningDebitBalance);
+                // console.log('Unhandled Taxonomy Code:', accountTaxCode, '\tWith balance of:', accountBal); //'  -->  ', account.ClosingCreditBalance, account.OpeningCreditBalance, account.ClosingDebitBalance, account.OpeningDebitBalance);
                 break;
         }
 
@@ -915,7 +915,7 @@ function createMonthlyResults () {
 
         journalEntry.Transaction.forEach((transaction) => {
             // TODO: verify if this is ok
-            if (transaction.TransactionType === "A") {
+            if (transaction.TransactionType === 'A') {
                 return;
             }
             
@@ -926,15 +926,15 @@ function createMonthlyResults () {
                 // se for array
                 if (transaction.Lines.DebitLine.length !== undefined) {
                     transaction.Lines.DebitLine.forEach((line) => {
-                        addTransactionLine(monthlyResults, month, parseInt(line.DebitAmount), 'debit');
+                        addTransactionLine(monthlyResults, month, parseFloat(line.DebitAmount), 'debit');
                     });
                 }
                 // se for único
                 else {
-                    addTransactionLine(monthlyResults, month, parseInt(transaction.Lines.DebitLine.DebitAmount), 'debit');
+                    addTransactionLine(monthlyResults, month, parseFloat(transaction.Lines.DebitLine.DebitAmount), 'debit');
                 }
             } else {
-                console.log(" > Error: Expected a DebitLine");
+                console.log(' > Error: Expected a DebitLine');
             }
 
             // se existir
@@ -942,15 +942,15 @@ function createMonthlyResults () {
                 // se for array
                 if (transaction.Lines.CreditLine.length !== undefined) {
                     transaction.Lines.CreditLine.forEach((line) => {
-                        addTransactionLine(monthlyResults, month, parseInt(line.CreditAmount), 'credit');
+                        addTransactionLine(monthlyResults, month, parseFloat(line.CreditAmount), 'credit');
                     });
                 }
                 // se for único
                 else {
-                    addTransactionLine(monthlyResults, month, parseInt(transaction.Lines.CreditLine.CreditAmount), 'credit');
+                    addTransactionLine(monthlyResults, month, parseFloat(transaction.Lines.CreditLine.CreditAmount), 'credit');
                 }
             } else {
-                console.log(" > Error: Expected a CreditLine");
+                console.log(' > Error: Expected a CreditLine');
             }
 
         });
@@ -998,7 +998,7 @@ function getDRAccountIds () {
             return;
     
         if (accountGroupingCat !== 'GM') {
-            console.log("> Unexpected Grouping Category:", accountGroupingCat);
+            console.log('> Unexpected Grouping Category:', accountGroupingCat);
             return;
         }
 
@@ -1381,7 +1381,7 @@ function getDRAccountIds () {
                 break; 
             case 645:
                 addEntryToAccountIds(accountIds, '25', 'cond', currentId);
-                break;s
+                break;
             default:
                 break;
         }
@@ -1405,7 +1405,7 @@ function createDemonstResultados () {
         
         journalEntry.Transaction.forEach((transaction) => {
             // TODO: verify if this is correct
-            if (transaction.TransactionType === "A") {
+            if (transaction.TransactionType === 'A') {
                 return;
             }
             
@@ -1416,15 +1416,15 @@ function createDemonstResultados () {
                 // se for array
                 if (transaction.Lines.DebitLine.length !== undefined) {
                     transaction.Lines.DebitLine.forEach((line) => {
-                        addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseInt(line.DebitAmount), 'debit', monthlyTotalValues, month);
+                        addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseFloat(line.DebitAmount), 'debit', monthlyTotalValues, month);
                     });
                 }
                 // se for único
                 else {
-                    addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.DebitLine.AccountID), parseInt(transaction.Lines.DebitLine.DebitAmount), 'debit', monthlyTotalValues, month);
+                    addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.DebitLine.AccountID), parseFloat(transaction.Lines.DebitLine.DebitAmount), 'debit', monthlyTotalValues, month);
                 }
             } else {
-                console.log(" > Error: Expected a DebitLine");
+                console.log(' > Error: Expected a DebitLine');
             }
 
             // se existir
@@ -1432,15 +1432,15 @@ function createDemonstResultados () {
                 // se for array
                 if (transaction.Lines.CreditLine.length !== undefined) {
                     transaction.Lines.CreditLine.forEach((line) => {
-                        addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseInt(line.CreditAmount), 'credit', monthlyTotalValues, month);
+                        addValueToTotalDR(anualTotalValues, parseInt(line.AccountID), parseFloat(line.CreditAmount), 'credit', monthlyTotalValues, month);
                     });
                 }
                 // se for único
                 else {
-                    addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.CreditLine.AccountID), parseInt(transaction.Lines.CreditLine.CreditAmount), 'credit', monthlyTotalValues, month);
+                    addValueToTotalDR(anualTotalValues, parseInt(transaction.Lines.CreditLine.AccountID), parseFloat(transaction.Lines.CreditLine.CreditAmount), 'credit', monthlyTotalValues, month);
                 }
             } else {
-                console.log(" > Error: Expected a CreditLine");
+                console.log(' > Error: Expected a CreditLine');
             }
         });
     });
@@ -1484,7 +1484,7 @@ function createOtherFinValues () {
     // });
     // const connection = mongoose.connection;
     // connection.once('open', () => {
-    //     console.log("MongoDB database connection established successfully");
+    //     console.log('MongoDB database connection established successfully');
     //     clearDb();
     //     FinancialObject.create({
     //         document: finObject
@@ -1492,7 +1492,7 @@ function createOtherFinValues () {
     //     FinancialStockObject.create({
     //         document: finStockObject
     //     })
-    //     console.log("Done");
+    //     console.log('Done');
     // })
     // TODO: close connection
 
@@ -1546,9 +1546,9 @@ function makeReturnOnObj () {
         const currSales = getPropVal(monthlyDR[month], '1');
         const currEbit = getPropVal(monthlyDR[month], '21');
 
-        salesValues.push( ((currSales + auxLastMonthSales)/currEbit) * 100 );
-        assetsValues.push( ((totalDoAtivo)/currEbit) * 100 );
-        equityValues.push( (totalDoCP)/currEbit * 100 );
+        salesValues.push( ((currSales + auxLastMonthSales)/currEbit) );
+        assetsValues.push( ((totalDoAtivo)/currEbit) );
+        equityValues.push( (totalDoCP)/currEbit );
         
         auxLastMonthSales += currSales;
     });
@@ -1573,22 +1573,17 @@ function getEbit () {
 }
 
 function getAvgColPeriod () {
-    // TODO: replace
     // Receivables => Clientes
-    // (Account Receivables / Sales) * 365 => ['Créditos a receber' + 'Outros créditos a receber'] / [21]
-    const accountsReceivables = getPropVal(global.balanceSheet['Ativo']['Ativo não corrente'], 'Créditos a receber')
-                            + getPropVal(global.balanceSheet['Ativo']['Ativo corrente'], 'Outros créditos a receber');
+    // (Account Receivables / Sales) * 365 => ['Clientes'] / [1]
+    const accountsReceivables = getPropVal(global.balanceSheet['Ativo']['Ativo corrente'], 'Clientes');
 
     return (accountsReceivables / global.anualResultsReport['1']) * 365;
 }
 
 function getAvgPayPeriod () {
-    // TODO: replace
     // Payables => Fornecedores
-    // (Account Payables / Sales) * 365 => ['Outras dívidas a pagar' + 'Outras dívidas a pagar'] / [21]
-    // TODO: Ver o que é o Accounts Payables    
-    const accountsPayables = getPropVal(global.balanceSheet['Capital Próprio e Passivo']['Passivo']['Passivo Não Corrente'], 'Outras dívidas a pagar')
-                            + getPropVal(global.balanceSheet['Capital Próprio e Passivo']['Passivo']['Passivo Corrente'], 'Outras dívidas a pagar');
+    // (Account Payables / Sales) * 365 => ['Fornecedores'] / [1]  
+    const accountsPayables = getPropVal(global.balanceSheet['Capital Próprio e Passivo']['Passivo']['Passivo Corrente'], 'Fornecedores');
 
     return (accountsPayables / global.anualResultsReport['1']) * 365;
 }
@@ -1608,7 +1603,6 @@ function getAcidRatio () {
 
 function getTurnOver () {
     // Cost of Goods Sold / Inventories
-    
     const costOfGoodsSold = getPropVal(global.anualResultsReport ,'6');
     const inventories = getPropVal(global.balanceSheet['Ativo']['Ativo corrente'], 'Inventários');
 
@@ -1617,7 +1611,6 @@ function getTurnOver () {
 
 function getAvgInvPeriod () {
     // (Inventories / Cost of Goods Sold) * 365
-
     const costOfGoodsSold = getPropVal(global.anualResultsReport ,'6');
     const inventories = getPropVal(global.balanceSheet['Ativo']['Ativo corrente'], 'Inventários');
 
@@ -1669,7 +1662,7 @@ function addValue(obj, path, value) {
             break;
 
         default:
-            console.log("ERROR: Entered default in object addValue");
+            console.log('ERROR: Entered default in object addValue');
             break;
     }
 
@@ -1691,15 +1684,15 @@ function getMonth (date) {
 
 function addTransactionLine (monthlyResults, month, value, type) {
     if (monthlyResults[month] === undefined) {
-        console.log(" > Error: Unexpected Month:", month);
+        console.log(' > Error: Unexpected Month:', month);
         return;
     }
     if (value === undefined) {
-        console.log(" > Error: Unexpected Undefined Value");
+        console.log(' > Error: Unexpected Undefined Value');
         return;
     }
-    if (type !== "debit" && type !== "credit") {
-        console.log(" > Error: Unexpected Type");
+    if (type !== 'debit' && type !== 'credit') {
+        console.log(' > Error: Unexpected Type');
         return;
     }
 
@@ -1709,12 +1702,12 @@ function addTransactionLine (monthlyResults, month, value, type) {
 function addEntryToAccountIds (accountIds, category, method, currentId) {
 
     if (accountIds[category] === undefined || accountIds[category][method] === undefined) {
-        console.log(" > Error: Unexpected Undefined Value in addEntryToAccountIds");
+        console.log(' > Error: Unexpected Undefined Value in addEntryToAccountIds');
         return;
     }
 
     accountIds[category][method].push(currentId);
-    accountIds["all"].push(currentId);
+    accountIds['all'].push(currentId);
 }
 
 function addValueToTotalDR (anualTotalValues, accountID, value, type, monthlyTotalValues, month) {
@@ -1723,7 +1716,7 @@ function addValueToTotalDR (anualTotalValues, accountID, value, type, monthlyTot
 
     // check only available types
     if (type !== 'debit' && type !== 'credit') {
-        console.log(" > Error: Unexpected Type");
+        console.log(' > Error: Unexpected Type');
         return;
     }
 
@@ -1760,7 +1753,7 @@ function addValueToTotalDR (anualTotalValues, accountID, value, type, monthlyTot
                 monthlyTotalValues[month][index] = 0;
             
             // TODO: Confirm if this is correct (this might not be the way to tell if an account is Credora ou Devedora)
-            // Solution will probably involve creating an array of "devedoras" and "credoras" early on, and checking in which the accountId is in
+            // Solution will probably involve creating an array of 'devedoras' and 'credoras' early on, and checking in which the accountId is in
             if (type === 'credit') {
                 anualTotalValues[index] += value;
                 monthlyTotalValues[month][index] += value;
@@ -1791,9 +1784,6 @@ function calculateDependentTotalValues (anualTotalValues) {
 
     // Net Income
     anualTotalValues['26'] = anualTotalValues['24'] - anualTotalValues['25'];
-
-    // TODO: O que fazer com o 27 ???
-
 }
 
 function calculateDependentMonthlyValues (monthlyTotalValues) {
@@ -1813,8 +1803,6 @@ function calculateDependentMonthlyValues (monthlyTotalValues) {
         // Net Income
         monthlyTotalValues[month]['26'] = getPropVal(monthlyTotalValues[month],'24') - getPropVal(monthlyTotalValues[month],'25');
     }
-
-    // TODO: O que fazer com o 27 ???
 }
 
 function getPropVal(obj, prop) {
@@ -1839,38 +1827,38 @@ function displayFullBalanceSheet () {
     // console.log(balanceSheet['Capital Próprio e Passivo']['Passivo']);
 
     // ATIVO
-    console.log("Total do Ativo Corrente:", balanceSheet['Ativo']['Total do Ativo corrente']);
-    console.log("Total do Ativo Não Corrente:", balanceSheet['Ativo']['Total do Ativo não corrente']);
-    console.log("Total do Ativo:", balanceSheet['Ativo']['Total do Ativo']);
+    console.log('Total do Ativo Corrente:', balanceSheet['Ativo']['Total do Ativo corrente']);
+    console.log('Total do Ativo Não Corrente:', balanceSheet['Ativo']['Total do Ativo não corrente']);
+    console.log('Total do Ativo:', balanceSheet['Ativo']['Total do Ativo']);
 
     // CAPITAL PRÓPRIO
-    console.log("Total do Capital Próprio:", balanceSheet['Capital Próprio e Passivo']['Capital Próprio']['Total do Capital Próprio']);
+    console.log('Total do Capital Próprio:', balanceSheet['Capital Próprio e Passivo']['Capital Próprio']['Total do Capital Próprio']);
 
     // PASSIVO
-    console.log("Total do Passivo Corrente:", balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo corrente']);
-    console.log("Total do Passivo Não Corrente:", balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo não corrente']);
-    console.log("Total do Passivo:", balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo']);
+    console.log('Total do Passivo Corrente:', balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo corrente']);
+    console.log('Total do Passivo Não Corrente:', balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo não corrente']);
+    console.log('Total do Passivo:', balanceSheet['Capital Próprio e Passivo']['Passivo']['Total do Passivo']);
 
     // CP + PASSIVO
-    console.log("Total do CP + Passivo:", balanceSheet['Capital Próprio e Passivo']['Total do Capital Próprio e do Passivo']);
+    console.log('Total do CP + Passivo:', balanceSheet['Capital Próprio e Passivo']['Total do Capital Próprio e do Passivo']);
 }
 
 function displayMonthlyResults () {
-    console.log("//============================//");
-    console.log("Monthly Credit/Debit Results", global.monthlyResults);
-    console.log("//============================//");
+    console.log('//============================//');
+    console.log('Monthly Credit/Debit Results', global.monthlyResults);
+    console.log('//============================//');
 }
 
 function displayMonthlyDR () {
-    console.log("//============================//");
-    console.log("Monthly Total Values:\n", global.monthlyResultsReport);
-    console.log("//============================//");
+    console.log('//============================//');
+    console.log('Monthly Total Values:\n', global.monthlyResultsReport);
+    console.log('//============================//');
 }
 
 function displayAnualDR () {
-    console.log("//============================//");
-    console.log("Anual Total Values:\n", global.anualResultsReport);
-    console.log("//============================//");
+    console.log('//============================//');
+    console.log('Anual Total Values:\n', global.anualResultsReport);
+    console.log('//============================//');
 }
 
 
