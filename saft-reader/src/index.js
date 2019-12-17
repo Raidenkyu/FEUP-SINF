@@ -1473,6 +1473,8 @@ function createOtherFinValues () {
 
     const finOverviewObject = {
         'monthlySales': getMonthlySalesObj(),
+        'monthlyExpenses': getMonthlyExpensesObj(),
+        'monthlyDiff': getMonthlyDiffObj(),
         'totalSales': getTotalSales(),
         'totalExpenses': getTotalExpenses(),
     }
@@ -1642,12 +1644,39 @@ function getMonthlySalesObj () {
     return salesValues;
 }
 
+function getMonthlyExpensesObj () {
+    const monthlyDR = global.monthlyResultsReport;
+    const expensesValues = [];
+
+    ['01','02','03','04','05','06','07','08','09','10','11','12'].forEach((month) => {
+        const auxCurrMonthSales = getPropVal(monthlyDR[month], '6');
+        
+        expensesValues.push(-auxCurrMonthSales);
+    });
+
+    return expensesValues;
+}
+
+function getMonthlyDiffObj () {
+    const monthlyDR = global.monthlyResultsReport;
+    const diffValues = [];
+
+    ['01','02','03','04','05','06','07','08','09','10','11','12'].forEach((month) => {
+        const auxCurrMonthDiff = getPropVal(monthlyDR[month], '1') - getPropVal(monthlyDR[month], '6');
+        
+        diffValues.push(auxCurrMonthDiff);
+    });
+
+    return diffValues;
+}
+
+
 function getTotalSales () {
-    return getPropVal(global.anualResultsReport, '1');
+    return new Intl.NumberFormat('de-DE').format(getPropVal(global.anualResultsReport, '1'));
 }
 
 function getTotalExpenses () {
-    return getPropVal(global.anualResultsReport, '6');
+    return new Intl.NumberFormat('de-DE').format(getPropVal(global.anualResultsReport, '6'));
 }
 
 
