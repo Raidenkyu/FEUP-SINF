@@ -1,41 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
-import Axios from "axios";
 
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
-import { Graph, colors } from "../components/common/utils/Graph";
-import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
 import Monthly from "../components/purchases/Monthly";
 import CumulativeMonthly from "../components/purchases/CumulativeMonthly";
+import Debt from "../components/purchases/Debt";
 
 const Purchases = ({ path }) => {
-    const monthlyPurchases = {
-        type: "line",
-        labels: ["December 2018", "January 2019", "February 2019", "March 2019", "April 2019",
-            "May 2019", "June 2019", "July 2019", "August 2019", "September 2019", "October 2019"],
-        datasets: {
-            "sales": {
-                backgroundColor: colors.lightGreen.background,
-                borderColor: colors.lightGreen.border,
-                values: [40000, 50000, 45000, 40000, 30000, 25000, 20000, 17000, 20000, 25000, 35000],
-            },
-        },
-    };
-
-    const cumulativePurchases = {
-        type: "line",
-        labels: [2008, 2010, 2012, 2014, 2016, 2018],
-        datasets: {
-            "sales": {
-                backgroundColor: colors.lightGreen.background,
-                borderColor: colors.lightGreen.border,
-                values: [0, 100000, 1000000, 2000000, 2500000, 4200000],
-            },
-        },
-    };
 
     const topSuppliersHeaders = [
         { index: "name", value: "Name" },
@@ -87,13 +61,7 @@ const Purchases = ({ path }) => {
                 <Monthly />
                 <Row className="mb-5">
                     <Col xs="6">
-                        <Row className="mb-5">
-                            <Col xs="12">
-                                <ContentCard header="Purchase Debt">
-                                    <Indicator value={"50.000 €"} />
-                                </ContentCard>
-                            </Col>
-                        </Row>
+                        <Debt />
                         <CumulativeMonthly />
                     </Col>
                     <Col xs="6">
