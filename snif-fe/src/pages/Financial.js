@@ -33,8 +33,8 @@ const Financial = ({ path }) => {
             setEquityReturnValues(data.document.returnOn.equity);
             setAssetsReturnValues(data.document.returnOn.assets);
             setSalesReturnValues(data.document.returnOn.sales);
-            setEbitda(data.document.ebitda);
-            setEbit(data.document.ebit);
+            setEbitda(new Intl.NumberFormat('de-DE').format(data.document.ebitda));
+            setEbit(new Intl.NumberFormat('de-DE').format(data.document.ebit));
             setAvgColPeriod(data.document.avgColPeriod.toFixed(2));
             setAvgPayPeriod(data.document.avgPayPeriod.toFixed(2));
             setCashRatio(data.document.cashRatio.toFixed(2));
@@ -91,12 +91,12 @@ const Financial = ({ path }) => {
             <Container>
                 <Row className="mb-5">
                     <Col xs="6">
-                        <ContentCard loading={loading} header="Gross and Net profit margin">
+                        <ContentCard loading={loading} header="Gross and Net profit margin (€)">
                             <Graph data={grossNetProfit} />
                         </ContentCard>
                     </Col>
                     <Col xs="6">
-                        <ContentCard loading={loading} header="Return on sales, assets and equity">
+                        <ContentCard loading={loading} header="Return on sales, assets and equity (%)">
                             <Graph data={returnSales} />
                         </ContentCard>
                     </Col>
@@ -104,22 +104,22 @@ const Financial = ({ path }) => {
 
                 <Row className="mb-5">
                     <Col lg="3" xs="12">
-                        <ContentCard loading={loading} header="EBITDA">
+                        <ContentCard loading={loading} header="EBITDA (€)">
                             <Indicator value={ebitda} />
                         </ContentCard>
                     </Col>
                     <Col lg="3" xs="12">
-                        <ContentCard loading={loading} header="EBIT">
+                        <ContentCard loading={loading} header="EBIT (€)">
                             <Indicator value={ebit} />
                         </ContentCard>
                     </Col>
                     <Col lg="3" xs="12">
-                        <ContentCard loading={loading} header="Average collection period">
+                        <ContentCard loading={loading} header="Average collection period (days)">
                             <Indicator value={avgColPeriod} />
                         </ContentCard>
                     </Col>
                     <Col lg="3" xs="12">
-                        <ContentCard loading={loading} header="Average payment period">
+                        <ContentCard loading={loading} header="Average payment period (days)">
                             <Indicator value={avgPayPeriod} />
                         </ContentCard>
                     </Col>

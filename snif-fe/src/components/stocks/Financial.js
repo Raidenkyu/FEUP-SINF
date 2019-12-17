@@ -27,12 +27,12 @@ const Financial = () => {
     return (
         <Row className="mb-5">
             <Col xs="6">
-                <ContentCard loading={loading} header="Turnover">
+                <ContentCard loading={loading} header="Inventory Turnover">
                     <Indicator value={turnover} />
                 </ContentCard>
             </Col>
             <Col xs="6">
-                <ContentCard loading={loading} header="Average Inventory Period">
+                <ContentCard loading={loading} header="Average Inventory Period (days)">
                     <Indicator value={avgInvPeriod} />
                 </ContentCard>
             </Col>
