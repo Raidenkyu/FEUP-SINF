@@ -20,6 +20,31 @@ const getCustomerOrdersInfo = (customerTaxId, orders) => {
     return info;
 }
 
+const getCustomerOrders = (customerTaxId, orders) => {
+
+    const filteredOrders = [];
+
+    orders.forEach((document) => {
+
+        if (customerTaxId == document.buyerCustomerPartyTaxId) {
+
+            document.documentLines.forEach((product) => {
+                filteredOrders.push({
+                    orderId: product.orderId,
+                    product: product.description,
+                    state: (product.isDeleted ? "Cancelled" : (product.documentLineStatus == 1 ? "Pending" : "Processed")),
+                    quantity: product.quantity,
+                    value: product.lineExtensionAmount.amount,
+                    date: product.deliveryDate.split("T")[0]
+                });
+            });
+        }
+    });
+
+    return filteredOrders;
+}
+
 module.exports = {
-    getCustomerOrdersInfo
+    getCustomerOrdersInfo,
+    getCustomerOrders
 };
