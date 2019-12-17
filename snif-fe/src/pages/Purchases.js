@@ -4,24 +4,12 @@ import PropTypes from "prop-types";
 
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
-import { Graph, colors } from "../components/common/utils/Graph";
-import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
 import Monthly from "../components/purchases/Monthly";
+import CumulativeMonthly from "../components/purchases/CumulativeMonthly";
+import Debt from "../components/purchases/Debt";
 
 const Purchases = ({ path }) => {
-    const cumulativePurchases = {
-        type: "line",
-        labels: [2008, 2010, 2012, 2014, 2016, 2018],
-        datasets: {
-            "sales": {
-                backgroundColor: colors.lightGreen.background,
-                borderColor: colors.lightGreen.border,
-                values: [0, 100000, 1000000, 2000000, 2500000, 4200000],
-            },
-        },
-    };
-
     const topSuppliersHeaders = [
         { index: "name", value: "Name" },
         { index: "quantity", value: "Quantity (kg)" },
@@ -72,20 +60,8 @@ const Purchases = ({ path }) => {
                 <Monthly />
                 <Row className="mb-5">
                     <Col xs="6">
-                        <Row className="mb-5">
-                            <Col xs="12">
-                                <ContentCard header="Purchase Debt">
-                                    <Indicator value={"50.000 €"} />
-                                </ContentCard>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col xs="12">
-                                <ContentCard header="Cumulative Purchases">
-                                    <Graph data={cumulativePurchases}/>
-                                </ContentCard>
-                            </Col>
-                        </Row>
+                        <Debt />
+                        <CumulativeMonthly />
                     </Col>
                     <Col xs="6">
                         <ContentCard header="Top Suppliers">
