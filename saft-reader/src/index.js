@@ -14,7 +14,8 @@ function startUp () {
 
     createBalanceSheet();
     createMonthlyResults();
-    getDRAccountIds();
+    getDRAccountIds();  // gets the accounts in the Demonstração de Resultados
+    // getBSAccountIds();  // gets the accounts in the BalanceSheet
     createDemonstResultados();
     createOtherFinValues();
 
