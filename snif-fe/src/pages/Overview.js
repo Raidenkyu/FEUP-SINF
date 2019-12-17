@@ -7,6 +7,7 @@ import ContentCard from "../components/common/utils/ContentCard";
 import { Graph, colors } from "../components/common/utils/Graph";
 import SalesCard from "../components/overview/SalesCard";
 import PurchasesCard from "../components/overview/PurchasesCard";
+import StocksCard from "../components/overview/StocksCard";
 import Axios from "axios";
 
 const Overview = ({ path }) => {
@@ -77,9 +78,7 @@ const Overview = ({ path }) => {
                 </Row>
                 <Row className="mb-5">
                     <Col xs="6">
-                        <ContentCard loading={loading} header="Stocks">
-                            Value of inventory: 500.000 €
-                        </ContentCard>
+                        <StocksCard />
                     </Col>
                     <Col xs="6">
                         <ContentCard loading={loading} header="Financial">
