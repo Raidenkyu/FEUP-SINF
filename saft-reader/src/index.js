@@ -19,8 +19,8 @@ function startUp () {
 
     // displayFullBalanceSheet();
     // displayMonthlyResults();
-    // displayMonthlyDR();
-    // displayAnualDR();
+    displayMonthlyDR();
+    displayAnualDR();
 
     createOtherFinValues();
 }
@@ -1472,9 +1472,9 @@ function createOtherFinValues () {
     }
 
     const finOverviewObject = {
-        'revenueExpenses': [],
-        'totalRevenue': 0,
-        'totalExpenses': 0,
+        'monthlySales': getMonthlySalesObj(),
+        'totalSales': getTotalSales(),
+        'totalExpenses': getTotalExpenses(),
     }
 
     // console.log(finObject);
@@ -1629,6 +1629,26 @@ function getAvgInvPeriod () {
     return (inventories / costOfGoodsSold) * 365;
 }
 
+function getMonthlySalesObj () {
+    const monthlyDR = global.monthlyResultsReport;
+    const salesValues = [];
+
+    ['01','02','03','04','05','06','07','08','09','10','11','12'].forEach((month) => {
+        const auxCurrMonthSales = getPropVal(monthlyDR[month], '1');
+        
+        salesValues.push(auxCurrMonthSales);
+    });
+
+    return salesValues;
+}
+
+function getTotalSales () {
+    return getPropVal(global.anualResultsReport, '1');
+}
+
+function getTotalExpenses () {
+    return getPropVal(global.anualResultsReport, '6');
+}
 
 
 
@@ -1889,5 +1909,6 @@ function clearDb () {
     // drop collections
     FinancialObject.collection.drop().catch(() => {});
     FinancialStockObject.collection.drop().catch(() => {});
+    FinancialOverviewObject.collection.drop().catch(() => {});
 }
 
