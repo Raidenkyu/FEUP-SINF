@@ -274,3 +274,29 @@ Send `get` request to `api/stock/financial`
 `turnover` is the value of Inventory Turnover. Use 2 decimal places and it has no unit (it represents how many times we sell our entire inventory in the consired time period).
 
 `avgInvPeriod` is the value of Average Inventory Period. Use 2 decimal places and the unit is 'days'.
+
+
+### Get Financial values for Overview Page
+
+Send `get` request to `api/stock/financial/overview`
+
+```json
+    "document": {
+        "monthlySales": [
+            682074.9199999997,
+            852439.49,
+            930639.5899999999,
+            756504.8700000006,
+            996844.7800000011,
+            785450.2500000003,
+            1098385.4899999995,
+            627898.6299999998,
+            962016.6200000003,
+            1053048.03,
+            1237902.9499999997,
+            939121.2199999986
+        ],
+        "totalSales": 10922326.840000078,
+        "totalExpenses": 8803419.75
+    },
+```
