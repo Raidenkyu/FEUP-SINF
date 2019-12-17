@@ -10,7 +10,6 @@ import CumulativeMonthly from "../components/purchases/CumulativeMonthly";
 import Debt from "../components/purchases/Debt";
 
 const Purchases = ({ path }) => {
-
     const topSuppliersHeaders = [
         { index: "name", value: "Name" },
         { index: "quantity", value: "Quantity (kg)" },
