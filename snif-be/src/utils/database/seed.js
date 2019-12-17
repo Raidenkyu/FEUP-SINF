@@ -34,6 +34,24 @@ const seedDb = () => {
             password: "123456",
             role: "admin"
         },
+        {
+            email: "admin@mail.com",
+            username: "Admin Admin",
+            password: "123456",
+            role: "admin"
+        },
+        {
+            email: "sales_person@mail.com",
+            username: "Sales Person",
+            password: "123456",
+            role: "sales_person"
+        },
+        {
+            email: "accountant@mail.com",
+            username: "Accountant Accountant",
+            password: "123456",
+            role: "accountant"
+        }
     ]);    
 };
 

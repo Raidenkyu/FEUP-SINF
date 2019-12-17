@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { requestPrimavera, requestOrders } = require("../utils/api/jasmin");
-const { getCustomerOrdersInfo } = require("../utils/customers");
+const { getCustomerOrdersInfo, getCustomerOrders } = require("../utils/customers");
 
 router.get("/", (req, res) => {
     requestPrimavera("/salesCore/customerParties/")
@@ -24,6 +24,7 @@ router.get("/", (req, res) => {
                     const info = getCustomerOrdersInfo(customer.companyTaxID, orders);
 
                     customers.push({
+                        customerKey: customer.partyKey,
                         name: customer.name,
                         lastDate: info.lastDate,
                         totalOrders: info.totalOrders,
@@ -55,6 +56,27 @@ router.get("/", (req, res) => {
                 });
             }
         );
+});
+
+router.get("/:customerKey", (req, res) => {
+    const key = req.params.customerKey;
+
+    requestPrimavera(`/salesCore/customerParties/${key}`).then(async (customer) => {
+
+        const orders = await requestOrders();
+
+        const filteredOrders = getCustomerOrders(customer.companyTaxID, orders);
+
+        res.json({
+            customerKey: customer.partyKey,
+            name: customer.name,
+            taxId: customer.companyTaxID,
+            email: customer.electronicMail,
+            telefone: customer.telephone,
+            country: customer.countryDescription,
+            orders: filteredOrders
+        });
+    });
 });
 
 module.exports = router;
