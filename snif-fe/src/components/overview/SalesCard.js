@@ -13,8 +13,6 @@ const SalesCard = () => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            console.log(data);
-            
             setRevenueLast(data.salesByTimestamp[Object.keys(data.salesByTimestamp)[0]].revenue.toFixed(2));
             setRevenue(data.salesByTimestamp[Object.keys(data.salesByTimestamp)[1]].revenue.toFixed(2));
             setLoading(false);

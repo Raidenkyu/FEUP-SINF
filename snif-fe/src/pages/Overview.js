@@ -6,6 +6,7 @@ import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 import { Graph, colors } from "../components/common/utils/Graph";
 import SalesCard from "../components/overview/SalesCard";
+import PurchasesCard from "../components/overview/PurchasesCard";
 import Axios from "axios";
 
 const Overview = ({ path }) => {
@@ -71,16 +72,7 @@ const Overview = ({ path }) => {
                         <SalesCard />
                     </Col>
                     <Col xs="6">
-                        <ContentCard loading={loading} header="Purchases">
-                            <div>
-                                <div>
-                                    Last month&apos;s purchase value: 50.000€
-                                </div>
-                                <div>
-                                    Last year&apos;s purchase value: 50.000€
-                                </div>
-                            </div>
-                        </ContentCard>
+                        <PurchasesCard />
                     </Col>
                 </Row>
                 <Row className="mb-5">
