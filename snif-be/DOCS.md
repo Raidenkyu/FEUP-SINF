@@ -281,6 +281,7 @@ Send `get` request to `api/stock/financial`
 Send `get` request to `api/financial/overview`
 
 ```json
+{
     "document": {
         "monthlySales": [
             682074.9199999997,
@@ -327,6 +328,7 @@ Send `get` request to `api/financial/overview`
         "totalSales": "10,922,326.84",
         "totalExpenses": "8,803,419.75"
     },
+}
 ```
 
 ### Get Sales values for Overview Page
