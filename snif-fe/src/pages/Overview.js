@@ -17,17 +17,15 @@ const Overview = ({ path }) => {
         Axios.get("http://localhost:9000/api/financial/overview", {
             headers: {
                 auth_token: localStorage.getItem("auth_token"),
-            }
+            },
         }).then(({ data }) => {
-            console.log(data.document.monthlySales);
-            
             setMonthlySalesValues(data.document.monthlySales);
             setTotalSales(data.document.totalSales.toFixed(2));
             setTotalExpenses(data.document.totalExpenses.toFixed(2));
             setLoading(false);
         }).catch(() => {
             setLoading(false);
-        })
+        });
     }, []);
 
     const balanceData = {
