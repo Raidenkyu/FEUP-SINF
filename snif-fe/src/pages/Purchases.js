@@ -8,25 +8,9 @@ import ContentTable from "../components/common/utils/ContentTable";
 import Monthly from "../components/purchases/Monthly";
 import CumulativeMonthly from "../components/purchases/CumulativeMonthly";
 import Debt from "../components/purchases/Debt";
+import TopSuppliers from "../components/purchases/TopSuppliers";
 
 const Purchases = ({ path }) => {
-
-    const topSuppliersHeaders = [
-        { index: "name", value: "Name" },
-        { index: "quantity", value: "Quantity (kg)" },
-        { index: "priceRatio", value: "Price ratio (€/kg)" },
-    ];
-
-    const topSuppliersRows = [
-        { name: "Paper", quantity: "50.000", priceRatio: "1" },
-        { name: "Paper", quantity: "50.000", priceRatio: "1" },
-        { name: "Paper", quantity: "50.000", priceRatio: "1" },
-        { name: "Paper", quantity: "50.000", priceRatio: "1" },
-        { name: "Paper", quantity: "50.000", priceRatio: "1" },
-        { name: "Paper", quantity: "50.000", priceRatio: "1" },
-        { name: "Paper", quantity: "50.000", priceRatio: "1" },
-        { name: "Paper", quantity: "50.000", priceRatio: "1" },
-    ];
 
     const purchasesHeaders = [
         { index: "purchaseId", value: "Purchase id" },
@@ -65,9 +49,7 @@ const Purchases = ({ path }) => {
                         <CumulativeMonthly />
                     </Col>
                     <Col xs="6">
-                        <ContentCard header="Top Suppliers">
-                            <ContentTable headers={topSuppliersHeaders} rows={topSuppliersRows} />
-                        </ContentCard>
+                        <TopSuppliers />
                     </Col>
                 </Row>
                 <Row>
