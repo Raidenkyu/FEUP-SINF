@@ -1,7 +1,7 @@
 const saftFile = require(`../files/json/${(process.argv[2] || 'saft-demo2')}`);
 const saft = saftFile.jsonObj;
 
-const { FinancialObject, FinancialStockObject } = require('./financial.model.js');
+const { FinancialObject, FinancialStockObject, FinancialOverviewObject } = require('./financial.model.js');
 const mongoose = require('mongoose');
 
 startUp();
@@ -1471,8 +1471,15 @@ function createOtherFinValues () {
         'avgInvPeriod': getAvgInvPeriod(),
     }
 
+    const finOverviewObject = {
+        'revenueExpenses': [],
+        'totalRevenue': 0,
+        'totalExpenses': 0,
+    }
+
     // console.log(finObject);
     // console.log(finStockObject);
+    // console.log(finOverviewObject);
 
     // db interaction
     mongoose.connect('mongodb://localhost:27017/snif',
@@ -1491,7 +1498,10 @@ function createOtherFinValues () {
         });
         FinancialStockObject.create({
             document: finStockObject
-        })
+        });
+        FinancialOverviewObject.create({
+            document: finOverviewObject
+        });
         console.log('Processing done');
     }).then( () => {
         console.log('Closing connection')
