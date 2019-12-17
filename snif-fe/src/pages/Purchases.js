@@ -9,6 +9,7 @@ import { Graph, colors } from "../components/common/utils/Graph";
 import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
 import Monthly from "../components/purchases/Monthly";
+import CumulativeMonthly from "../components/purchases/CumulativeMonthly";
 
 const Purchases = ({ path }) => {
     const monthlyPurchases = {
@@ -93,13 +94,7 @@ const Purchases = ({ path }) => {
                                 </ContentCard>
                             </Col>
                         </Row>
-                        <Row>
-                            <Col xs="12">
-                                <ContentCard header="Cumulative Purchases">
-                                    <Graph data={cumulativePurchases}/>
-                                </ContentCard>
-                            </Col>
-                        </Row>
+                        <CumulativeMonthly />
                     </Col>
                     <Col xs="6">
                         <ContentCard header="Top Suppliers">
