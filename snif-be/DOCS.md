@@ -278,7 +278,7 @@ Send `get` request to `api/stock/financial`
 
 ### Get Financial values for Overview Page
 
-Send `get` request to `api/stock/financial/overview`
+Send `get` request to `api/financial/overview`
 
 ```json
     "document": {
