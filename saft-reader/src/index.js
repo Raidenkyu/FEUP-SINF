@@ -21,7 +21,7 @@ function startUp () {
     // displayFullBalanceSheet();
     // displayMonthlyResults();
     // displayMonthlyDR();
-    displayAnualDR();
+    // displayAnualDR();
 
 }
 
@@ -124,7 +124,7 @@ function createBalanceSheet () {
         const accountDebit = parseFloat(account.ClosingDebitBalance - account.OpeningDebitBalance);
         const accountCredit = parseFloat(account.ClosingCreditBalance - account.OpeningCreditBalance);
         const accountBal = Math.abs(accountDebit - accountCredit);
-        const isContaDevedora = true; // (accountDebit > accountCredit); // TODO: Rever isto, quando substituo-o, os valores dão muito diferentes
+        const isSaldoDevedor = (accountDebit > accountCredit); // TODO: Rever isto, quando substituo-o, os valores dão muito diferentes
 
         if (accountBal === 0)
             return;
@@ -141,7 +141,7 @@ function createBalanceSheet () {
             case 125:
             case 127:
             case 139:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Ativo', 'Ativo não corrente', 'Créditos a receber'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Não Corrente', 'Outras dívidas a pagar'], accountBal);
@@ -161,7 +161,7 @@ function createBalanceSheet () {
             case 20:
             case 21:
             case 22:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Clientes'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Adiantamentos de clientes'], accountBal);
@@ -176,7 +176,7 @@ function createBalanceSheet () {
             case 83:
             case 84:
             case 85:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Estado e outros entes públicos'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Estado e outros entes públicos'], accountBal);
@@ -185,7 +185,7 @@ function createBalanceSheet () {
             //=======================//
             case 2:
             case 3:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Caixa e depósitos bancários'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Financiamentos obtidos'], accountBal);
@@ -196,7 +196,7 @@ function createBalanceSheet () {
                 addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], -accountBal);
                 break;
             case 333:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], -accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ações (quotas) próprias'], accountBal);
@@ -204,7 +204,7 @@ function createBalanceSheet () {
                 break;
             //=======================//
             case 338:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultados transitados'], -accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultados transitados'], accountBal);
@@ -212,7 +212,7 @@ function createBalanceSheet () {
                 break;
             //=======================//
             case 646:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultado líquido do período'], -accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Resultado líquido do período'], accountBal);
@@ -225,7 +225,7 @@ function createBalanceSheet () {
             case 347:
             case 348:
             case 352:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ajustamentos / outras variações no capital próprio'], -accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Capital Próprio', 'Ajustamentos / outras variações no capital próprio'], accountBal);
@@ -246,7 +246,7 @@ function createBalanceSheet () {
             case 48:
             case 49:
             case 50:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Outros créditos a receber'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Fornecedores'], accountBal);
@@ -260,7 +260,7 @@ function createBalanceSheet () {
             case 124:
             case 126:
             case 138:
-                if (isContaDevedora) {
+                if (isSaldoDevedor) {
                     addValue(balanceSheet, ['Ativo', 'Ativo corrente', 'Outros créditos a receber'], accountBal);
                 } else {
                     addValue(balanceSheet, ['Capital Próprio e Passivo', 'Passivo', 'Passivo Corrente', 'Outras dívidas a pagar'], accountBal);
@@ -1573,22 +1573,17 @@ function getEbit () {
 }
 
 function getAvgColPeriod () {
-    // TODO: replace
     // Receivables => Clientes
-    // (Account Receivables / Sales) * 365 => ['Créditos a receber' + 'Outros créditos a receber'] / [21]
-    const accountsReceivables = getPropVal(global.balanceSheet['Ativo']['Ativo não corrente'], 'Créditos a receber')
-                            + getPropVal(global.balanceSheet['Ativo']['Ativo corrente'], 'Outros créditos a receber');
+    // (Account Receivables / Sales) * 365 => ['Clientes'] / [1]
+    const accountsReceivables = getPropVal(global.balanceSheet['Ativo']['Ativo corrente'], 'Clientes');
 
     return (accountsReceivables / global.anualResultsReport['1']) * 365;
 }
 
 function getAvgPayPeriod () {
-    // TODO: replace
     // Payables => Fornecedores
-    // (Account Payables / Sales) * 365 => ['Outras dívidas a pagar' + 'Outras dívidas a pagar'] / [21]
-    // TODO: Ver o que é o Accounts Payables    
-    const accountsPayables = getPropVal(global.balanceSheet['Capital Próprio e Passivo']['Passivo']['Passivo Não Corrente'], 'Outras dívidas a pagar')
-                            + getPropVal(global.balanceSheet['Capital Próprio e Passivo']['Passivo']['Passivo Corrente'], 'Outras dívidas a pagar');
+    // (Account Payables / Sales) * 365 => ['Fornecedores'] / [1]  
+    const accountsPayables = getPropVal(global.balanceSheet['Capital Próprio e Passivo']['Passivo']['Passivo Corrente'], 'Fornecedores');
 
     return (accountsPayables / global.anualResultsReport['1']) * 365;
 }
@@ -1608,7 +1603,6 @@ function getAcidRatio () {
 
 function getTurnOver () {
     // Cost of Goods Sold / Inventories
-    
     const costOfGoodsSold = getPropVal(global.anualResultsReport ,'6');
     const inventories = getPropVal(global.balanceSheet['Ativo']['Ativo corrente'], 'Inventários');
 
@@ -1617,7 +1611,6 @@ function getTurnOver () {
 
 function getAvgInvPeriod () {
     // (Inventories / Cost of Goods Sold) * 365
-
     const costOfGoodsSold = getPropVal(global.anualResultsReport ,'6');
     const inventories = getPropVal(global.balanceSheet['Ativo']['Ativo corrente'], 'Inventários');
 
