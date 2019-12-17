@@ -5,6 +5,7 @@ import PropTypes from "prop-types";
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 import { Graph, colors } from "../components/common/utils/Graph";
+import SalesCard from "../components/overview/SalesCard";
 import Axios from "axios";
 
 const Overview = ({ path }) => {
@@ -66,19 +67,10 @@ const Overview = ({ path }) => {
                     </Col>
                 </Row>
                 <Row className="mb-5">
-                    <Col xs="4">
-                        <ContentCard loading={loading} header="Sales">
-                            <div>
-                                <div>
-                                    Last month&apos;s sales volume: 300.000€
-                                </div>
-                                <div>
-                                    Last year&apos;s sales volume: 300.000€
-                                </div>
-                            </div>
-                        </ContentCard>
+                    <Col xs="6">
+                        <SalesCard />
                     </Col>
-                    <Col xs="4">
+                    <Col xs="6">
                         <ContentCard loading={loading} header="Purchases">
                             <div>
                                 <div>
@@ -90,24 +82,14 @@ const Overview = ({ path }) => {
                             </div>
                         </ContentCard>
                     </Col>
-                    <Col xs="4">
+                </Row>
+                <Row className="mb-5">
+                    <Col xs="6">
                         <ContentCard loading={loading} header="Stocks">
                             Value of inventory: 500.000 €
                         </ContentCard>
                     </Col>
-                </Row>
-                <Row className="mb-5">
-                    <Col xs="4">
-                        <ContentCard loading={loading} header="Orders">
-                            Value in pendent orders: 40.000 €
-                        </ContentCard>
-                    </Col>
-                    <Col xs="4">
-                        <ContentCard loading={loading} header="Customers">
-                            Total Customers: 50.000
-                        </ContentCard>
-                    </Col>
-                    <Col xs="4">
+                    <Col xs="6">
                         <ContentCard loading={loading} header="Financial">
                             <div>
                                 <div>

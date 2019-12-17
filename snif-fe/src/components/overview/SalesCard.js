@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import ContentCard from "../common/utils/ContentCard";
 
 const SalesCard = () => {
     const [loading, setLoading] = useState(true);
@@ -12,13 +13,15 @@ const SalesCard = () => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            setRevenueLast(data.salesByTimestamp[Object.keys(data.salesByTimestamp)[0]].toFixed(2));
-            setRevenue(data.salesByTimestamp[Object.keys(data.salesByTimestamp)[1]].toFixed(2));
+            console.log(data);
+            
+            setRevenueLast(data.salesByTimestamp[Object.keys(data.salesByTimestamp)[0]].revenue.toFixed(2));
+            setRevenue(data.salesByTimestamp[Object.keys(data.salesByTimestamp)[1]].revenue.toFixed(2));
             setLoading(false);
         }).catch(() => {
             setLoading(false);
         })
-    })
+    }, []);
 
     return (
         <ContentCard loading={loading} header="Sales">
