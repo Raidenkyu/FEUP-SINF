@@ -51,7 +51,7 @@ const AppRouter = ({ loadUser }) => {
             {hasPermission("/orders") && <Orders path="/orders"/>}
             {hasPermission("/customers") && <Customers path="/customers"/>}
             {hasPermission("/financial") && <Financial path="/financial"/>}
-            <Customer path="/customers/:name"/>
+            <Customer path="/customers/:customerKey"/>
             <NotFound default />
         </Router>
     );

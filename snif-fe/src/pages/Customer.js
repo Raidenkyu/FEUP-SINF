@@ -1,25 +1,31 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "reactstrap";
 import PropTypes from "prop-types";
+import Axios from "axios";
 
 import Layout from "../components/common/layout/Layout";
 import ContentTable from "../components/common/utils/ContentTable";
 import Popup from "../components/common/utils/Popup";
+import ContentCard from "../components/common/utils/ContentCard";
 
-const Customer = ({ name }) => {
+const Customer = ({ customerKey }) => {
+    const [loading, setLoading] = useState(true);
+    const [customerData, setCustomerData] = useState([]);
+    const [customerOrders, setCustomerOrders] = useState([]);
 
     useEffect(() => {
-        /* Axios.get("http://localhost:9000/api/customers", {
-             headers: {
-                 auth_token: localStorage.getItem("auth_token"),
-             },
-         }).then(({ data }) => {
-             setCustomersRows(data.customers);
-             setLoading(false);
-         }).catch(() => {
-             setLoading(false);
-         });*/
-    }, []);
+        Axios.get(`http://localhost:9000/api/customers/${customerKey}`, {
+            headers: {
+                auth_token: localStorage.getItem("auth_token"),
+            },
+        }).then(({ data }) => {
+            setCustomerData(data.name);
+            setCustomerOrders(data.orders);
+            setLoading(false);
+        }).catch(() => {
+            setLoading(false);
+        });
+    }, [customerKey]);
 
     const [modal, setModal] = useState(false);
     const [modalData, setModalData] = useState({});
@@ -32,45 +38,29 @@ const Customer = ({ name }) => {
         setModal(!modal);
         setModalData(data);
     };
-    const purchasesHeaders = [
-        { index: "purchaseId", value: "Purchase id" },
+    const productHeaders = [
+        { index: "id", value: "Order id" },
         { index: "product", value: "Product" },
+        { index: "state", value: "State" },
         { index: "quantity", value: "Quantity" },
         { index: "value", value: "Value (€)" },
         { index: "date", value: "Date" },
     ];
 
-    const purchasesRows = [
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-        { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
-    ];
-
     return (
         <Layout navbar sidebar path="/">
             <Container>
-                <h1>{name}</h1>
-                <ContentTable headers={purchasesHeaders} rows={purchasesRows} onRowClick={onRowClick} />
+                <h1>{customerData}</h1>
+                <ContentCard loading={loading} header="Cenas">
+                     <ContentTable headers={productHeaders} rows={customerOrders} onRowClick={onRowClick} />
+                </ContentCard>
             </Container>
-            <Popup isOpen={modal} toggle={toggle} headers={purchasesHeaders} data={modalData} />
+            <Popup isOpen={modal} toggle={toggle} headers={productHeaders} data={modalData} />
         </Layout>
     );
 };
 
 Customer.propTypes = {
-    name: PropTypes.string,
+    customerKey: PropTypes.string,
 };
 export default Customer;
