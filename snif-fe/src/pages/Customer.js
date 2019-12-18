@@ -10,7 +10,7 @@ import ContentCard from "../components/common/utils/ContentCard";
 
 const Customer = ({ customerKey }) => {
     const [loading, setLoading] = useState(true);
-    const [customerData, setCustomerData] = useState([]);
+    const [customerData, setCustomerData] = useState({});
     const [customerOrders, setCustomerOrders] = useState([]);
 
     useEffect(() => {
@@ -19,7 +19,12 @@ const Customer = ({ customerKey }) => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            setCustomerData(data.name);
+            setCustomerData({
+                name: data.name,
+                email: data.email,
+                contact: data.telefone,
+                country: data.country,
+            });
             setCustomerOrders(data.orders);
             setLoading(false);
         }).catch(() => {
@@ -50,9 +55,12 @@ const Customer = ({ customerKey }) => {
     return (
         <Layout navbar sidebar path="/">
             <Container>
-                <h1>{customerData}</h1>
+                <h1> {customerData.name}</h1>
+                <h2> {customerData.email}</h2>
+                <h2> {customerData.contact}</h2>
+                <h2> {customerData.country}</h2>
                 <ContentCard loading={loading} header="Cenas">
-                     <ContentTable headers={productHeaders} rows={customerOrders} onRowClick={onRowClick} />
+                    <ContentTable headers={productHeaders} rows={customerOrders} onRowClick={onRowClick} />
                 </ContentCard>
             </Container>
             <Popup isOpen={modal} toggle={toggle} headers={productHeaders} data={modalData} />
