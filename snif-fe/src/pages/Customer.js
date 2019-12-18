@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Row, Col } from "reactstrap";
+import React, { useEffect, useState } from "react";
+import { Container } from "reactstrap";
+import PropTypes from "prop-types";
 
 import Layout from "../components/common/layout/Layout";
 import ContentTable from "../components/common/utils/ContentTable";
-import Popup from '../components/common/utils/Popup';
+import Popup from "../components/common/utils/Popup";
 
 const Customer = ({ name }) => {
-
 
     useEffect(() => {
         /* Axios.get("http://localhost:9000/api/customers", {
@@ -20,7 +20,6 @@ const Customer = ({ name }) => {
              setLoading(false);
          });*/
     }, []);
-
 
     const [modal, setModal] = useState(false);
     const [modalData, setModalData] = useState({});
@@ -40,7 +39,6 @@ const Customer = ({ name }) => {
         { index: "value", value: "Value (€)" },
         { index: "date", value: "Date" },
     ];
-
 
     const purchasesRows = [
         { purchaseId: "4FN2SNB3", product: "Paper", quantity: "30.000", value: "1.500", date: "27/10/2019" },
@@ -72,4 +70,7 @@ const Customer = ({ name }) => {
     );
 };
 
+Customer.propTypes = {
+    name: PropTypes.string,
+};
 export default Customer;

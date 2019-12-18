@@ -20,13 +20,13 @@ const Sales = ({ path }) => {
     const [topSellingRows, setTopSellingRows] = useState([]);
     const [salesRows, setSalesRows] = useState([]);
 
-    const [modal,setModal] = useState(false);
-    const [modalData,setModalData] = useState({});
+    const [modal, setModal] = useState(false);
+    const [modalData, setModalData] = useState({});
 
     const onRowClick = (data) => {
         setModal(!modal);
         setModalData(data);
-    }
+    };
 
     const toggle = () => {
         setModal(!modal);
