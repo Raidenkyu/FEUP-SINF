@@ -8,6 +8,7 @@ import ContentCard from "../components/common/utils/ContentCard";
 import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
 import Financial from "../components/stocks/Financial";
+import Popup from "../components/common/utils/Popup";
 
 const Stocks = ({ path }) => {
     const [loading, setLoading] = useState(true);
@@ -15,6 +16,19 @@ const Stocks = ({ path }) => {
     const [resourcesRows, setResourcesRows] = useState([]);
     const [productsStock, setProductsStock] = useState(true);
     const [resourcesStock, setResourcesStock] = useState(true);
+
+    const [modal,setModal] = useState(false);
+    const [modalData,setModalData] = useState({});
+
+    const onRowClick = (data) => {
+        setModal(!modal);
+        setModalData(data);
+    }
+
+    const toggle = () => {
+        setModal(!modal);
+        setModalData({});
+    };
 
     useEffect(() => {
         Axios.get("http://localhost:9000/api/stocks", {
@@ -50,12 +64,12 @@ const Stocks = ({ path }) => {
                 <Row className="mb-5">
                     <Col xs="6">
                         <ContentCard loading={loading} header="Products">
-                            <ContentTable headers={productHeaders} rows={productRows} />
+                            <ContentTable headers={productHeaders} rows={productRows} onRowClick={onRowClick} />
                         </ContentCard>
                     </Col>
                     <Col xs="6">
                         <ContentCard loading={loading} header="Resources">
-                            <ContentTable headers={resourcesHeaders} rows={resourcesRows} />
+                            <ContentTable headers={resourcesHeaders} rows={resourcesRows} onRowClick={onRowClick} />
                         </ContentCard>
                     </Col>
                 </Row>
@@ -73,6 +87,7 @@ const Stocks = ({ path }) => {
                     </Col>
                 </Row>
             </Container>
+            <Popup isOpen={modal} toggle={toggle} headers={productHeaders} data={modalData}/>
         </Layout>
     );
 };

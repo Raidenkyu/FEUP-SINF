@@ -8,6 +8,7 @@ import ContentCard from "../components/common/utils/ContentCard";
 import { Graph, colors } from "../components/common/utils/Graph";
 import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
+import Popup from "../components/common/utils/Popup";
 
 const Sales = ({ path }) => {
     const [loading, setLoading] = useState(true);
@@ -18,6 +19,19 @@ const Sales = ({ path }) => {
     const [cumulativeSalesValues, setCumulativeSalesValues] = useState([]);
     const [topSellingRows, setTopSellingRows] = useState([]);
     const [salesRows, setSalesRows] = useState([]);
+
+    const [modal,setModal] = useState(false);
+    const [modalData,setModalData] = useState({});
+
+    const onRowClick = (data) => {
+        setModal(!modal);
+        setModalData(data);
+    }
+
+    const toggle = () => {
+        setModal(!modal);
+        setModalData({});
+    };
 
     useEffect(() => {
         Axios.get("http://localhost:9000/api/sales", {
@@ -124,18 +138,19 @@ const Sales = ({ path }) => {
                     </Col>
                     <Col xs="6">
                         <ContentCard loading={loading} header="Top Selling Products">
-                            <ContentTable headers={topSellingHeaders} rows={topSellingRows} />
+                            <ContentTable headers={topSellingHeaders} rows={topSellingRows} onRowClick={onRowClick}/>
                         </ContentCard>
                     </Col>
                 </Row>
                 <Row>
                     <Col xs="12">
                         <ContentCard loading={loading} header="Sales">
-                            <ContentTable headers={salesHeaders} rows={salesRows} />
+                            <ContentTable headers={salesHeaders} rows={salesRows} onRowClick={onRowClick}/>
                         </ContentCard>
                     </Col>
                 </Row>
             </Container>
+            <Popup isOpen={modal} toggle={toggle} headers={salesHeaders} data={modalData}/>
         </Layout>
     );
 };

@@ -1,8 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { Table, Col, Row } from 'reactstrap';
 import PropTypes from "prop-types";
-
-import Popup from "./Popup";
 
 import { ReactComponent as Previous } from "../../../assets/backward.svg";
 import { ReactComponent as Next } from "../../../assets/forward.svg";
@@ -18,11 +16,9 @@ const ContentTable = ({ headers, rows, handlePrevious, previous, handleReset, ha
     const [modal,setModal] = useState(false);
     const [modalData,setModalData] = useState({});
 
-    const toggle = () => {
-        setModal(!modal);
-        setModalData({});
+    const action = (data) => {
+        onRowClick(data);
     };
-
     return(
         <div className="w-100 h-100">
             <Table borderless hover className={ContentTableStyles.table}>
@@ -46,7 +42,6 @@ const ContentTable = ({ headers, rows, handlePrevious, previous, handleReset, ha
                         </tr>
                     ))}
                 </tbody>
-                <Popup isOpen={modal} toggle={toggle} headers={headers} data={modalData}/>
             </Table>
             {handlePrevious && handleReset && handleNext && 
                 <Row>
