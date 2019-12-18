@@ -89,7 +89,7 @@ router.get("/", (req, res) => {
         () => {
             var err = new Error("Failed to fetch invoice");
             err.status = 401;
-            res.json({
+            res.status(401).json({
                 message: err.message,
                 error: err
             });
