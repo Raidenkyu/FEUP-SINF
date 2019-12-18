@@ -5,12 +5,9 @@ const { getStockQuantity, getUnitPrice, getStockValue } = require("../utils/stoc
 var { FinancialStockObject } = require('../models/financial.model.js');
 
 
-router.get("/", (req, res) => {
+router.get("/", (_req, res) => {
     requestPrimavera("/materialsCore/materialsItems/").then(
         (stockData) => {
-
-            const page = req.query.page || 1;
-            const pageSize = req.query.pageSize || 5;
 
             const response = {
                 assetsInStock: { products: 0, resources: 0 },
@@ -74,7 +71,7 @@ router.get("/", (req, res) => {
         }
     ).catch(
         () => {
-            var err = new Error("Failed to fetch customers");
+            var err = new Error("Failed to fetch stocks");
             err.status = 401;
             res.json({
                 message: err.message,
@@ -94,7 +91,125 @@ router.get("/financial", (_req, res) => {
         } else {
             return res.status(200).json(finObj);
         }
-    });
+    }).catch(
+        () => {
+            var err = new Error("Failed to fetch financials");
+            err.status = 401;
+            res.json({
+                message: err.message,
+                error: err
+            });
+        }
+    );
+});
+
+
+router.get("/resources", (req, res) => {
+
+    requestPrimavera("/materialsCore/materialsItems/").then(
+        (stockData) => {
+
+            const page = req.query.page || 1;
+            const pageSize = req.query.pageSize || 5;
+
+            const response = {
+                resources: []
+            };
+
+            const resourcesList = [];
+
+            stockData.forEach((materialItem) => {
+                if (materialItem.itemSubtype == "4" || materialItem.itemSubtype == "3") {
+                    const quantity = getStockQuantity(materialItem);
+                    const value = getUnitPrice(materialItem);
+                    resourcesList.push({
+                        name: materialItem.description,
+                        quantity: quantity,
+                        value: value,
+                        error: quantity < 0,
+                    });
+                }
+            });
+
+            response.resources = resourcesList.sort((a, b) => {
+                if (a.date < b.date) {
+                    return 1;
+                }
+
+                else if (a.date > b.date) {
+                    return -1;
+                }
+
+                return 0;
+            }).slice((page - 1) * pageSize, page * pageSize);
+
+            res.json(response);
+        }
+    ).catch(
+        () => {
+            var err = new Error("Failed to fetch resources");
+            err.status = 401;
+            res.json({
+                message: err.message,
+                error: err
+            });
+        }
+    );
+    
+});
+
+router.get("/products", (req, res) => {
+
+    requestPrimavera("/materialsCore/materialsItems/").then(
+        (stockData) => {
+
+            const page = req.query.page || 1;
+            const pageSize = req.query.pageSize || 5;
+
+            const response = {
+                products: []
+            };
+
+            const productsList = [];
+
+            stockData.forEach((materialItem) => {
+                if (materialItem.itemSubtype == "1") {
+                    const quantity = getStockQuantity(materialItem);
+                    const value = getStockValue(materialItem);
+                    productsList.push({
+                        name: materialItem.description,
+                        quantity: quantity,
+                        value: value,
+                        error: quantity < 0,
+                    });
+                }
+            });
+
+            response.products = productsList.sort((a, b) => {
+                if (a.date < b.date) {
+                    return 1;
+                }
+
+                else if (a.date > b.date) {
+                    return -1;
+                }
+
+                return 0;
+            }).slice((page - 1) * pageSize, page * pageSize);
+
+            res.json(response);
+        }
+    ).catch(
+        () => {
+            var err = new Error("Failed to fetch products");
+            err.status = 401;
+            res.json({
+                message: err.message,
+                error: err
+            });
+        }
+    );
+    
 });
 
 module.exports = router;

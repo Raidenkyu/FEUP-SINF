@@ -8,9 +8,6 @@ router.get("/", (req, res) => {
     requestInvoice().then(
         (invoiceData) => {
 
-            const page = req.query.page || 1;
-            const pageSize = req.query.pageSize || 15;
-
             const response = {
                 growth: 0,
                 margin: 0,
@@ -18,8 +15,6 @@ router.get("/", (req, res) => {
                 products: {},
                 salesList: [],
             };
-
-            const salesList = [];
 
             invoiceData.map((bill) => {
                 bill.documentLines.map((sale) => {
@@ -41,7 +36,7 @@ router.get("/", (req, res) => {
 
                     response.products[sale.description] = {
                         units: sale.quantity + response.products[sale.description].units,
-                        revenue: sale.lineExtensionAmount.amount  + response.products[sale.description].revenue
+                        revenue: sale.lineExtensionAmount.amount + response.products[sale.description].revenue
                     };
                 });
 
@@ -86,7 +81,7 @@ router.get("/", (req, res) => {
                 }
 
                 return 0;
-            }).slice((page - 1) * pageSize, page * pageSize)
+            });
 
             res.json(response);
         }
@@ -98,6 +93,53 @@ router.get("/", (req, res) => {
                 message: err.message,
                 error: err
             });
+        }
+    );
+});
+
+router.get("/list", (req, res) => {
+
+
+    requestInvoice().then(
+        (invoiceData) => {
+
+            const page = req.query.page || 1;
+            const pageSize = req.query.pageSize || 15;
+
+            const response = {
+                salesList: [],
+            };
+
+            const salesList = [];
+
+            invoiceData.forEach((bill) => {
+                bill.documentLines.forEach((sale) => {
+                    salesList.push({
+                        id: sale.invoiceId,
+                        product: sale.description,
+                        quantity: sale.quantity,
+                        value: sale.grossValue.amount,
+                        date: sale.deliveryDate.split("T")[0],
+                        revenue: sale.lineExtensionAmount.amount
+                    });
+                });
+
+            });
+
+            response.salesList = salesList.sort((a, b) => {
+                if (a.date < b.date) {
+                    return 1;
+                }
+
+                else if (a.date > b.date) {
+                    return -1;
+                }
+
+                return 0;
+            }).slice((page - 1) * pageSize, page * pageSize);
+
+            res.json(response);
+
         }
     );
 });

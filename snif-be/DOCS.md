@@ -59,9 +59,34 @@ Example response:
 }
 ```
 
+### Get Orders List
+
+Send `get` request to `/api/orders/list`.
+
+Query Params: page, pageSize
+
+Example response:
+
+```json
+{
+    "ordersProducts": [
+        {
+            "id": "39c5913b-4962-42b4-b539-0f19f0977219",
+            "product": "Folha Dupla Vermelha",
+            "state": "Pending",
+            "quantity": 1250,
+            "value": 230.63,
+            "date": "2019-12-27"
+        },
+    ]
+}
+```
+
 ### Get Sales
 
 Send `get` request to `/api/sales`.
+
+Query Params: page, pageSize
 
 Example response:
 
@@ -94,6 +119,29 @@ Example response:
 }
 ```
 
+### Get Sales
+
+Send `get` request to `/api/sales/list`.
+
+Query Params: page, pageSize
+
+Example response:
+
+```json
+{
+    "salesList": [
+        {
+            "id": "55403bed-b6df-4bae-b01a-16ff581d242e",
+            "product": "Folha Dupla com Cheiro a Menta",
+            "quantity": 1500,
+            "value": 300,
+            "date": "2019-12-14",
+            "revenue": 369
+        },
+    ]
+}
+```
+
 ### Get Logged User
 
 Send `get` request to `/api/users`
@@ -108,7 +156,7 @@ Send `get` request to `/api/users`
 
 ### Get Stock
 
-Send `get` request to `api/stock`
+Send `get` request to `api/stocks`
 
 Example response:
 
@@ -125,6 +173,52 @@ Example response:
             "value": 750
         },
     ],
+    "resources": [
+        {
+            "name": "Sortido",
+            "quantity": 1500,
+            "value": 0.035
+        }
+    ]
+}
+```
+
+### Get Stock Products
+
+Send `get` request to `api/stocks/products`
+
+Query Params: page, pageSize
+
+Example response:
+
+```json
+{
+    "products": [
+        {
+            "name": "Folha Dupla Vermelha",
+            "quantity": 5000,
+            "value": 750
+        },
+    ],
+    "resources": [
+        {
+            "name": "Sortido",
+            "quantity": 1500,
+            "value": 0.035
+        }
+    ]
+}
+```
+### Get Stocks resources
+
+Send `get` request to `api/stocks/resources`
+
+Query Params: page, pageSize
+
+Example response:
+
+```json
+{
     "resources": [
         {
             "name": "Sortido",

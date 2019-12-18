@@ -15,9 +15,6 @@ router.get("/", (req, res) => {
     requestOrders().then(
         (ordersData) => {
 
-            const page = req.query.page || 1;
-            const pageSize = req.query.pageSize || 15;
-
             const response = {
                 pendingValue: 0,
                 pendingNum: 0,
@@ -68,7 +65,66 @@ router.get("/", (req, res) => {
 
             Object.keys(accumulatedValue.ordersByTimestamp).sort().forEach((key) => {
                 response.ordersByTimestamp[key] = accumulatedValue.ordersByTimestamp[key];
-              });
+            });
+
+            response.ordersProducts = ordersProducts.sort((a, b) => {
+                if (a.date < b.date) {
+                    return 1;
+                }
+
+                else if (a.date > b.date) {
+                    return -1;
+                }
+
+                return 0;
+            });
+
+            res.json(response);
+        }
+    ).catch(
+        () => {
+            var err = new Error("Failed to fetch orders");
+            err.status = 401;
+            res.json({
+                message: err.message,
+                error: err
+            });
+        }
+    );
+});
+
+router.get("/list", (req, res) => {
+
+    if (!PERMISSIONS.includes(req.role)) {
+        return res.status(401).json({
+            message: 'Unauthorized: Role not valid',
+        });
+    }
+
+    requestOrders().then(
+        (ordersData) => {
+
+            const page = req.query.page || 1;
+            const pageSize = req.query.pageSize || 15;
+
+            const response = {
+                ordersProducts: []
+            }
+
+            const ordersProducts = [];
+
+            ordersData.forEach((order) => {
+                order.documentLines.forEach((product) => {
+                    ordersProducts.push({
+                        id: product.orderId,
+                        product: product.description,
+                        state: (product.isDeleted ? "Cancelled" : (product.documentLineStatus == 1 ? "Pending" : "Processed")),
+                        quantity: product.quantity,
+                        value: product.lineExtensionAmount.amount,
+                        date: product.deliveryDate.split("T")[0]
+                    });
+                });
+            });
 
             response.ordersProducts = ordersProducts.sort((a, b) => {
                 if (a.date < b.date) {
@@ -83,15 +139,7 @@ router.get("/", (req, res) => {
             }).slice((page - 1) * pageSize, page * pageSize);
 
             res.json(response);
-        }
-    ).catch(
-        () => {
-            var err = new Error("Failed to fetch orders");
-            err.status = 401;
-            res.json({
-                message: err.message,
-                error: err
-            });
+
         }
     );
 });
