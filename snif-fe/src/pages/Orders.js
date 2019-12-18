@@ -19,6 +19,19 @@ const Orders = ({ path }) => {
     const [pendingValue, setPendingValue] = useState(0);
     const [pendingOrders, setPendingOrders] = useState(0);
 
+    const [modal,setModal] = useState(false);
+    const [modalData,setModalData] = useState({});
+
+    const onRowClick = (data) => {
+        setModal(!modal);
+        setModalData(data);
+    }
+
+    const toggle = () => {
+        setModal(!modal);
+        setModalData({});
+    };
+
     useEffect(() => {
         Axios.get("http://localhost:9000/api/orders", {
             headers: {
@@ -96,6 +109,7 @@ const Orders = ({ path }) => {
                     </Col>
                 </Row>
             </Container>
+            <Popup isOpen={modal} toggle={toggle} headers={productHeaders} data={modalData}/>
         </Layout>
     );
 };

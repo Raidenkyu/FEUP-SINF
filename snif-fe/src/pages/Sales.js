@@ -11,6 +11,7 @@ import ContentTable from "../components/common/utils/ContentTable";
 import SalesList from "../components/sales/SalesList";
 
 import LayoutStyles from "../styles/common/layout.module.css";
+import Popup from "../components/common/utils/Popup";
 
 const Sales = ({ path }) => {
     const [loading, setLoading] = useState(true);
@@ -20,6 +21,19 @@ const Sales = ({ path }) => {
     const [monthlySalesValues, setMonthlySalesValues] = useState([]);
     const [cumulativeSalesValues, setCumulativeSalesValues] = useState([]);
     const [topSellingRows, setTopSellingRows] = useState([]);
+
+    const [modal,setModal] = useState(false);
+    const [modalData,setModalData] = useState({});
+
+    const onRowClick = (data) => {
+        setModal(!modal);
+        setModalData(data);
+    }
+
+    const toggle = () => {
+        setModal(!modal);
+        setModalData({});
+    };
 
     useEffect(() => {
         Axios.get("http://localhost:9000/api/sales", {
@@ -122,7 +136,7 @@ const Sales = ({ path }) => {
                     </Col>
                     <Col xs="6">
                         <ContentCard loading={loading} header="Top Selling Products">
-                            <ContentTable headers={topSellingHeaders} rows={topSellingRows} />
+                            <ContentTable headers={topSellingHeaders} rows={topSellingRows} onRowClick={onRowClick}/>
                         </ContentCard>
                     </Col>
                 </Row>
@@ -132,6 +146,7 @@ const Sales = ({ path }) => {
                     </Col>
                 </Row>
             </Container>
+            <Popup isOpen={modal} toggle={toggle} headers={salesHeaders} data={modalData}/>
         </Layout>
     );
 };
