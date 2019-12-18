@@ -14,7 +14,7 @@ const Purchases = ({ path }) => (
         <Container>
             <Monthly />
             <Row className="mb-5">
-                <Col xs="6">
+                <Col xs="6" className="d-flex flex-column align-items-stretch flex-wrap w-100">
                     <Debt />
                     <CumulativeMonthly />
                 </Col>

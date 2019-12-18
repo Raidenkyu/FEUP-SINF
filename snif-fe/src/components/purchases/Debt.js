@@ -23,7 +23,7 @@ const Debt = () => {
     }, []);
 
     return (
-        <Row className="mb-5">
+        <Row className="mb-5 flex-grow-1">
             <Col xs="12">
                 <ContentCard loading={loading} header="Purchase Debt">
                     <Indicator value={purchaseDebt} />

@@ -47,7 +47,7 @@ const CumulativeMonthly = () => {
     };
 
     return (
-        <Row>
+        <Row className="flex-grow-1">
             <Col xs="12">
                 <ContentCard loading={loading} header="Cumulative Purchases">
                     <Graph data={cumulativePurchases}/>
