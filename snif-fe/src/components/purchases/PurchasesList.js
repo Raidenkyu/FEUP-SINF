@@ -11,8 +11,8 @@ const PurchasesList = () => {
     const [next, setNext] = useState(true);
     const [previous, setPrevious] = useState(false);
 
-    const requestPurchases = (newPage) => {
-        Axios.get("http://localhost:9000/api/purchases/list?page=" + newPage + "&pageSize=15", {
+    useEffect(() => {
+        Axios.get("http://localhost:9000/api/purchases/list?page=" + page + "&pageSize=15", {
             headers: {
                 auth_token: localStorage.getItem("auth_token"),
             },
@@ -35,7 +35,7 @@ const PurchasesList = () => {
         }).catch(() => {
             setLoading(false);
         })
-    }
+    }, [page]);
 
     const handleNext = () => {
         setLoading(true);
@@ -53,10 +53,6 @@ const PurchasesList = () => {
         setLoading(true);
         setPage(1);
     }
-
-    useEffect(() => {
-        requestPurchases(page);
-    }, [page]);
 
     const purchasesHeaders = [
         { index: "purchaseId", value: "Purchase id" },
