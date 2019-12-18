@@ -19,13 +19,13 @@ const Stocks = ({ path }) => {
     const [productsStock, setProductsStock] = useState(true);
     const [resourcesStock, setResourcesStock] = useState(true);
 
-    const [modal,setModal] = useState(false);
-    const [modalData,setModalData] = useState({});
+    const [modal, setModal] = useState(false);
+    const [modalData, setModalData] = useState({});
 
     const onRowClick = (data) => {
         setModal(!modal);
         setModalData(data);
-    }
+    };
 
     const toggle = () => {
         setModal(!modal);
