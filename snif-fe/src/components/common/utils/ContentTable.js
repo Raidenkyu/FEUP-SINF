@@ -9,7 +9,7 @@ import { ReactComponent as Next } from "../../../assets/forward.svg";
 import { ReactComponent as Reset } from "../../../assets/reset.svg";
 import ContentTableStyles from "../../../styles/common/utils/ContentTable.module.css";
 
-const ContentTable = ({ headers, rows, handlePrevious, handleReset, handleNext }) => {
+const ContentTable = ({ headers, rows, handlePrevious, previous, handleReset, handleNext, next }) => {
 
     const action = (fds) => {
         setModal(true);
@@ -51,13 +51,13 @@ const ContentTable = ({ headers, rows, handlePrevious, handleReset, handleNext }
             {handlePrevious && handleReset && handleNext && 
                 <Row>
                     <Col xs="4" className={ContentTableStyles + " text-center"}>
-                        <Previous className={ContentTableStyles.commandIcon} onClick={handlePrevious} />
+                        {previous && <Previous className={ContentTableStyles.commandIcon} onClick={handlePrevious} />}
                     </Col>
                     <Col xs="4" className="text-center">
                         <Reset className={ContentTableStyles.commandIcon} onClick={handleReset} />
                     </Col>
                     <Col xs="4" className="text-center">
-                        <Next className={ContentTableStyles.commandIcon} onClick={handleNext} />
+                        {next && <Next className={ContentTableStyles.commandIcon} onClick={handleNext} />}
                     </Col>
                 </Row>
             }
@@ -69,8 +69,10 @@ ContentTable.propTypes = {
     headers: PropTypes.arrayOf(PropTypes.object).isRequired,
     rows: PropTypes.arrayOf(PropTypes.object).isRequired,
     handlePrevious: PropTypes.func,
+    previous: PropTypes.bool,
     handleReset: PropTypes.func,
     handleNext: PropTypes.func,
+    next: PropTypes.bool,
 }
 
 export default ContentTable;

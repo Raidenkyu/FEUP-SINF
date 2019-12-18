@@ -102,6 +102,7 @@ router.get("/suppliers", (_req, res) => {
         }
     );
 });
+
 router.get("/debt", (_req, res) => {
     requestPrimavera("/purchases/orders").then(
         async (orderData) => {
