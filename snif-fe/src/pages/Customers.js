@@ -1,29 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
 
 import Layout from "../components/common/layout/Layout";
-import ContentCard from "../components/common/utils/ContentCard";
-import ContentTable from "../components/common/utils/ContentTable";
-import Axios from "axios";
+import PaginatedTable from "../components/common/utils/PaginatedTable";
 
 const Customers = ({ path }) => {
-    const [loading, setLoading] = useState(true);
-    const [customersRows, setCustomersRows] = useState([]);
-
-    useEffect(() => {
-        Axios.get("http://localhost:9000/api/customers", {
-            headers: {
-                auth_token: localStorage.getItem("auth_token"),
-            },
-        }).then(({ data }) => {
-            setCustomersRows(data.customers);
-            setLoading(false);
-        }).catch(() => {
-            setLoading(false);
-        });
-    }, []);
-
     const customersHeaders = [
         { index: "name", value: "Name" },
         { index: "lastDate", value: "Date of last order" },
@@ -36,9 +18,12 @@ const Customers = ({ path }) => {
             <Container>
                 <Row className="mb-5">
                     <Col xs="12">
-                        <ContentCard loading={loading} header="Customers">
-                            <ContentTable headers={customersHeaders} rows={customersRows} />
-                        </ContentCard>
+                        <PaginatedTable
+                            endpoint="/api/customers"
+                            headers={customersHeaders}
+                            pageSize={15}
+                            list="customers"
+                        />
                     </Col>
                 </Row>
             </Container>
