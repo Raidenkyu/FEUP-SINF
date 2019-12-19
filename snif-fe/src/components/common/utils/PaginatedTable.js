@@ -54,9 +54,7 @@ const PaginatedTable = ({ endpoint, headers, pageSize, list, onRowClick }) => {
         setLoading(true);
         setPage(1);
     }
-    const handleonRowClick = (data) => {
-        //TODO adicionar headers ao objeto de retorno
-        console.log(data);
+    const handleonRowClick = (data) => { 
         const newdata = {
             headers: headers,
             data: data
