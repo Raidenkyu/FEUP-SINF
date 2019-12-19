@@ -1,4 +1,5 @@
 import React from "react";
+
 import PaginatedTable from "../common/utils/PaginatedTable";
 
 const PurchasesList = () => {
