@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import ContentCard from "./ContentCard";
 import ContentTable from "./ContentTable";
 
-const PaginatedTable = ({ endpoint, header, tableHeaders, pageSize, list }) => {
+const PaginatedTable = ({ endpoint, headers, pageSize, list, onRowClick }) => {
     const [loading, setLoading] = useState(true);
     const [rows, setRows] = useState([]);
     const [page, setPage] = useState(1);
@@ -54,6 +54,15 @@ const PaginatedTable = ({ endpoint, header, tableHeaders, pageSize, list }) => {
         setLoading(true);
         setPage(1);
     }
+    const handleonRowClick = (data) => {
+        //TODO adicionar headers ao objeto de retorno
+        console.log(data);
+        const newdata = {
+            headers: headers,
+            data: data
+        };
+        onRowClick(newdata);
+    };
 
     return (
         <ContentCard loading={loading} header={header}>
@@ -65,6 +74,7 @@ const PaginatedTable = ({ endpoint, header, tableHeaders, pageSize, list }) => {
                 handleReset={handleReset}
                 handleNext={handleNext}
                 next={next}
+                onRowClick={handleonRowClick}
             />
         </ContentCard>
     );

@@ -5,7 +5,7 @@ import Axios from "axios";
 import ContentTable from "../../components/common/utils/ContentTable";
 import ContentCard from "../common/utils/ContentCard"
 
-const TopSuppliers = () => {
+const TopSuppliers = ({onRowClick}) => {
     
     const topSuppliersHeaders = [
         { index: "supplierId", value: "ID" },
@@ -29,9 +29,18 @@ const TopSuppliers = () => {
         });
     }, []);
 
+    const handleonRowClick = (data) => {
+        const newdata = {
+            headers: topSuppliersHeaders,
+            data: data,
+        };
+        onRowClick(newdata);
+        
+    };
+
     return (
         <ContentCard loading={loading} header="Top Suppliers">
-            <ContentTable headers={topSuppliersHeaders} rows={suppliers} />
+            <ContentTable headers={topSuppliersHeaders} rows={suppliers} onRowClick={handleonRowClick}/>
         </ContentCard>
     );
 };
