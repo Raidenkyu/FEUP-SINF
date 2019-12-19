@@ -4,7 +4,8 @@ const { requestInvoice } = require("../utils/api/jasmin");
 const { extractTimestamp } = require("../utils/regex");
 const { getYearProfit } = require("../utils/sales");
 
-router.get("/", (req, res) => {
+router.get("/", (_req, res) => {
+    console.log(0);
     requestInvoice().then(
         (invoiceData) => {
 
@@ -15,6 +16,8 @@ router.get("/", (req, res) => {
                 products: {},
                 salesList: [],
             };
+            
+            salesList = [];
 
             invoiceData.map((bill) => {
                 bill.documentLines.map((sale) => {
@@ -87,8 +90,8 @@ router.get("/", (req, res) => {
         }
     ).catch(
         () => {
-            var err = new Error("Failed to fetch invoice");
-            err.status = 401;
+            const err = new Error("Failed to fetch Sales");
+            err.status = 500;
             res.json({
                 message: err.message,
                 error: err
