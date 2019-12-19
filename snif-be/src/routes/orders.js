@@ -67,18 +67,6 @@ router.get("/", (req, res) => {
                 response.ordersByTimestamp[key] = accumulatedValue.ordersByTimestamp[key];
             });
 
-            response.ordersProducts = ordersProducts.sort((a, b) => {
-                if (a.date < b.date) {
-                    return 1;
-                }
-
-                else if (a.date > b.date) {
-                    return -1;
-                }
-
-                return 0;
-            });
-
             res.json(response);
         }
     ).catch(
