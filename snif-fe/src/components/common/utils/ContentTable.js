@@ -7,14 +7,7 @@ import { ReactComponent as Next } from "../../../assets/forward.svg";
 import { ReactComponent as Reset } from "../../../assets/reset.svg";
 import ContentTableStyles from "../../../styles/common/utils/ContentTable.module.css";
 
-const ContentTable = ({ headers, rows, handlePrevious, previous, handleReset, handleNext, next }) => {
-
-    const action = (fds) => {
-        setModal(true);
-        setModalData(fds);
-    };
-    const [modal,setModal] = useState(false);
-    const [modalData,setModalData] = useState({});
+const ContentTable = ({ headers, rows, handlePrevious, previous, handleReset, handleNext, next, onRowClick }) => {
 
     const action = (data) => {
         onRowClick(data);
