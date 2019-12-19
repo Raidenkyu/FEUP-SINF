@@ -7,14 +7,13 @@ import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 import Indicator from "../components/common/utils/Indicator";
 import { Graph, colors } from "../components/common/utils/Graph";
-import ContentTable from "../components/common/utils/ContentTable";
+import OrdersList from "../components/orders/OrdersList";
 
 const Orders = ({ path }) => {
     const [loading, setLoading] = useState(true);
     const [ordersChartLabels, setOrdersChartLabels] = useState([]);
     const [ordersChartCancelled, setOrdersChartCancelled] = useState([]);
     const [ordersChartFulfilled, setOrdersChartFulfilled] = useState([]);
-    const [productRows, setProductRows] = useState([]);
     const [pendingValue, setPendingValue] = useState(0);
     const [pendingOrders, setPendingOrders] = useState(0);
 
@@ -35,7 +34,6 @@ const Orders = ({ path }) => {
             setOrdersChartLabels(ordersLabels);
 
             setOrdersChartFulfilled(Object.keys(data.ordersByTimestamp).map((key) => data.ordersByTimestamp[key].fulfilled));
-            setProductRows(data.ordersProducts);
             setLoading(false);
         }).catch(() => {
             setLoading(false);
@@ -58,15 +56,6 @@ const Orders = ({ path }) => {
             },
         },
     };
-
-    const productHeaders = [
-        { index: "id", value: "Order id" },
-        { index: "product", value: "Product" },
-        { index: "state", value: "State" },
-        { index: "quantity", value: "Quantity" },
-        { index: "value", value: "Value (€)" },
-        { index: "date", value: "Date" },
-    ];
 
     return (
         <Layout navbar sidebar path={path}>
@@ -96,9 +85,7 @@ const Orders = ({ path }) => {
                 </Row>
                 <Row className="mb-5">
                     <Col xs="12">
-                        <ContentCard header="Orders List" loading={loading}>
-                            <ContentTable headers={productHeaders} rows={productRows} />
-                        </ContentCard>
+                        <OrdersList />
                     </Col>
                 </Row>
             </Container>
