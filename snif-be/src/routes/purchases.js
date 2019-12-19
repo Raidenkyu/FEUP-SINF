@@ -135,10 +135,8 @@ router.get("/debt", (_req, res) => {
     );
 });
 
-router.get("/:purchaseKey", (req, res) => {
+router.get("/order/:purchaseKey", (req, res) => {
     const key = req.params.purchaseKey;
-
-    console.log("oi");
 
     requestPrimavera(`/purchases/orders/${key}`).then(async (order) => {
 
@@ -160,7 +158,16 @@ router.get("/:purchaseKey", (req, res) => {
             total: order.payableAmount.amount,
             purchasesList: purchasesList
         });
-    });
+    }).catch(
+        () => {
+            var err = new Error("Failed to fetch order");
+            err.status = 401;
+            res.json({
+                message: err.message,
+                error: err
+            });
+        }
+    );
 });
 
 module.exports = router;

@@ -465,7 +465,7 @@ Send `get` request to `api/overview/stock`
 
 ### Get Order Information values for Drilldown Page
 
-Send `get` request to `api/purchases/{orderKey}`
+Send `get` request to `api/purchases/order/{orderKey}`
 
 ```json
     {
