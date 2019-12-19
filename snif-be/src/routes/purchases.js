@@ -46,8 +46,6 @@ router.get("/list", (req, res) => {
             const page = req.query.page || 1;
             const pageSize = req.query.pageSize || 15;
 
-            console.log(page, pageSize);
-
             const purchasesList = [];
 
             purchasesData.forEach((document) => {
@@ -135,6 +133,34 @@ router.get("/debt", (_req, res) => {
             });
         }
     );
+});
+
+router.get("/:purchaseKey", (req, res) => {
+    const key = req.params.purchaseKey;
+
+    console.log("oi");
+
+    requestPrimavera(`/purchases/orders/${key}`).then(async (order) => {
+
+        const purchasesList = [];
+
+        order.documentLines.forEach((purchase) => {
+            purchasesList.push({
+                name: purchase.description,
+                quantity: purchase.quantity,
+                value: purchase.lineExtensionAmount.amount,
+            });
+        });
+
+        res.json({
+            supplierName: order.sellerSupplierPartyName,
+            taxId: order.sellerSupplierPartyTaxId,
+            purchaseId: order.documentLines.orderId,
+            date: order.documentDate.split("T")[0],
+            total: order.payableAmount.amount,
+            purchasesList: purchasesList
+        });
+    });
 });
 
 module.exports = router;
