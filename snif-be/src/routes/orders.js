@@ -69,16 +69,14 @@ router.get("/", (req, res) => {
 
             res.json(response);
         }
-    ).catch(
-        () => {
-            var err = new Error("Failed to fetch orders");
-            err.status = 401;
-            res.json({
-                message: err.message,
-                error: err
-            });
-        }
-    );
+    ).catch(() => {
+        const err = new Error("Failed to fetch Sale");
+        err.status = 400;
+        res.status(400).json({
+            message: err.message,
+            error: err
+        });
+    });
 });
 
 router.get("/list", (req, res) => {
@@ -127,7 +125,14 @@ router.get("/list", (req, res) => {
             res.json(response);
 
         }
-    );
+    ).catch(() => {
+        const err = new Error("Failed to fetch Sale");
+        err.status = 400;
+        res.status(400).json({
+            message: err.message,
+            error: err
+        });
+    });
 });
 
 router.get("/order/:orderKey", (req, res) => {
@@ -149,8 +154,6 @@ router.get("/order/:orderKey", (req, res) => {
                 return;
             }
 
-            console.log(order.documentLines.length);
-
             order.documentLines.forEach((product) => {
                 orderList.push({
                     productName: product.description,
@@ -171,16 +174,14 @@ router.get("/order/:orderKey", (req, res) => {
 
         });
 
-    }).catch(
-        () => {
-            var err = new Error("Failed to fetch order");
-            err.status = 401;
-            res.json({
-                message: err.message,
-                error: err
-            });
-        }
-    );
+    }).catch(() => {
+        const err = new Error("Failed to fetch Sale");
+        err.status = 400;
+        res.status(400).json({
+            message: err.message,
+            error: err
+        });
+    });
 });
 
 module.exports = router;
