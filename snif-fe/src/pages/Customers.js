@@ -20,7 +20,8 @@ const Customers = ({ path }) => {
                     <Col xs="12">
                         <PaginatedTable
                             endpoint="/api/customers"
-                            headers={customersHeaders}
+                            header="Customers List"
+                            tableHeaders={customersHeaders}
                             pageSize={15}
                             list="customers"
                         />
