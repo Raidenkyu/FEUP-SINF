@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Container } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
 import Axios from "axios";
 
@@ -7,6 +7,11 @@ import Layout from "../components/common/layout/Layout";
 import ContentTable from "../components/common/utils/ContentTable";
 import Popup from "../components/common/utils/Popup";
 import ContentCard from "../components/common/utils/ContentCard";
+
+import CustomerStyles from "../styles/customer/Customer.module.css";
+import { ReactComponent as Email } from "../assets/envelope-solid.svg";
+import { ReactComponent as Contact } from "../assets/phone-solid.svg";
+import { ReactComponent as Country } from "../assets/globe-solid.svg";
 
 const Customer = ({ customerKey }) => {
     const [loading, setLoading] = useState(true);
@@ -55,13 +60,44 @@ const Customer = ({ customerKey }) => {
     return (
         <Layout navbar sidebar path="/">
             <Container>
-                <h1> {customerData.name}</h1>
-                <h2> {customerData.email}</h2>
-                <h2> {customerData.contact}</h2>
-                <h2> {customerData.country}</h2>
-                <ContentCard loading={loading} header="Cenas">
-                    <ContentTable headers={productHeaders} rows={customerOrders} onRowClick={onRowClick} />
-                </ContentCard>
+                <Row>
+                    <Col xs="12" className={`${CustomerStyles.pageHeader} mb-5 h1`}>
+                        {customerData.name}
+                    </Col>
+                </Row>
+                <Row className="mb-5">
+                    <Col xs="12">
+                        <ContentCard loading={loading} header="General Information">
+                            <div className="w-100">
+                                <div className="my-3">
+                                    <Email className={CustomerStyles.icon} />
+                                    <span className={CustomerStyles.text}>
+                                        {customerData.email}
+                                    </span>
+                                </div>
+                                <div className="my-3">
+                                    <Contact className={CustomerStyles.icon} />
+                                    <span className={CustomerStyles.text}>
+                                        {customerData.contact}
+                                    </span>
+                                </div>
+                                <div className="my-3">
+                                    <Country className={CustomerStyles.icon} />
+                                    <span className={CustomerStyles.text}>
+                                        {customerData.country}
+                                    </span>
+                                </div>
+                            </div>
+                        </ContentCard>
+                    </Col>
+                </Row>
+                <Row>
+                    <Col xs="12">
+                        <ContentCard loading={loading} header="Orders">
+                            <ContentTable headers={productHeaders} rows={customerOrders} onRowClick={onRowClick} />
+                        </ContentCard>
+                    </Col>
+                </Row>
             </Container>
             <Popup isOpen={modal} toggle={toggle} headers={productHeaders} data={modalData} />
         </Layout>

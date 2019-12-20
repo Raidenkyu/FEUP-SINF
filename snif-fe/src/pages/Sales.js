@@ -8,6 +8,9 @@ import ContentCard from "../components/common/utils/ContentCard";
 import { Graph, colors } from "../components/common/utils/Graph";
 import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
+import SalesList from "../components/sales/SalesList";
+
+import LayoutStyles from "../styles/common/layout.module.css";
 import Popup from "../components/common/utils/Popup";
 
 const Sales = ({ path }) => {
@@ -18,7 +21,6 @@ const Sales = ({ path }) => {
     const [monthlySalesValues, setMonthlySalesValues] = useState([]);
     const [cumulativeSalesValues, setCumulativeSalesValues] = useState([]);
     const [topSellingRows, setTopSellingRows] = useState([]);
-    const [salesRows, setSalesRows] = useState([]);
 
     const [modal, setModal] = useState(false);
     const [modalData, setModalData] = useState({});
@@ -59,7 +61,6 @@ const Sales = ({ path }) => {
                 units: data.products[key].units,
                 revenue: data.products[key].revenue.toFixed(2),
             })));
-            setSalesRows(data.salesList);
             setLoading(false);
         }).catch(() => {
             setLoading(false);
@@ -96,17 +97,14 @@ const Sales = ({ path }) => {
         { index: "revenue", value: "Revenue (€)" },
     ];
 
-    const salesHeaders = [
-        { index: "id", value: "Sale id" },
-        { index: "product", value: "Product" },
-        { index: "quantity", value: "Quantity" },
-        { index: "value", value: "Value (€)" },
-        { index: "date", value: "Date" },
-    ];
-
     return (
         <Layout navbar sidebar path={path}>
             <Container>
+                <Row>
+                    <Col xs="12" className={`${LayoutStyles.pageHeader} mb-5 h1`}>
+                        Sales
+                    </Col>
+                </Row>
                 <Row className="mb-5">
                     <Col xs="12">
                         <ContentCard loading={loading} header="Monthly Sales">
@@ -144,13 +142,11 @@ const Sales = ({ path }) => {
                 </Row>
                 <Row>
                     <Col xs="12">
-                        <ContentCard loading={loading} header="Sales">
-                            <ContentTable headers={salesHeaders} rows={salesRows} onRowClick={onRowClick}/>
-                        </ContentCard>
+                        <SalesList />
                     </Col>
                 </Row>
             </Container>
-            <Popup isOpen={modal} toggle={toggle} headers={salesHeaders} data={modalData}/>
+            <Popup isOpen={modal} toggle={toggle} headers={topSellingHeaders} data={modalData}/>
         </Layout>
     );
 };

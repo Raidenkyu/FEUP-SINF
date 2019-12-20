@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import ContentCard from "./ContentCard";
 import ContentTable from "./ContentTable";
 
-const PaginatedTable = ({ endpoint, headers, pageSize, list, onRowClick }) => {
+const PaginatedTable = ({ endpoint, tableHeaders, pageSize, list, onRowClick, header }) => {
     const [loading, setLoading] = useState(true);
     const [rows, setRows] = useState([]);
     const [page, setPage] = useState(1);
@@ -36,7 +36,7 @@ const PaginatedTable = ({ endpoint, headers, pageSize, list, onRowClick }) => {
         }).catch(() => {
             setLoading(false);
         })
-    }, [page]);
+    }, [endpoint, page, pageSize, list]);
 
     const handleNext = () => {
         setLoading(true);
@@ -56,16 +56,16 @@ const PaginatedTable = ({ endpoint, headers, pageSize, list, onRowClick }) => {
     }
     const handleonRowClick = (data) => { 
         const newdata = {
-            headers: headers,
+            headers: tableHeaders,
             data: data
         };
         onRowClick(newdata);
     };
 
     return (
-        <ContentCard loading={loading} header="Purchases">
+        <ContentCard loading={loading} header={header}>
             <ContentTable
-                headers={headers}
+                headers={tableHeaders}
                 rows={rows}
                 handlePrevious={handlePrevious}
                 previous={previous}
@@ -80,9 +80,11 @@ const PaginatedTable = ({ endpoint, headers, pageSize, list, onRowClick }) => {
 
 PaginatedTable.propTypes = {
     endpoint: PropTypes.string.isRequired,
-    headers: PropTypes.array.isRequired,
+    tableHeaders: PropTypes.array.isRequired,
     pageSize: PropTypes.number.isRequired,
     list: PropTypes.string.isRequired,
+    onRowClick: PropTypes.func.isRequired,
+    header: PropTypes.string.isRequired,
 }
 
 export default PaginatedTable;

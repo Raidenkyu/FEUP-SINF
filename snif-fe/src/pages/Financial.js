@@ -8,6 +8,8 @@ import ContentCard from "../components/common/utils/ContentCard";
 import Indicator from "../components/common/utils/Indicator";
 import { Graph, colors } from "../components/common/utils/Graph";
 
+import LayoutStyles from "../styles/common/layout.module.css";
+
 const Financial = ({ path }) => {
     const [loading, setLoading] = useState(true);
     const [netProfitValues, setNetProfitValues] = useState([]);
@@ -89,6 +91,11 @@ const Financial = ({ path }) => {
     return (
         <Layout path={path} navbar sidebar>
             <Container>
+                <Row>
+                    <Col xs="12" className={`${LayoutStyles.pageHeader} mb-5 h1`}>
+                        Financial
+                    </Col>
+                </Row>
                 <Row className="mb-5">
                     <Col xs="6">
                         <ContentCard loading={loading} header="Gross and Net profit margin (€)">
@@ -101,7 +108,6 @@ const Financial = ({ path }) => {
                         </ContentCard>
                     </Col>
                 </Row>
-
                 <Row className="mb-5">
                     <Col lg="3" xs="12">
                         <ContentCard loading={loading} header="EBITDA (€)">
@@ -124,7 +130,6 @@ const Financial = ({ path }) => {
                         </ContentCard>
                     </Col>
                 </Row>
-
                 <Row className="mb-5">
                     <Col lg="3" xs="12">
                         <ContentCard loading={loading} header="Cash ratio">

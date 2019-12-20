@@ -5,10 +5,8 @@ const { extractTimestamp } = require("../utils/regex");
 const { getYearProfit } = require("../utils/sales");
 
 router.get("/", (_req, res) => {
-    console.log(0);
     requestInvoice().then(
         (invoiceData) => {
-
             const response = {
                 growth: 0,
                 margin: 0,
@@ -88,24 +86,19 @@ router.get("/", (_req, res) => {
 
             res.json(response);
         }
-    ).catch(
-        () => {
-            const err = new Error("Failed to fetch Sales");
-            err.status = 500;
-            res.json({
-                message: err.message,
-                error: err
-            });
-        }
-    );
+    ).catch(() => {
+        const err = new Error("Failed to fetch Sales");
+        err.status = 400;
+        res.status(400).json({
+            message: err.message,
+            error: err
+        });
+    });
 });
 
 router.get("/list", (req, res) => {
-
-
     requestInvoice().then(
         (invoiceData) => {
-
             const page = req.query.page || 1;
             const pageSize = req.query.pageSize || 15;
 
@@ -142,7 +135,6 @@ router.get("/list", (req, res) => {
             }).slice((page - 1) * pageSize, page * pageSize);
 
             res.json(response);
-
         }
     );
 });

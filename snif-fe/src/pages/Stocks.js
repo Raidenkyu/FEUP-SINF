@@ -10,6 +10,8 @@ import ContentTable from "../components/common/utils/ContentTable";
 import Financial from "../components/stocks/Financial";
 import Popup from "../components/common/utils/Popup";
 
+import LayoutStyles from "../styles/common/layout.module.css";
+
 const Stocks = ({ path }) => {
     const [loading, setLoading] = useState(true);
     const [productRows, setProductRows] = useState([]);
@@ -61,6 +63,11 @@ const Stocks = ({ path }) => {
     return (
         <Layout navbar sidebar path={path}>
             <Container>
+                <Row>
+                    <Col xs="12" className={`${LayoutStyles.pageHeader} mb-5 h1`}>
+                        Stocks
+                    </Col>
+                </Row>
                 <Row className="mb-5">
                     <Col xs="6">
                         <ContentCard loading={loading} header="Products">

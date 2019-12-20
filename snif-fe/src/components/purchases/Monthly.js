@@ -41,13 +41,9 @@ const Monthly = () => {
     };
 
     return (
-        <Row className="mb-5">
-            <Col xs="12">
-                <ContentCard loading={loading} header="Monthly Purchases">
-                    <Graph data={monthlyPurchases} />
-                </ContentCard>
-            </Col>
-        </Row>
+        <ContentCard loading={loading} header="Monthly Purchases">
+            <Graph data={monthlyPurchases} />
+        </ContentCard>
     );
 };
 
