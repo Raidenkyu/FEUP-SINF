@@ -9,7 +9,6 @@ import Debt from "../components/purchases/Debt";
 import TopSuppliers from "../components/purchases/TopSuppliers";
 import PurchasesList from "../components/purchases/PurchasesList";
 import Popup from "../components/common/utils/Popup";
-import LayoutStyles from "../styles/common/layout.module.css"
 
 const Purchases = ({ path }) => {
 

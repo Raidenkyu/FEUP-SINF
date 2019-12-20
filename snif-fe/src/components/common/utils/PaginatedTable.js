@@ -5,7 +5,7 @@ import PropTypes from "prop-types";
 import ContentCard from "./ContentCard";
 import ContentTable from "./ContentTable";
 
-const PaginatedTable = ({ endpoint, headers, pageSize, list, onRowClick }) => {
+const PaginatedTable = ({ endpoint, tableHeaders, pageSize, list, onRowClick, header }) => {
     const [loading, setLoading] = useState(true);
     const [rows, setRows] = useState([]);
     const [page, setPage] = useState(1);
@@ -56,7 +56,7 @@ const PaginatedTable = ({ endpoint, headers, pageSize, list, onRowClick }) => {
     }
     const handleonRowClick = (data) => { 
         const newdata = {
-            headers: headers,
+            headers: tableHeaders,
             data: data
         };
         onRowClick(newdata);

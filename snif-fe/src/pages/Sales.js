@@ -146,7 +146,7 @@ const Sales = ({ path }) => {
                     </Col>
                 </Row>
             </Container>
-            <Popup isOpen={modal} toggle={toggle} headers={salesHeaders} data={modalData}/>
+            <Popup isOpen={modal} toggle={toggle} headers={topSellingHeaders} data={modalData}/>
         </Layout>
     );
 };
