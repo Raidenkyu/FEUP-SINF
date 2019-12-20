@@ -70,7 +70,7 @@ const Stocks = ({ path }) => {
                         Stocks
                     </Col>
                 </Row>
-                {/* <Financial /> */}
+                <Financial />
                 <Row>
                     <Col xs="6">
                         <ContentCard loading={loading} header="Products value in stock (€)">
