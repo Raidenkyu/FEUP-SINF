@@ -19,3 +19,8 @@
     height: 100px !important;
     color: var(--light-green) !important;
 }
+
+.pageHeader {
+    color: var(--light-green);
+    font-weight: 100 !important;
+}

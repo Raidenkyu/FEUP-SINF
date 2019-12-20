@@ -10,6 +10,8 @@ import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
 import SalesList from "../components/sales/SalesList";
 
+import LayoutStyles from "../styles/common/layout.module.css";
+
 const Sales = ({ path }) => {
     const [loading, setLoading] = useState(true);
     const [growth, setGrowth] = useState(0);
@@ -84,6 +86,11 @@ const Sales = ({ path }) => {
     return (
         <Layout navbar sidebar path={path}>
             <Container>
+                <Row>
+                    <Col xs="12" className={LayoutStyles.pageHeader + " mb-5 h1"}>
+                        Sales
+                    </Col>
+                </Row>
                 <Row className="mb-5">
                     <Col xs="12">
                         <ContentCard loading={loading} header="Monthly Sales">
