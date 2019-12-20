@@ -4,18 +4,19 @@ import PropTypes from "prop-types";
 import Axios from "axios";
 
 import Layout from "../components/common/layout/Layout";
-import ContentTable from "../components/common/utils/ContentTable";
 import Popup from "../components/common/utils/Popup";
 import ContentCard from "../components/common/utils/ContentCard";
 import CustomerStyles from "../styles/customer/Customer.module.css";
 import { ReactComponent as Email } from "../assets/envelope-solid.svg";
 import { ReactComponent as Contact } from "../assets/phone-solid.svg";
 import { ReactComponent as Country } from "../assets/globe-solid.svg";
+import SalesList from "../components/customer/SalesList";
+import OrdersList from "../components/customer/OrdersList";
 
 const Customer = ({ customerKey }) => {
     const [loading, setLoading] = useState(true);
     const [customerData, setCustomerData] = useState({});
-    const [customerOrders, setCustomerOrders] = useState([]);
+    // const [customerOrders, setCustomerOrders] = useState([]);
 
     useEffect(() => {
         Axios.get(`http://localhost:9000/api/customers/${customerKey}`, {
@@ -29,7 +30,7 @@ const Customer = ({ customerKey }) => {
                 contact: data.telefone,
                 country: data.country,
             });
-            setCustomerOrders(data.orders);
+            // setCustomerOrders(data.orders);
             setLoading(false);
         }).catch(() => {
             setLoading(false);
@@ -90,11 +91,14 @@ const Customer = ({ customerKey }) => {
                         </ContentCard>
                     </Col>
                 </Row>
-                <Row>
+                <Row className="mb-5">
                     <Col xs="12">
-                        <ContentCard loading={loading} header="Orders">
-                            <ContentTable headers={productHeaders} rows={customerOrders} onRowClick={onRowClick} />
-                        </ContentCard>
+                        <OrdersList onRowClick={onRowClick} />
+                    </Col>
+                </Row>
+                <Row className="mb-5">
+                    <Col xs="12">
+                        <SalesList onRowClick={onRowClick} />
                     </Col>
                 </Row>
             </Container>
