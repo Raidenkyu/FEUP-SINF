@@ -19,7 +19,11 @@ const Purchases = ({ path }) => (
                     Purchases
                 </Col>
             </Row>
-            <Monthly />
+            <Row className="mb-5">
+                <Col xs="12">
+                    <Monthly />
+                </Col>
+            </Row>
             <Row className="mb-5">
                 <Col xs="6" className="d-flex flex-column align-items-stretch flex-wrap w-100">
                     <Debt />
