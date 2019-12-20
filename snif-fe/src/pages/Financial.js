@@ -92,7 +92,7 @@ const Financial = ({ path }) => {
         <Layout path={path} navbar sidebar>
             <Container>
                 <Row>
-                    <Col xs="12" className={LayoutStyles.pageHeader + " mb-5 h1"}>
+                    <Col xs="12" className={`${LayoutStyles.pageHeader} mb-5 h1`}>
                         Financial
                     </Col>
                 </Row>

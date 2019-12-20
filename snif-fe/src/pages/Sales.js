@@ -87,7 +87,7 @@ const Sales = ({ path }) => {
         <Layout navbar sidebar path={path}>
             <Container>
                 <Row>
-                    <Col xs="12" className={LayoutStyles.pageHeader + " mb-5 h1"}>
+                    <Col xs="12" className={`${LayoutStyles.pageHeader} mb-5 h1`}>
                         Sales
                     </Col>
                 </Row>
