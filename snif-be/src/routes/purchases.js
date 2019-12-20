@@ -46,8 +46,6 @@ router.get("/list", (req, res) => {
             const page = req.query.page || 1;
             const pageSize = req.query.pageSize || 15;
 
-            console.log(page, pageSize);
-
             const purchasesList = [];
 
             purchasesData.forEach((document) => {
@@ -102,6 +100,7 @@ router.get("/suppliers", (_req, res) => {
         }
     );
 });
+
 router.get("/debt", (_req, res) => {
     requestPrimavera("/purchases/orders").then(
         async (orderData) => {
@@ -127,6 +126,41 @@ router.get("/debt", (_req, res) => {
     ).catch(
         () => {
             var err = new Error("Failed to fetch debt");
+            err.status = 401;
+            res.json({
+                message: err.message,
+                error: err
+            });
+        }
+    );
+});
+
+router.get("/order/:purchaseKey", (req, res) => {
+    const key = req.params.purchaseKey;
+
+    requestPrimavera(`/purchases/orders/${key}`).then(async (order) => {
+
+        const purchasesList = [];
+
+        order.documentLines.forEach((purchase) => {
+            purchasesList.push({
+                name: purchase.description,
+                quantity: purchase.quantity,
+                value: purchase.lineExtensionAmount.amount,
+            });
+        });
+
+        res.json({
+            supplierName: order.sellerSupplierPartyName,
+            taxId: order.sellerSupplierPartyTaxId,
+            purchaseId: order.documentLines.orderId,
+            date: order.documentDate.split("T")[0],
+            total: order.payableAmount.amount,
+            purchasesList: purchasesList
+        });
+    }).catch(
+        () => {
+            var err = new Error("Failed to fetch order");
             err.status = 401;
             res.json({
                 message: err.message,

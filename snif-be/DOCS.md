@@ -462,3 +462,33 @@ Send `get` request to `api/overview/stock`
         "resources": 9027.5
     }
 ```
+
+### Get Order Information values for Drilldown Page
+
+Send `get` request to `api/purchases/order/{orderKey}`
+
+```json
+    {
+    "supplierName": "The Navigator Company",
+    "taxId": "519951018",
+    "date": "2019-12-14",
+    "total": 847.5,
+    "purchasesList": [
+        {
+            "name": "Folha Dupla",
+            "quantity": 5000,
+            "value": 282.5
+        },
+        {
+            "name": "Folha Simples",
+            "quantity": 5000,
+            "value": 169.5
+        },
+        {
+            "name": "Folha Tripla",
+            "quantity": 5000,
+            "value": 395.5
+        }
+    ]
+}
+```
