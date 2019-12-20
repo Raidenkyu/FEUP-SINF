@@ -129,15 +129,14 @@ Example response:
 
 ```json
 {
-    "salesList": [
+     "salesList": [
         {
-            "id": "55403bed-b6df-4bae-b01a-16ff581d242e",
-            "product": "Folha Dupla com Cheiro a Menta",
-            "quantity": 1500,
-            "value": 300,
-            "date": "2019-12-14",
-            "revenue": 369
-        },
+            "clientName": "Lyon Souveniers",
+            "clientTaxID": "518377679",
+            "totalValue": 984,
+            "date": "2019-12-17",
+            "invoiceId": "beeb3af9-8908-44e9-9a5a-2163643cb193"
+        }
     ]
 }
 ```
@@ -509,6 +508,34 @@ Send `get` request to `api/orders/order/{orderKey}`
             "productName": "Folha Dupla com Cheiro a Gelado",
             "productQuantity": 300,
             "productValue": 73.8
+        }
+    ]
+}
+```
+
+### Get Sale Information values for Drilldown Page
+
+Send `get` request to `api/sales/sale/{saleKey}`
+
+```json
+{
+    "clientName": "MicroPreco",
+    "clientTaxID": "553848860",
+    "totalValue": 608.85,
+    "date": "2019-12-14",
+    "invoiceId": "55403bed-b6df-4bae-b01a-16ff581d242e",
+    "salesList": [
+        {
+            "product": "Folha Dupla com Cheiro a Menta",
+            "quantity": 1500,
+            "value": 300,
+            "revenue": 369
+        },
+        {
+            "product": "Folha Simples Cheiro a Menta",
+            "quantity": 1500,
+            "value": 195,
+            "revenue": 239.85
         }
     ]
 }
