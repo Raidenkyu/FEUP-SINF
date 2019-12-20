@@ -89,6 +89,7 @@ router.get("/suppliers", (_req, res) => {
                 }, { quantity: 0, totalPrice: 0, num: 0 });
                 suppliers.push({
                     supplierId: supplier.sellerSupplierPartyTaxId,
+                    supplierKey: supplier.sellerSupplierParty,
                     quantity: accumulator.quantity,
                     priceRatio: (accumulator.totalPrice / accumulator.num).toFixed(2)
                 });
@@ -162,6 +163,26 @@ router.get("/order/:purchaseKey", (req, res) => {
         () => {
             var err = new Error("Failed to fetch order");
             err.status = 401;
+            res.json({
+                message: err.message,
+                error: err
+            });
+        }
+    );
+});
+
+router.get("/suppliers/:supplierKey", (req, res) => {
+    const key = req.params.supplierKey;
+    console.log(key);
+
+    requestPrimavera(`/purchasesCore/supplierParties/${key}`).then(
+        (supplier) => {
+            res.json(supplier);
+        }
+    ).catch(
+        () => {
+            var err = new Error("Failed to fetch supplier");
+            err.status = 500;
             res.json({
                 message: err.message,
                 error: err
