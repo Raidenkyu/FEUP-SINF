@@ -102,15 +102,13 @@ router.get("/list", (req, res) => {
             const ordersProducts = [];
 
             ordersData.forEach((order) => {
-                order.documentLines.forEach((product) => {
-                    ordersProducts.push({
-                        id: product.orderId,
-                        product: product.description,
-                        state: (product.isDeleted ? "Cancelled" : (product.documentLineStatus == 1 ? "Pending" : "Processed")),
-                        quantity: product.quantity,
-                        value: product.lineExtensionAmount.amount,
-                        date: product.deliveryDate.split("T")[0]
-                    });
+                ordersProducts.push({
+                    clientName: order.buyerCustomerPartyName,
+                    clientTaxID: order.buyerCustomerPartyTaxId,
+                    totalValue: order.payableAmount.amount,
+                    date: order.exchangeRateDate.split("T")[0],
+                    orderId: order.documentLines[0].orderId,
+                    state: (order.documentLines[0].isDeleted ? "Cancelled" : (order.documentLines[0].documentLineStatus == 1 ? "Pending" : "Processed")),
                 });
             });
 
@@ -128,6 +126,59 @@ router.get("/list", (req, res) => {
 
             res.json(response);
 
+        }
+    );
+});
+
+router.get("/order/:orderKey", (req, res) => {
+    const key = req.params.orderKey;
+
+    if (!PERMISSIONS.includes(req.role)) {
+        return res.status(401).json({
+            message: 'Unauthorized: Role not valid',
+        });
+    }
+
+    requestOrders().then(async (orders) => {
+
+        const orderList = [];
+
+        orders.forEach((order) => {
+
+            if (order.documentLines[0].orderId != key) {
+                return;
+            }
+
+            console.log(order.documentLines.length);
+
+            order.documentLines.forEach((product) => {
+                orderList.push({
+                    productName: product.description,
+                    productQuantity: product.quantity,
+                    productValue: product.lineExtensionAmount.amount,
+                });
+            });
+
+            res.json({
+                clientName: order.buyerCustomerPartyName,
+                clientTaxID: order.buyerCustomerPartyTaxId,
+                totalValue: order.payableAmount.amount,
+                date: order.documentDate.split("T")[0],
+                orderId: order.documentLines.orderId,
+                state: (order.documentLines[0].isDeleted ? "Cancelled" : (order.documentLines[0].documentLineStatus == 1 ? "Pending" : "Processed")),
+                orderList: orderList
+            });
+
+        });
+
+    }).catch(
+        () => {
+            var err = new Error("Failed to fetch order");
+            err.status = 401;
+            res.json({
+                message: err.message,
+                error: err
+            });
         }
     );
 });
