@@ -16,20 +16,22 @@ const Stocks = ({ path }) => {
     const [loading, setLoading] = useState(true);
     const [productRows, setProductRows] = useState([]);
     const [resourcesRows, setResourcesRows] = useState([]);
-    const [productsStock, setProductsStock] = useState(true);
-    const [resourcesStock, setResourcesStock] = useState(true);
-
+    const [productsStock, setProductsStock] = useState(0);
+    const [resourcesStock, setResourcesStock] = useState(0);
     const [modal, setModal] = useState(false);
-    const [modalData, setModalData] = useState({});
+    const [modalData, setModalData] = useState({ headers: [], data: {} });
 
-    const onRowClick = (data) => {
+    const onRowClick = (headers, row) => {
         setModal(!modal);
-        setModalData(data);
+        setModalData({
+            headers: headers,
+            data: row,
+        });
     };
 
     const toggle = () => {
         setModal(!modal);
-        setModalData({});
+        setModalData({ headers: [], data: {} });
     };
 
     useEffect(() => {
@@ -68,19 +70,7 @@ const Stocks = ({ path }) => {
                         Stocks
                     </Col>
                 </Row>
-                <Row className="mb-5">
-                    <Col xs="6">
-                        <ContentCard loading={loading} header="Products">
-                            <ContentTable headers={productHeaders} rows={productRows} onRowClick={onRowClick} />
-                        </ContentCard>
-                    </Col>
-                    <Col xs="6">
-                        <ContentCard loading={loading} header="Resources">
-                            <ContentTable headers={resourcesHeaders} rows={resourcesRows} onRowClick={onRowClick} />
-                        </ContentCard>
-                    </Col>
-                </Row>
-                <Financial />
+                {/* <Financial /> */}
                 <Row>
                     <Col xs="6">
                         <ContentCard loading={loading} header="Products value in stock (€)">
@@ -93,8 +83,20 @@ const Stocks = ({ path }) => {
                         </ContentCard>
                     </Col>
                 </Row>
+                <Row className="mb-5">
+                    <Col xs="6">
+                        <ContentCard loading={loading} header="Products">
+                            <ContentTable headers={productHeaders} rows={productRows} onRowClick={onRowClick} />
+                        </ContentCard>
+                    </Col>
+                    <Col xs="6">
+                        <ContentCard loading={loading} header="Resources">
+                            <ContentTable headers={resourcesHeaders} rows={resourcesRows} onRowClick={onRowClick} />
+                        </ContentCard>
+                    </Col>
+                </Row>
             </Container>
-            <Popup isOpen={modal} toggle={toggle} headers={productHeaders} data={modalData}/>
+            <Popup isOpen={modal} toggle={toggle} headers={modalData.headers} data={modalData.data}/>
         </Layout>
     );
 };
