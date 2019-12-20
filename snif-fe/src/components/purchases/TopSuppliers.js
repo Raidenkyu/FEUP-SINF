@@ -29,18 +29,9 @@ const TopSuppliers = ({onRowClick}) => {
         });
     }, []);
 
-    const handleonRowClick = (data) => {
-        const newdata = {
-            headers: topSuppliersHeaders,
-            data: data,
-        };
-        onRowClick(newdata);
-        
-    };
-
     return (
         <ContentCard loading={loading} header="Top Suppliers">
-            <ContentTable headers={topSuppliersHeaders} rows={suppliers} onRowClick={handleonRowClick}/>
+            <ContentTable headers={topSuppliersHeaders} rows={suppliers} onRowClick={onRowClick}/>
         </ContentCard>
     );
 };

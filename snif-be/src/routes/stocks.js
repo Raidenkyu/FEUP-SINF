@@ -73,7 +73,7 @@ router.get("/", (_req, res) => {
         () => {
             var err = new Error("Failed to fetch stocks");
             err.status = 401;
-            res.json({
+            res.status(401).json({
                 message: err.message,
                 error: err
             });

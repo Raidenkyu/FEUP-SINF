@@ -21,18 +21,20 @@ const Sales = ({ path }) => {
     const [monthlySalesValues, setMonthlySalesValues] = useState([]);
     const [cumulativeSalesValues, setCumulativeSalesValues] = useState([]);
     const [topSellingRows, setTopSellingRows] = useState([]);
-
     const [modal, setModal] = useState(false);
-    const [modalData, setModalData] = useState({});
+    const [modalData, setModalData] = useState({ headers: [], data: {} });
 
-    const onRowClick = (data) => {
+    const onRowClick = (headers, row) => {
         setModal(!modal);
-        setModalData(data);
+        setModalData({
+            headers: headers,
+            data: row,
+        });
     };
 
     const toggle = () => {
         setModal(!modal);
-        setModalData({});
+        setModalData({ headers: [], data: {} });
     };
 
     useEffect(() => {
@@ -142,11 +144,11 @@ const Sales = ({ path }) => {
                 </Row>
                 <Row>
                     <Col xs="12">
-                        <SalesList />
+                        <SalesList onRowClick={onRowClick} />
                     </Col>
                 </Row>
             </Container>
-            <Popup isOpen={modal} toggle={toggle} headers={topSellingHeaders} data={modalData}/>
+            <Popup isOpen={modal} toggle={toggle} headers={modalData.headers} data={modalData.data}/>
         </Layout>
     );
 };

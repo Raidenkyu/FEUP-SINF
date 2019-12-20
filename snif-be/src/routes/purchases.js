@@ -24,7 +24,7 @@ router.get("/monthly", (_req, res) => {
 
             Object.keys(purchasesByTimestamp).sort().forEach((key) => {
                 response.purchasesByTimestamp[key] = purchasesByTimestamp[key];
-              });
+            });
             res.json(response);
         }
     ).catch(
@@ -51,14 +51,15 @@ router.get("/list", (req, res) => {
             purchasesData.forEach((document) => {
                 document.documentLines.forEach((purchase) => {
                     purchasesList.push({
+                        supplierName: document.sellerSupplierPartyName,
+                        supplierTaxID: document.sellerSupplierPartyTaxId,
+                        totalValue: document.payableAmount.amount,
+                        date: document.exchangeRateDate.split("T")[0],
                         purchaseId: purchase.orderId,
-                        name: purchase.description,
-                        quantity: purchase.quantity,
-                        value: purchase.lineExtensionAmount.amount,
-                        date: purchase.deliveryDate.split("T")[0]
                     });
                 });
             });
+
             res.json({
                 purchasesList: purchasesList.sort((a, b) => {
                     if (a.date < b.date) {
@@ -104,21 +105,21 @@ router.get("/suppliers", (_req, res) => {
 router.get("/debt", (_req, res) => {
     requestPrimavera("/purchases/orders").then(
         async (orderData) => {
-            
+
             const totalOrders = orderData.reduce((acumulator, order) => {
                 if (order.documentStatus == "2") {
                     acumulator += order.payableAmount.amount
                 }
                 return acumulator;
-            },0);
+            }, 0);
 
             const invoiceData = await requestPrimavera("/accountsPayable/payments");
 
             const totalPaid = invoiceData.reduce((acumulator, invoice) => {
-                        acumulator += invoice.payableAmount.amount
-                        return acumulator;
-                    },0);
-            
+                acumulator += invoice.payableAmount.amount
+                return acumulator;
+            }, 0);
+
             const debt = totalOrders - totalPaid;
 
             res.json({ debt: debt });
@@ -144,18 +145,18 @@ router.get("/order/:purchaseKey", (req, res) => {
 
         order.documentLines.forEach((purchase) => {
             purchasesList.push({
-                name: purchase.description,
-                quantity: purchase.quantity,
-                value: purchase.lineExtensionAmount.amount,
+                productName: purchase.description,
+                productQuantity: purchase.quantity,
+                productValue: purchase.lineExtensionAmount.amount,
             });
         });
 
         res.json({
             supplierName: order.sellerSupplierPartyName,
-            taxId: order.sellerSupplierPartyTaxId,
-            purchaseId: order.documentLines.orderId,
+            supplierTaxID: order.sellerSupplierPartyTaxId,
+            totalValue: order.payableAmount.amount,
             date: order.documentDate.split("T")[0],
-            total: order.payableAmount.amount,
+            purchaseId: order.documentLines.orderId,
             purchasesList: purchasesList
         });
     }).catch(

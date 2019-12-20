@@ -19,18 +19,19 @@ const Orders = ({ path }) => {
     const [ordersChartFulfilled, setOrdersChartFulfilled] = useState([]);
     const [pendingValue, setPendingValue] = useState(0);
     const [pendingOrders, setPendingOrders] = useState(0);
-
     const [modal, setModal] = useState(false);
     const [modalData, setModalData] = useState({ headers: [], data: {} });
 
-    const onRowClick = (data) => {
+    const onRowClick = (headers, row) => {
         setModal(!modal);
-        setModalData(data);
+        setModalData({
+            headers: headers,
+            data: row,
+        });
     };
 
     const toggle = () => {
         setModal(!modal);
-        // setModalData({});
         setModalData({ headers: [], data: {} });
     };
 

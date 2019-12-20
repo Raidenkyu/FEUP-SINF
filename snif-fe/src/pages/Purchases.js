@@ -11,18 +11,25 @@ import PurchasesList from "../components/purchases/PurchasesList";
 import Popup from "../components/common/utils/Popup";
 
 const Purchases = ({ path }) => {
-
     const [modal, setModal] = useState(false);
     const [modalData, setModalData] = useState({ headers: [], data: {} });
 
     const toggle = () => {
         setModal(!modal);
-        setModalData({ headers: [], data: {} });
+        setModalData({
+            headers: [],
+            data: {},
+        });
     };
-    const onRowClick = (data) => {
+
+    const onRowClick = (headers, row) => {
         setModal(!modal);
-        setModalData(data);
+        setModalData({
+            headers: headers,
+            data: row,
+        });
     };
+
     return (
         <Layout navbar sidebar path={path}>
             <Container>

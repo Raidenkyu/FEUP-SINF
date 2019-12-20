@@ -272,13 +272,13 @@ Example response:
 
 ```json
 {
-    "purchasesList": [
+   "purchasesList": [
         {
-            "purchaseId": "a759e462-7007-46f7-954e-427e335d6e95",
-            "name": "Folha Simples",
-            "quantity": 5000,
-            "value": 169.5,
-            "date": "2020-03-20"
+            "supplierName": "Renova",
+            "supplierTaxID": "543458687",
+            "totalValue": 988.75,
+            "date": "2020-01-17",
+            "purchaseId": "0d122b23-6e59-4c5d-b622-65772aaba224"
         },
     ]
 }
@@ -469,25 +469,15 @@ Send `get` request to `api/purchases/order/{orderKey}`
 
 ```json
     {
-    "supplierName": "The Navigator Company",
-    "taxId": "519951018",
-    "date": "2019-12-14",
-    "total": 847.5,
+    "supplierName": "Renova",
+    "supplierTaxID": "543458687",
+    "totalValue": 988.75,
+    "date": "2020-01-17",
     "purchasesList": [
         {
-            "name": "Folha Dupla",
-            "quantity": 5000,
-            "value": 282.5
-        },
-        {
-            "name": "Folha Simples",
-            "quantity": 5000,
-            "value": 169.5
-        },
-        {
-            "name": "Folha Tripla",
-            "quantity": 5000,
-            "value": 395.5
+            "productName": "Sacos para embalar",
+            "productQuantity": 12500,
+            "productValue": 988.75
         }
     ]
 }

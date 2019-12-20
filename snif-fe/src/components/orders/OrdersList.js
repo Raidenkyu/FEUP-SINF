@@ -2,7 +2,7 @@ import React from "react";
 
 import PaginatedTable from "../common/utils/PaginatedTable";
 
-const OrdersList = ({onRowClick}) => {
+const OrdersList = ({ onRowClick }) => {
     const productHeaders = [
         { index: "id", value: "Order id" },
         { index: "product", value: "Product" },
