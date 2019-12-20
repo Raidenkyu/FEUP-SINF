@@ -1,28 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { Table, Col, Row } from 'reactstrap';
 import PropTypes from "prop-types";
-
-import Popup from "./Popup";
 
 import { ReactComponent as Previous } from "../../../assets/backward.svg";
 import { ReactComponent as Next } from "../../../assets/forward.svg";
 import { ReactComponent as Reset } from "../../../assets/reset.svg";
 import ContentTableStyles from "../../../styles/common/utils/ContentTable.module.css";
 
-const ContentTable = ({ headers, rows, handlePrevious, previous, handleReset, handleNext, next }) => {
+const ContentTable = ({ headers, rows, handlePrevious, previous, handleReset, handleNext, next, onRowClick }) => {
 
-    const action = (fds) => {
-        setModal(true);
-        setModalData(fds);
+    const action = (data) => {
+        onRowClick(data);
     };
-    const [modal,setModal] = useState(false);
-    const [modalData,setModalData] = useState({});
-
-    const toggle = () => {
-        setModal(!modal);
-        setModalData({});
-    };
-
     return(
         <div className="w-100 h-100">
             <Table borderless hover className={ContentTableStyles.table}>
@@ -46,7 +35,6 @@ const ContentTable = ({ headers, rows, handlePrevious, previous, handleReset, ha
                         </tr>
                     ))}
                 </tbody>
-                <Popup isOpen={modal} toggle={toggle} headers={headers} data={modalData}/>
             </Table>
             {handlePrevious && handleReset && handleNext && 
                 <Row>

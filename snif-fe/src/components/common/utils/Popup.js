@@ -25,7 +25,7 @@ const Popup = ({ isOpen, toggle, headers, data }) => (
 Popup.propTypes = {
     isOpen: PropTypes.bool,
     toggle: PropTypes.func.isRequired,
-    headers: PropTypes.array.isRequired,
+    headers: PropTypes.array,
     data: PropTypes.object.isRequired,
 };
 

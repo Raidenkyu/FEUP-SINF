@@ -8,6 +8,7 @@ import ContentCard from "../components/common/utils/ContentCard";
 import Indicator from "../components/common/utils/Indicator";
 import { Graph, colors } from "../components/common/utils/Graph";
 import OrdersList from "../components/orders/OrdersList";
+import Popup from "../components/common/utils/Popup";
 
 import LayoutStyles from "../styles/common/layout.module.css";
 
@@ -18,6 +19,20 @@ const Orders = ({ path }) => {
     const [ordersChartFulfilled, setOrdersChartFulfilled] = useState([]);
     const [pendingValue, setPendingValue] = useState(0);
     const [pendingOrders, setPendingOrders] = useState(0);
+
+    const [modal, setModal] = useState(false);
+    const [modalData, setModalData] = useState({ headers: [], data: {} });
+
+    const onRowClick = (data) => {
+        setModal(!modal);
+        setModalData(data);
+    };
+
+    const toggle = () => {
+        setModal(!modal);
+        // setModalData({});
+        setModalData({ headers: [], data: {} });
+    };
 
     useEffect(() => {
         Axios.get("http://localhost:9000/api/orders", {
@@ -92,10 +107,11 @@ const Orders = ({ path }) => {
                 </Row>
                 <Row className="mb-5">
                     <Col xs="12">
-                        <OrdersList />
+                        <OrdersList onRowClick={onRowClick} />
                     </Col>
                 </Row>
             </Container>
+            <Popup isOpen={modal} toggle={toggle} headers={modalData.headers} data={modalData.data} />
         </Layout>
     );
 };

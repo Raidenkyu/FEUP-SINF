@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
+import { navigate } from "@reach/router";
 
 import Layout from "../components/common/layout/Layout";
 import PaginatedTable from "../components/common/utils/PaginatedTable";
@@ -8,6 +9,12 @@ import PaginatedTable from "../components/common/utils/PaginatedTable";
 import LayoutStyles from "../styles/common/layout.module.css";
 
 const Customers = ({ path }) => {
+
+    const onRowClick = ({ data }) => {
+        // console.log(data);
+        navigate(`/customers/${data.customerKey}`);
+    };
+
     const customersHeaders = [
         { index: "name", value: "Name" },
         { index: "lastDate", value: "Date of last order" },
@@ -31,6 +38,7 @@ const Customers = ({ path }) => {
                             tableHeaders={customersHeaders}
                             pageSize={15}
                             list="customers"
+                            onRowClick={onRowClick}
                         />
                     </Col>
                 </Row>
