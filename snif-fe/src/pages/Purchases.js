@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
 
@@ -8,48 +8,32 @@ import CumulativeMonthly from "../components/purchases/CumulativeMonthly";
 import Debt from "../components/purchases/Debt";
 import TopSuppliers from "../components/purchases/TopSuppliers";
 import PurchasesList from "../components/purchases/PurchasesList";
-import Popup from "../components/common/utils/Popup";
 
-const Purchases = ({ path }) => {
-
-    const [modal, setModal] = useState(false);
-    const [modalData, setModalData] = useState({ headers: [], data: {} });
-
-    const toggle = () => {
-        setModal(!modal);
-        setModalData({ headers: [], data: {} });
-    };
-    const onRowClick = (data) => {
-        setModal(!modal);
-        setModalData(data);
-    };
-    return (
-        <Layout navbar sidebar path={path}>
-            <Container>
-                <Row className="mb-5">
-                    <Col xs="12">
-                        <Monthly />
-                    </Col>
-                </Row>
-                <Row className="mb-5">
-                    <Col xs="6" className="d-flex flex-column align-items-stretch flex-wrap w-100">
-                        <Debt />
-                        <CumulativeMonthly />
-                    </Col>
-                    <Col xs="6">
-                        <TopSuppliers onRowClick={onRowClick} />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col xs="12">
-                        <PurchasesList onRowClick={onRowClick} />
-                    </Col>
-                </Row>
-            </Container>
-            <Popup isOpen={modal} toggle={toggle} headers={modalData.headers} data={modalData.data} />
-        </Layout>
-    );
-};
+const Purchases = ({ path }) => (
+    <Layout navbar sidebar path={path}>
+        <Container>
+            <Row className="mb-5">
+                <Col xs="12">
+                    <Monthly />
+                </Col>
+            </Row>
+            <Row className="mb-5">
+                <Col xs="6" className="d-flex flex-column align-items-stretch flex-wrap w-100">
+                    <Debt />
+                    <CumulativeMonthly />
+                </Col>
+                <Col xs="6">
+                    <TopSuppliers />
+                </Col>
+            </Row>
+            <Row>
+                <Col xs="12">
+                    <PurchasesList/>
+                </Col>
+            </Row>
+        </Container>
+    </Layout>
+);
 
 Purchases.propTypes = {
     path: PropTypes.string.isRequired,

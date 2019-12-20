@@ -54,13 +54,6 @@ const PaginatedTable = ({ endpoint, tableHeaders, pageSize, list, onRowClick, he
         setLoading(true);
         setPage(1);
     }
-    const handleonRowClick = (data) => { 
-        const newdata = {
-            headers: tableHeaders,
-            data: data
-        };
-        onRowClick(newdata);
-    };
 
     return (
         <ContentCard loading={loading} header={header}>
@@ -72,7 +65,7 @@ const PaginatedTable = ({ endpoint, tableHeaders, pageSize, list, onRowClick, he
                 handleReset={handleReset}
                 handleNext={handleNext}
                 next={next}
-                onRowClick={handleonRowClick}
+                onRowClick={onRowClick}
             />
         </ContentCard>
     );
