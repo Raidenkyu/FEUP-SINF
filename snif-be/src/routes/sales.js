@@ -5,10 +5,8 @@ const { extractTimestamp } = require("../utils/regex");
 const { getYearProfit } = require("../utils/sales");
 
 router.get("/", (_req, res) => {
-    console.log(0);
     requestInvoice().then(
         (invoiceData) => {
-
             const response = {
                 growth: 0,
                 margin: 0,
@@ -99,11 +97,8 @@ router.get("/", (_req, res) => {
 });
 
 router.get("/list", (req, res) => {
-
-
     requestInvoice().then(
         (invoiceData) => {
-
             const page = req.query.page || 1;
             const pageSize = req.query.pageSize || 15;
 
@@ -140,7 +135,6 @@ router.get("/list", (req, res) => {
             }).slice((page - 1) * pageSize, page * pageSize);
 
             res.json(response);
-
         }
     );
 });

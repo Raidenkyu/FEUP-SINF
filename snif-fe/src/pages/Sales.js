@@ -8,6 +8,7 @@ import ContentCard from "../components/common/utils/ContentCard";
 import { Graph, colors } from "../components/common/utils/Graph";
 import Indicator from "../components/common/utils/Indicator";
 import ContentTable from "../components/common/utils/ContentTable";
+import SalesList from "../components/sales/SalesList";
 
 const Sales = ({ path }) => {
     const [loading, setLoading] = useState(true);
@@ -17,7 +18,6 @@ const Sales = ({ path }) => {
     const [monthlySalesValues, setMonthlySalesValues] = useState([]);
     const [cumulativeSalesValues, setCumulativeSalesValues] = useState([]);
     const [topSellingRows, setTopSellingRows] = useState([]);
-    const [salesRows, setSalesRows] = useState([]);
 
     useEffect(() => {
         Axios.get("http://localhost:9000/api/sales", {
@@ -45,7 +45,6 @@ const Sales = ({ path }) => {
                 units: data.products[key].units,
                 revenue: data.products[key].revenue.toFixed(2),
             })));
-            setSalesRows(data.salesList);
             setLoading(false);
         }).catch(() => {
             setLoading(false);
@@ -80,14 +79,6 @@ const Sales = ({ path }) => {
         { index: "name", value: "Name" },
         { index: "units", value: "Units" },
         { index: "revenue", value: "Revenue (€)" },
-    ];
-
-    const salesHeaders = [
-        { index: "id", value: "Sale id" },
-        { index: "product", value: "Product" },
-        { index: "quantity", value: "Quantity" },
-        { index: "value", value: "Value (€)" },
-        { index: "date", value: "Date" },
     ];
 
     return (
@@ -130,9 +121,7 @@ const Sales = ({ path }) => {
                 </Row>
                 <Row>
                     <Col xs="12">
-                        <ContentCard loading={loading} header="Sales">
-                            <ContentTable headers={salesHeaders} rows={salesRows} />
-                        </ContentCard>
+                        <SalesList />
                     </Col>
                 </Row>
             </Container>
