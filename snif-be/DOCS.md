@@ -69,16 +69,16 @@ Example response:
 
 ```json
 {
-    "ordersProducts": [
+     "ordersProducts": [
         {
-            "id": "39c5913b-4962-42b4-b539-0f19f0977219",
-            "product": "Folha Dupla Vermelha",
-            "state": "Pending",
-            "quantity": 1250,
-            "value": 230.63,
-            "date": "2019-12-27"
-        },
-    ]
+            "clientName": "Peninsula",
+            "clientTaxID": "596159498",
+            "totalValue": 246,
+            "date": "2020-01-17",
+            "orderId": "bf662d85-bbde-46be-a659-a0f6862ade7a",
+            "state": "Pending"
+        }
+     ]
 }
 ```
 
@@ -463,12 +463,12 @@ Send `get` request to `api/overview/stock`
     }
 ```
 
-### Get Order Information values for Drilldown Page
+### Get Purchases Order Information values for Drilldown Page
 
 Send `get` request to `api/purchases/order/{orderKey}`
 
 ```json
-    {
+{
     "supplierName": "Renova",
     "supplierTaxID": "543458687",
     "totalValue": 988.75,
@@ -478,6 +478,37 @@ Send `get` request to `api/purchases/order/{orderKey}`
             "productName": "Sacos para embalar",
             "productQuantity": 12500,
             "productValue": 988.75
+        }
+    ]
+}
+```
+
+### Get Order Information values for Drilldown Page
+
+Send `get` request to `api/orders/order/{orderKey}`
+
+```json
+{
+    "clientName": "Intramarche",
+    "clientTaxID": "553515330",
+    "totalValue": 289.05,
+    "date": "2019-12-13",
+    "state": "Processed",
+    "orderList": [
+        {
+            "productName": "Lencos Decorados com Elementos de Natal",
+            "productQuantity": 500,
+            "productValue": 123
+        },
+        {
+            "productName": "Folha Dupla Vermelha",
+            "productQuantity": 500,
+            "productValue": 92.25
+        },
+        {
+            "productName": "Folha Dupla com Cheiro a Gelado",
+            "productQuantity": 300,
+            "productValue": 73.8
         }
     ]
 }

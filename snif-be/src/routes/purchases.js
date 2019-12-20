@@ -49,14 +49,12 @@ router.get("/list", (req, res) => {
             const purchasesList = [];
 
             purchasesData.forEach((document) => {
-                document.documentLines.forEach((purchase) => {
-                    purchasesList.push({
-                        supplierName: document.sellerSupplierPartyName,
-                        supplierTaxID: document.sellerSupplierPartyTaxId,
-                        totalValue: document.payableAmount.amount,
-                        date: document.exchangeRateDate.split("T")[0],
-                        purchaseId: purchase.orderId,
-                    });
+                purchasesList.push({
+                    supplierName: document.sellerSupplierPartyName,
+                    supplierTaxID: document.sellerSupplierPartyTaxId,
+                    totalValue: document.payableAmount.amount,
+                    date: document.exchangeRateDate.split("T")[0],
+                    purchaseId: document.documentLines[0].orderId,
                 });
             });
 
