@@ -9,6 +9,8 @@ import Indicator from "../components/common/utils/Indicator";
 import { Graph, colors } from "../components/common/utils/Graph";
 import OrdersList from "../components/orders/OrdersList";
 
+import LayoutStyles from "../styles/common/layout.module.css";
+
 const Orders = ({ path }) => {
     const [loading, setLoading] = useState(true);
     const [ordersChartLabels, setOrdersChartLabels] = useState([]);
@@ -60,6 +62,11 @@ const Orders = ({ path }) => {
     return (
         <Layout navbar sidebar path={path}>
             <Container>
+                <Row>
+                    <Col xs="12" className={`${LayoutStyles.pageHeader} mb-5 h1`}>
+                        Orders
+                    </Col>
+                </Row>
                 <Row className="mb-5">
                     <Col xs="9">
                         <ContentCard header="Orders chart" loading={loading}>

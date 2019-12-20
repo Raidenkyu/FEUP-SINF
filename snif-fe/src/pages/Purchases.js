@@ -9,10 +9,21 @@ import Debt from "../components/purchases/Debt";
 import TopSuppliers from "../components/purchases/TopSuppliers";
 import PurchasesList from "../components/purchases/PurchasesList";
 
+import LayoutStyles from "../styles/common/layout.module.css";
+
 const Purchases = ({ path }) => (
     <Layout navbar sidebar path={path}>
         <Container>
-            <Monthly />
+            <Row>
+                <Col xs="12" className={`${LayoutStyles.pageHeader} mb-5 h1`}>
+                    Purchases
+                </Col>
+            </Row>
+            <Row className="mb-5">
+                <Col xs="12">
+                    <Monthly />
+                </Col>
+            </Row>
             <Row className="mb-5">
                 <Col xs="6" className="d-flex flex-column align-items-stretch flex-wrap w-100">
                     <Debt />

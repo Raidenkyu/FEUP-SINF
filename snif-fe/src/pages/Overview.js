@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Container, Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
+import Axios from "axios";
 
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
@@ -8,7 +9,8 @@ import { Graph, colors } from "../components/common/utils/Graph";
 import SalesCard from "../components/overview/SalesCard";
 import PurchasesCard from "../components/overview/PurchasesCard";
 import StocksCard from "../components/overview/StocksCard";
-import Axios from "axios";
+
+import LayoutStyles from "../styles/common/layout.module.css";
 
 const Overview = ({ path }) => {
     const [loading, setLoading] = useState(true);
@@ -61,6 +63,11 @@ const Overview = ({ path }) => {
     return (
         <Layout navbar sidebar path={path}>
             <Container>
+                <Row>
+                    <Col xs="12" className={`${LayoutStyles.pageHeader} mb-5 h1`}>
+                        Overview
+                    </Col>
+                </Row>
                 <Row className="mb-5">
                     <Col xs="12">
                         <ContentCard loading={loading} header="Balance">
