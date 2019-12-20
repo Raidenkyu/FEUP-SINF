@@ -14,7 +14,7 @@ router.get("/", (_req, res) => {
                 products: {},
                 salesList: [],
             };
-            
+
             salesList = [];
 
             invoiceData.map((bill) => {
@@ -109,17 +109,13 @@ router.get("/list", (req, res) => {
             const salesList = [];
 
             invoiceData.forEach((bill) => {
-                bill.documentLines.forEach((sale) => {
-                    salesList.push({
-                        id: sale.invoiceId,
-                        product: sale.description,
-                        quantity: sale.quantity,
-                        value: sale.grossValue.amount,
-                        date: sale.deliveryDate.split("T")[0],
-                        revenue: sale.lineExtensionAmount.amount
-                    });
+                salesList.push({
+                    clientName: bill.buyerCustomerPartyName,
+                    clientTaxID: bill.buyerCustomerPartyTaxId,
+                    totalValue: bill.payableAmount.amount,
+                    date: bill.exchangeRateDate.split("T")[0],
+                    invoiceId: bill.documentLines[0].invoiceId,
                 });
-
             });
 
             response.salesList = salesList.sort((a, b) => {
@@ -136,7 +132,57 @@ router.get("/list", (req, res) => {
 
             res.json(response);
         }
-    );
+    ).catch(() => {
+        const err = new Error("Failed to fetch Sales list");
+        err.status = 400;
+        res.status(400).json({
+            message: err.message,
+            error: err
+        });
+    });
+});
+
+router.get("/sale/:saleKey", (req, res) => {
+    const key = req.params.saleKey;
+
+    requestInvoice().then((sales) => {
+
+        const salesList = [];
+
+        sales.forEach((sale) => {
+
+            if (sale.documentLines[0].invoiceId != key) {
+                return;
+            }
+
+            sale.documentLines.forEach((product) => {
+                salesList.push({
+                    product: product.description,
+                    quantity: product.quantity,
+                    value: product.grossValue.amount,
+                    revenue: product.lineExtensionAmount.amount
+                });
+            });
+
+            res.json({
+                clientName: sale.buyerCustomerPartyName,
+                clientTaxID: sale.buyerCustomerPartyTaxId,
+                totalValue: sale.payableAmount.amount,
+                date: sale.documentDate.split("T")[0],
+                invoiceId: sale.documentLines[0].invoiceId,
+                salesList: salesList
+            });
+
+        });
+
+    }).catch(() => {
+        const err = new Error("Failed to fetch Sale");
+        err.status = 400;
+        res.status(400).json({
+            message: err.message,
+            error: err
+        });
+    });
 });
 
 module.exports = router;
