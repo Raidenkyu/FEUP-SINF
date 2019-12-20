@@ -1,31 +1,20 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 
+
 import ContentTable from "../../components/common/utils/ContentTable";
-import ContentCard from "../common/utils/ContentCard";
-import Popup from "../common/utils/Popup";
+import ContentCard from "../common/utils/ContentCard"
 
-const TopSuppliers = () => {
-    const [loading, setLoading] = useState(true);
-    const [suppliers, setSuppliers] = useState([]);
-    const [modal, setModal] = useState(false);
-    const [modalData, setModalData] = useState({});
-
-    const toggle = () => {
-        setModal(!modal);
-        setModalData({ headers: [], data: {} });
-    };
-
-    const onRowClick = (data) => {
-        setModal(!modal);
-        setModalData(data);
-    };
-
+const TopSuppliers = ({onRowClick}) => {
+    
     const topSuppliersHeaders = [
         { index: "supplierId", value: "ID" },
         { index: "quantity", value: "Quantity (kg)" },
         { index: "priceRatio", value: "Price ratio (€/kg)" },
     ];
+    
+    const [loading, setLoading] = useState(true);
+    const [suppliers, setSuppliers] = useState([]);
 
     useEffect(() => {
         Axios.get("http://localhost:9000/api/purchases/suppliers", {
@@ -40,13 +29,19 @@ const TopSuppliers = () => {
         });
     }, []);
 
+    const handleonRowClick = (data) => {
+        const newdata = {
+            headers: topSuppliersHeaders,
+            data: data,
+        };
+        onRowClick(newdata);
+        
+    };
+
     return (
-        <React.Fragment>
-            <ContentCard loading={loading} header="Top Suppliers">
-                <ContentTable headers={topSuppliersHeaders} rows={suppliers} onRowClick={onRowClick} />
-            </ContentCard>
-            <Popup isOpen={modal} toggle={toggle} headers={topSuppliersHeaders} data={modalData} />
-        </React.Fragment>
+        <ContentCard loading={loading} header="Top Suppliers">
+            <ContentTable headers={topSuppliersHeaders} rows={suppliers} onRowClick={handleonRowClick}/>
+        </ContentCard>
     );
 };
 
