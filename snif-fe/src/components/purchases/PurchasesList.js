@@ -14,7 +14,8 @@ const PurchasesList = () => {
     return (
         <PaginatedTable
             endpoint="/api/purchases/list"
-            headers={purchasesHeaders}
+            header="Purchases List"
+            tableHeaders={purchasesHeaders}
             pageSize={15}
             list="purchasesList"
         />

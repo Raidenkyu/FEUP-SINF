@@ -2,11 +2,10 @@ import React from "react";
 
 import PaginatedTable from "../common/utils/PaginatedTable";
 
-const OrdersList = () => {
-    const productHeaders = [
-        { index: "id", value: "Order id" },
+const SalesList = () => {
+    const salesHeaders = [
+        { index: "id", value: "Sale id" },
         { index: "product", value: "Product" },
-        { index: "state", value: "State" },
         { index: "quantity", value: "Quantity" },
         { index: "value", value: "Value (€)" },
         { index: "date", value: "Date" },
@@ -14,13 +13,13 @@ const OrdersList = () => {
 
     return (
         <PaginatedTable
-            endpoint="/api/orders/list"
-            header="Orders List"
-            tableHeaders={productHeaders}
+            endpoint="/api/sales/list"
+            header="Sales List"
+            tableHeaders={salesHeaders}
             pageSize={15}
-            list="ordersProducts"
+            list="salesList"
         />
     );
 };
 
-export default OrdersList;
+export default SalesList;
