@@ -13,6 +13,7 @@ import Customers from "./pages/Customers";
 import Financial from "./pages/Financial";
 import NotFound from "./pages/404";
 import Customer from "./pages/Customer";
+import Supplier from "./pages/Supplier";
 
 import { USER_PERMISSIONS } from "./actions/AuthActions"
 
@@ -52,6 +53,7 @@ const AppRouter = ({ loadUser }) => {
             {hasPermission("/customers") && <Customers path="/customers"/>}
             {hasPermission("/financial") && <Financial path="/financial"/>}
             <Customer path="/customers/:customerKey"/>
+            <Supplier path="/suppliers/:supplierKey"/>
             <NotFound default />
         </Router>
     );
