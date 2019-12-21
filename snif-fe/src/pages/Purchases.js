@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
+import { navigate } from "@reach/router";
 
 import Layout from "../components/common/layout/Layout";
 import Monthly from "../components/purchases/Monthly";
@@ -29,6 +30,10 @@ const Purchases = ({ path }) => {
         setModal(true);
     };
 
+    const onSuppliersClick = (headers, row) => {
+        navigate(`/suppliers/${row.supplierKey}`);
+    };
+
     return (
         <Layout navbar sidebar path={path}>
             <Container>
@@ -48,7 +53,7 @@ const Purchases = ({ path }) => {
                         <CumulativeMonthly />
                     </Col>
                     <Col xs="6">
-                        <TopSuppliers onRowClick={openModal} />
+                        <TopSuppliers onRowClick={onSuppliersClick} />
                     </Col>
                 </Row>
                 <Row>

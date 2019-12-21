@@ -22,6 +22,8 @@ const TopSuppliers = ({onRowClick}) => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
+            console.log(data);
+            
             setSuppliers(data.suppliers);
             setLoading(false);
         }).catch(() => {
