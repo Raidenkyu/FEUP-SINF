@@ -540,3 +540,28 @@ Send `get` request to `api/sales/sale/{saleKey}`
     ]
 }
 ```
+
+### Get supplier Information values for Drilldown Page
+
+Send `get` request to `api/purchases/suppliers/{supplierKey}`
+
+```json
+{
+    "supplierId": "519951018",
+    "supplierKey": "0024",
+    "name": "The Navigator Company",
+    "telephone": "234910600",
+    "country": "Portugal",
+    "quantity": 61000,
+    "priceRatio": "0.06",
+    "orders": [
+        {
+            "purchaseId": "282adc28-4888-442f-81c5-2405d558836d",
+            "name": "Folha Simples",
+            "quantity": 5000,
+            "value": 169.5,
+            "date": "2019-12-20"
+        },
+    ]
+}
+```
