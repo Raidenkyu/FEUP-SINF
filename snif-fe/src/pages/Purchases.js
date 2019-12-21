@@ -8,6 +8,8 @@ import CumulativeMonthly from "../components/purchases/CumulativeMonthly";
 import Debt from "../components/purchases/Debt";
 import TopSuppliers from "../components/purchases/TopSuppliers";
 import PurchasesList from "../components/purchases/PurchasesList";
+
+import LayoutStyles from "../styles/common/layout.module.css";
 import Popup from "../components/common/utils/Popup";
 
 const Purchases = ({ path }) => {
@@ -33,6 +35,11 @@ const Purchases = ({ path }) => {
     return (
         <Layout navbar sidebar path={path}>
             <Container>
+                <Row>
+                    <Col xs="12" className={`${LayoutStyles.pageHeader} mb-5 h1`}>
+                        Purchases
+                    </Col>
+                </Row>
                 <Row className="mb-5">
                     <Col xs="12">
                         <Monthly />
