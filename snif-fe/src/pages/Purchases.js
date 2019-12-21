@@ -15,6 +15,7 @@ import Popup from "../components/common/utils/Popup";
 const Purchases = ({ path }) => {
     const [modal, setModal] = useState(false);
     const [modalData, setModalData] = useState({ headers: [], data: {} });
+    const [modalLoading, setModalLoading] = useState(false);
 
     const toggle = () => {
         setModal(!modal);
@@ -24,12 +25,8 @@ const Purchases = ({ path }) => {
         });
     };
 
-    const onRowClick = (headers, row) => {
+    const onRowClick = () => {
         setModal(!modal);
-        setModalData({
-            headers: headers,
-            data: row,
-        });
     };
 
     return (
@@ -56,11 +53,11 @@ const Purchases = ({ path }) => {
                 </Row>
                 <Row>
                     <Col xs="12">
-                        <PurchasesList onRowClick={onRowClick} />
+                        <PurchasesList setModalLoading={setModalLoading} onRowClick={onRowClick} setModalData={setModalData} />
                     </Col>
                 </Row>
             </Container>
-            <Popup isOpen={modal} toggle={toggle} headers={modalData.headers} data={modalData.data} />
+            <Popup loading={modalLoading} isOpen={modal} toggle={toggle} headers={modalData.headers} data={modalData.data} />
         </Layout>
     );
 };
