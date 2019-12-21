@@ -136,7 +136,7 @@ router.get("/debt", (_req, res) => {
     );
 });
 
-router.get("/order/:purchaseKey", (req, res) => {
+router.get("/:purchaseKey", (req, res) => {
     const key = req.params.purchaseKey;
 
     requestPrimavera(`/purchases/orders/${key}`).then(async (order) => {

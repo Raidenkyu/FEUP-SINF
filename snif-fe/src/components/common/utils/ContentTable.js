@@ -21,7 +21,7 @@ const ContentTable = ({ headers, rows, handlePrevious, previous, handleReset, ha
             </thead>
             <tbody>
                 {rows.map((row, index) => (
-                    <tr onClick={() => onRowClick(headers, row)} key={index} className={row.error ? ContentTableStyles.errorRow : ContentTableStyles.row}>
+                    <tr onClick={() => onRowClick && onRowClick(headers, row)} key={index} className={row.error ? ContentTableStyles.errorRow : ContentTableStyles.row}>
                         {headers.map((header, subIndex) => (
                             <td key={subIndex} className="text-center">
                                 {row[header.index]}
