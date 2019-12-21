@@ -462,7 +462,7 @@ Send `get` request to `api/overview/stock`
     }
 ```
 
-### Get Purchases Order Information values for Drilldown Page
+### Get Purchases Order Information values for Drilldown
 
 Send `get` request to `api/purchases/order/{orderKey}`
 
@@ -513,7 +513,7 @@ Send `get` request to `api/orders/order/{orderKey}`
 }
 ```
 
-### Get Sale Information values for Drilldown Page
+### Get Sale Information values for Drilldown
 
 Send `get` request to `api/sales/sale/{saleKey}`
 
@@ -530,12 +530,6 @@ Send `get` request to `api/sales/sale/{saleKey}`
             "quantity": 1500,
             "value": 300,
             "revenue": 369
-        },
-        {
-            "product": "Folha Simples Cheiro a Menta",
-            "quantity": 1500,
-            "value": 195,
-            "revenue": 239.85
         }
     ]
 }
