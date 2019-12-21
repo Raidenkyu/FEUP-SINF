@@ -9,8 +9,8 @@ import PaginatedTable from "../components/common/utils/PaginatedTable";
 import LayoutStyles from "../styles/common/layout.module.css";
 
 const Customers = ({ path }) => {
-    
-    const onRowClick = (headers,row) => {
+
+    const onRowClick = (headers, row) => {
         navigate(`/customers/${row.customerKey}`);
     };
 
