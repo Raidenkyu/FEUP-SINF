@@ -135,7 +135,7 @@ router.get("/list", (req, res) => {
     });
 });
 
-router.get("/order/:orderKey", (req, res) => {
+router.get("/:orderKey", (req, res) => {
     const key = req.params.orderKey;
 
     if (!PERMISSIONS.includes(req.role)) {

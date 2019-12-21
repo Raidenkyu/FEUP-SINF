@@ -464,7 +464,7 @@ Send `get` request to `api/overview/stock`
 
 ### Get Purchases Order Information values for Drilldown
 
-Send `get` request to `api/purchases/order/{orderKey}`
+Send `get` request to `api/purchases/{orderKey}`
 
 ```json
 {
@@ -484,7 +484,7 @@ Send `get` request to `api/purchases/order/{orderKey}`
 
 ### Get Order Information values for Drilldown Page
 
-Send `get` request to `api/orders/order/{orderKey}`
+Send `get` request to `api/orders/{orderKey}`
 
 ```json
 {
@@ -499,23 +499,13 @@ Send `get` request to `api/orders/order/{orderKey}`
             "productQuantity": 500,
             "productValue": 123
         },
-        {
-            "productName": "Folha Dupla Vermelha",
-            "productQuantity": 500,
-            "productValue": 92.25
-        },
-        {
-            "productName": "Folha Dupla com Cheiro a Gelado",
-            "productQuantity": 300,
-            "productValue": 73.8
-        }
     ]
 }
 ```
 
 ### Get Sale Information values for Drilldown
 
-Send `get` request to `api/sales/sale/{saleKey}`
+Send `get` request to `api/sales/{saleKey}`
 
 ```json
 {
