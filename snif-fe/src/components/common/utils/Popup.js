@@ -2,6 +2,8 @@ import React from "react";
 import { ListGroup, ListGroupItem, ListGroupItemHeading, ListGroupItemText, Modal, ModalBody, Spinner } from 'reactstrap';
 import PropTypes from "prop-types";
 
+import ContentTable from "./ContentTable";
+
 import PopupStyles from "../../../styles/common/utils/Popup.module.css";
 
 const Popup = ({ loading, isOpen, toggle, headers, data }) => (
@@ -17,7 +19,14 @@ const Popup = ({ loading, isOpen, toggle, headers, data }) => (
                     {headers.map((header) => (
                         <ListGroupItem key={header.index} className={PopupStyles.item}>
                             <ListGroupItemHeading className={PopupStyles.heading}>{header.value}</ListGroupItemHeading>
-                            <ListGroupItemText className={PopupStyles.text}>{data[header.index]}</ListGroupItemText>
+                            {Array.isArray(data[header.index]) ?
+                                <ContentTable
+                                    headers={header.headers}
+                                    rows={data[header.index]}
+                                />
+                                :
+                                <ListGroupItemText className={PopupStyles.text}>{data[header.index]}</ListGroupItemText>
+                            }
                         </ListGroupItem>
                     ))}
                 </ListGroup>

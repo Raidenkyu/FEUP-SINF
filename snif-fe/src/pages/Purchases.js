@@ -17,16 +17,16 @@ const Purchases = ({ path }) => {
     const [modalData, setModalData] = useState({ headers: [], data: {} });
     const [modalLoading, setModalLoading] = useState(false);
 
-    const toggle = () => {
-        setModal(!modal);
+    const clearModal = () => {
+        setModal(false);
         setModalData({
             headers: [],
             data: {},
         });
     };
 
-    const onRowClick = () => {
-        setModal(!modal);
+    const openModal = () => {
+        setModal(true);
     };
 
     return (
@@ -48,16 +48,16 @@ const Purchases = ({ path }) => {
                         <CumulativeMonthly />
                     </Col>
                     <Col xs="6">
-                        <TopSuppliers onRowClick={onRowClick} />
+                        <TopSuppliers onRowClick={openModal} />
                     </Col>
                 </Row>
                 <Row>
                     <Col xs="12">
-                        <PurchasesList setModalLoading={setModalLoading} onRowClick={onRowClick} setModalData={setModalData} />
+                        <PurchasesList setModalLoading={setModalLoading} onRowClick={openModal} setModalData={setModalData} />
                     </Col>
                 </Row>
             </Container>
-            <Popup loading={modalLoading} isOpen={modal} toggle={toggle} headers={modalData.headers} data={modalData.data} />
+            <Popup loading={modalLoading} isOpen={modal} toggle={clearModal} headers={modalData.headers} data={modalData.data} />
         </Layout>
     );
 };

@@ -6,26 +6,26 @@ import PaginatedTable from "../common/utils/PaginatedTable";
 
 const PurchasesList = ({ setModalLoading, onRowClick, setModalData }) => {
     const purchasesHeaders = [
-        { index: "purchaseId", value: "Purchase id" },
-        { index: "name", value: "Product" },
-        { index: "quantity", value: "Quantity" },
-        { index: "value", value: "Value (€)" },
+        { index: "purchaseId", value: "Purchase ID" },
+        { index: "supplierName", value: "Supplier" },
+        { index: "supplierTaxID", value: "Supplier tax ID" },
+        { index: "totalValue", value: "Total value (€)" },
         { index: "date", value: "Date" },
     ];
 
     const modalHeaders = [
-        { index: "purchaseId", value: "Purchase id" },
-        { index: "name", value: "Product" },
-        { index: "quantity", value: "Quantity" },
-        { index: "value", value: "Value (€)" },
-        { index: "supplierName", value: "Supplier name" },
-        { index: "taxId", value: "Tax ID" },
-        { index: "purchaseId", value: "Purchase ID" },
+        { index: "supplierName", value: "Supplier" },
+        { index: "supplierTaxID", value: "Supplier tax ID" },
+        { index: "totalValue", value: "Total value (€)" },
         { index: "date", value: "Date" },
-        { index: "total", value: "Order total (€)" },
+        { index: "purchasesList", value: "Products acquired", headers: [
+            { index: "productName", value: "Product" },
+            { index: "productQuantity", value: "Quantity" },
+            { index: "productValue", value: "Value (€)" },
+        ] },
     ]
 
-    const handleOnRowClick = (headers, row) => {
+    const handleOnRowClick = (_headers, row) => {
         setModalLoading(true);
         onRowClick();
 
