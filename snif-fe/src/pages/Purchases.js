@@ -30,7 +30,7 @@ const Purchases = ({ path }) => {
         setModal(true);
     };
 
-    const onSuppliersClick = ({supplierKey}) => {
+    const onSuppliersClick = ({ supplierKey }) => {
         navigate(`/suppliers/${supplierKey}`);
     };
 
