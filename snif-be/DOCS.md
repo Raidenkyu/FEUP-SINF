@@ -565,3 +565,16 @@ Send `get` request to `api/purchases/suppliers/{supplierKey}`
     ]
 }
 ```
+
+### Get Stock Information values for Drilldown Page
+
+Send `get` request to `api/stocks/{itemKey}`
+
+```json
+{
+    "name": "Folha Dupla Vermelha",
+    "quantity": 5000,
+    "value": 750,
+    "error": false
+}
+```
