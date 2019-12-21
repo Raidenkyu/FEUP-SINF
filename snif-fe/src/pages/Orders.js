@@ -71,7 +71,7 @@ const Orders = ({ path }) => {
         setModal(false);
         setModalData({
             headers: [],
-            data: {}
+            data: {},
         });
     };
 
