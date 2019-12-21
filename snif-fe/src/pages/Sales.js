@@ -23,19 +23,7 @@ const Sales = ({ path }) => {
     const [topSellingRows, setTopSellingRows] = useState([]);
     const [modal, setModal] = useState(false);
     const [modalData, setModalData] = useState({ headers: [], data: {} });
-
-    const onRowClick = (headers, row) => {
-        setModal(!modal);
-        setModalData({
-            headers: headers,
-            data: row,
-        });
-    };
-
-    const toggle = () => {
-        setModal(!modal);
-        setModalData({ headers: [], data: {} });
-    };
+    const [modalLoading, setModalLoading] = useState(false);
 
     useEffect(() => {
         Axios.get("http://localhost:9000/api/sales", {
@@ -99,6 +87,18 @@ const Sales = ({ path }) => {
         { index: "revenue", value: "Revenue (€)" },
     ];
 
+    const clearModal = () => {
+        setModal(false);
+        setModalData({
+            headers: [],
+            data: {},
+        });
+    };
+
+    const openModal = () => {
+        setModal(true);
+    };
+
     return (
         <Layout navbar sidebar path={path}>
             <Container>
@@ -138,17 +138,17 @@ const Sales = ({ path }) => {
                     </Col>
                     <Col xs="6">
                         <ContentCard loading={loading} header="Top Selling Products">
-                            <ContentTable headers={topSellingHeaders} rows={topSellingRows} onRowClick={onRowClick}/>
+                            <ContentTable headers={topSellingHeaders} rows={topSellingRows} onRowClick={openModal}/>
                         </ContentCard>
                     </Col>
                 </Row>
                 <Row>
                     <Col xs="12">
-                        <SalesList onRowClick={onRowClick} />
+                        <SalesList setModalLoading={setModalLoading} onRowClick={openModal} setModalData={setModalData} />
                     </Col>
                 </Row>
             </Container>
-            <Popup isOpen={modal} toggle={toggle} headers={modalData.headers} data={modalData.data}/>
+            <Popup loading={modalLoading} isOpen={modal} toggle={clearModal} headers={modalData.headers} data={modalData.data}/>
         </Layout>
     );
 };

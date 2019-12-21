@@ -142,7 +142,7 @@ router.get("/list", (req, res) => {
     });
 });
 
-router.get("/sale/:saleKey", (req, res) => {
+router.get("/:saleKey", (req, res) => {
     const key = req.params.saleKey;
 
     requestInvoice().then((sales) => {

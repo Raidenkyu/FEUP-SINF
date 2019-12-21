@@ -23,24 +23,19 @@ const PurchasesList = ({ setModalLoading, onRowClick, setModalData }) => {
             { index: "productQuantity", value: "Quantity" },
             { index: "productValue", value: "Value (€)" },
         ] },
-    ]
+    ];
 
-    const handleOnRowClick = (_headers, row) => {
+    const handleOnRowClick = (row) => {
         setModalLoading(true);
         onRowClick();
 
         Axios.get(`http://localhost:9000/api/purchases/${row.purchaseId}`, {
             auth_token: localStorage.getItem("auth_token"),
         }).then(({ data }) => {
-            console.log(data);
-            
             setModalLoading(false);
             setModalData({
                 headers: modalHeaders,
-                data: {
-                    ...row,
-                    ...data,
-                },
+                data: data,
             });
         }).catch(() => {
             onRowClick();
