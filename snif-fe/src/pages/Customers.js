@@ -10,8 +10,8 @@ import LayoutStyles from "../styles/common/layout.module.css";
 
 const Customers = ({ path }) => {
 
-    const onRowClick = (headers, row) => {
-        navigate(`/customers/${row.customerKey}`);
+    const onRowClick = ({customerKey}) => {
+        navigate(`/customers/${customerKey}`);
     };
 
     const customersHeaders = [
