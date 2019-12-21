@@ -32,7 +32,9 @@ const SalesList = ({ setModalLoading, onRowClick, setModalData }) => {
         onRowClick();
 
         Axios.get(`http://localhost:9000/api/sales/${row.invoiceId}`, {
-            auth_token: localStorage.getItem("auth_token"),
+            headers: {
+                auth_token: localStorage.getItem("auth_token"),
+            }
         }).then(({ data }) => {
             setModalLoading(false);
             setModalData({
@@ -41,6 +43,7 @@ const SalesList = ({ setModalLoading, onRowClick, setModalData }) => {
             });
         }).catch(() => {
             onRowClick();
+            setModalLoading(false);
         })
     }
 
