@@ -25,8 +25,6 @@ const Purchases = ({ path }) => {
     };
 
     const onRowClick = (headers, row) => {
-        console.log(row);
-
         setModal(!modal);
         setModalData({
             headers: headers,
