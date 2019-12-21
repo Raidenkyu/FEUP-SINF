@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { requestPrimavera } = require("../utils/api/jasmin");
 const { extractTimestamp } = require("../utils/regex");
+const { getSupplierOrders } = require("../utils/purchases");
 
 router.get("/monthly", (_req, res) => {
     requestPrimavera("/invoiceReceipt/invoices").then(
@@ -24,7 +25,7 @@ router.get("/monthly", (_req, res) => {
 
             Object.keys(purchasesByTimestamp).sort().forEach((key) => {
                 response.purchasesByTimestamp[key] = purchasesByTimestamp[key];
-              });
+            });
             res.json(response);
         }
     ).catch(
@@ -105,21 +106,21 @@ router.get("/suppliers", (_req, res) => {
 router.get("/debt", (_req, res) => {
     requestPrimavera("/purchases/orders").then(
         async (orderData) => {
-            
+
             const totalOrders = orderData.reduce((acumulator, order) => {
                 if (order.documentStatus == "2") {
                     acumulator += order.payableAmount.amount
                 }
                 return acumulator;
-            },0);
+            }, 0);
 
             const invoiceData = await requestPrimavera("/accountsPayable/payments");
 
             const totalPaid = invoiceData.reduce((acumulator, invoice) => {
-                        acumulator += invoice.payableAmount.amount
-                        return acumulator;
-                    },0);
-            
+                acumulator += invoice.payableAmount.amount
+                return acumulator;
+            }, 0);
+
             const debt = totalOrders - totalPaid;
 
             res.json({ debt: debt });
@@ -173,20 +174,36 @@ router.get("/order/:purchaseKey", (req, res) => {
 
 router.get("/suppliers/:supplierKey", (req, res) => {
     const key = req.params.supplierKey;
-    console.log(key);
+
 
     requestPrimavera(`/purchasesCore/supplierParties/${key}`).then(
-        (supplier) => {
-            res.json(supplier);
+        async (supplier) => {
+
+            const orders = await requestPrimavera("/purchases/orders");
+
+            const info = getSupplierOrders(supplier.companyTaxID, orders);
+
+
+            res.json({
+                supplierId: supplier.companyTaxID,
+                supplierKey: supplier.partyKey,
+                name: supplier.name,
+                telephone: supplier.telephone,
+                country: supplier.countryDescription,
+                quantity: info.quantity,
+                priceRatio: (info.totalPrice / info.num).toFixed(2),
+                orders: info.orders
+            });
         }
     ).catch(
-        () => {
+        (e) => {
             var err = new Error("Failed to fetch supplier");
             err.status = 500;
             res.json({
                 message: err.message,
                 error: err
             });
+            throw e;
         }
     );
 });
