@@ -1,13 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { requestPrimavera } = require("../utils/api/jasmin");
-<<<<<<< HEAD
-const { getStockQuantity, getUnitPrice, getStockValue } = require("../utils/stock");
-let { FinancialStockObject } = require('../models/financial.model');
-=======
 const { getStockQuantity, getUnitPrice, getStockValue, getItemSales, getItemPurchases } = require("../utils/stock");
 var { FinancialStockObject } = require('../models/financial.model.js');
->>>>>>> feat: Add transactions
 
 
 router.get("/", (req, res) => {
