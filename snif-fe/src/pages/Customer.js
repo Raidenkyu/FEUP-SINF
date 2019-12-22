@@ -17,40 +17,39 @@ import { ReactComponent as Country } from "../assets/globe-solid.svg";
 const Customer = ({ customerKey }) => {
     const [loading, setLoading] = useState(true);
     const [customerData, setCustomerData] = useState({});
+    const [modalLoading, setModalLoading] = useState(false);
     const [modal, setModal] = useState(false);
-    const [modalData, setModalData] = useState({});
-    // const [customerOrders, setCustomerOrders] = useState([]);
+    const [modalData, setModalData] = useState({ headers: [], data: {} });
 
     useEffect(() => {
-        Axios.get(`http://localhost:9000/api/customers/${customerKey}`, {
+        Axios.get(`http://localhost:9000/api/customers/info/${customerKey}`, {
             headers: {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            setCustomerData(data);
-            // setCustomerOrders(data.orders);
+            setCustomerData({
+                name: data.name,
+                email: data.email,
+                contact: data.telefone,
+                country: data.country,
+            });
             setLoading(false);
         }).catch(() => {
             setLoading(false);
         });
     }, [customerKey]);
 
-    const toggle = () => {
-        setModal(!modal);
-        setModalData({});
+    const openModal = () => {
+        setModal(true);
     };
-    const onRowClick = (data) => {
+
+    const clearModal = () => {
         setModal(!modal);
-        setModalData(data);
+        setModalData({
+            headers: [],
+            data: {},
+        });
     };
-    const productHeaders = [
-        { index: "id", value: "Order id" },
-        { index: "product", value: "Product" },
-        { index: "state", value: "State" },
-        { index: "quantity", value: "Quantity" },
-        { index: "value", value: "Value (€)" },
-        { index: "date", value: "Date" },
-    ];
 
     return (
         <Layout navbar sidebar path="/">
@@ -88,16 +87,29 @@ const Customer = ({ customerKey }) => {
                 </Row>
                 <Row className="mb-5">
                     <Col xs="12">
-                        <OrdersList onRowClick={onRowClick} />
+                        <OrdersList
+                            setModalLoading={setModalLoading}
+                            customerKey={customerKey}
+                            onRowClick={openModal}
+                            setModalData={setModalData} />
                     </Col>
                 </Row>
                 <Row className="mb-5">
                     <Col xs="12">
-                        <SalesList onRowClick={onRowClick} />
+                        <SalesList
+                            setModalLoading={setModalLoading}
+                            customerKey={customerKey}
+                            onRowClick={openModal}
+                            setModalData={setModalData} />
                     </Col>
                 </Row>
             </Container>
-            <Popup isOpen={modal} toggle={toggle} headers={productHeaders} data={modalData} />
+            <Popup
+                loading={modalLoading}
+                isOpen={modal}
+                toggle={clearModal}
+                headers={modalData.headers}
+                data={modalData.data} />
         </Layout>
     );
 };

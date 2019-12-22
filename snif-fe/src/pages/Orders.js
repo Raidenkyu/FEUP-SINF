@@ -29,7 +29,7 @@ const Orders = ({ path }) => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            setPendingValue(data.pendingValue.toFixed(2));
+            setPendingValue(data.pendingValue);
             setPendingOrders(data.pendingNum);
 
             const ordersLabels = [];

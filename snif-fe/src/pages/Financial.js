@@ -35,8 +35,8 @@ const Financial = ({ path }) => {
             setEquityReturnValues(data.document.returnOn.equity);
             setAssetsReturnValues(data.document.returnOn.assets);
             setSalesReturnValues(data.document.returnOn.sales);
-            setEbitda(new Intl.NumberFormat("de-DE").format(data.document.ebitda));
-            setEbit(new Intl.NumberFormat("de-DE").format(data.document.ebit));
+            setEbitda(new Intl.NumberFormat("en-UK").format(data.document.ebitda));
+            setEbit(new Intl.NumberFormat("en-UK").format(data.document.ebit));
             setAvgColPeriod(data.document.avgColPeriod.toFixed(2));
             setAvgPayPeriod(data.document.avgPayPeriod.toFixed(2));
             setCashRatio(data.document.cashRatio.toFixed(2));

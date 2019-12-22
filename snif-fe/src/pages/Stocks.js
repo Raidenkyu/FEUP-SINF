@@ -23,8 +23,8 @@ const Stocks = ({ path }) => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            setProductsStock(data.assetsInStock.products.toFixed(2));
-            setResourcesStock(data.assetsInStock.resources.toFixed(2));
+            setProductsStock(data.assetsInStock.products);
+            setResourcesStock(data.assetsInStock.resources);
             setLoading(false);
         }).catch(() => {
             setLoading(false);

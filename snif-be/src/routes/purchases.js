@@ -53,7 +53,7 @@ router.get("/list", (req, res) => {
                 purchasesList.push({
                     supplierName: document.sellerSupplierPartyName,
                     supplierTaxID: document.sellerSupplierPartyTaxId,
-                    totalValue: document.payableAmount.amount,
+                    totalValue: new Intl.NumberFormat('en-UK').format(document.payableAmount.amount),
                     date: document.exchangeRateDate.split("T")[0],
                     purchaseId: document.documentLines[0].orderId,
                 });
@@ -146,7 +146,7 @@ router.get("/debt", (_req, res) => {
 
             const debt = totalOrders - totalPaid;
 
-            res.json({ debt: debt });
+            res.json({ debt: new Intl.NumberFormat('en-UK').format(debt) });
         }
     ).catch(
         () => {

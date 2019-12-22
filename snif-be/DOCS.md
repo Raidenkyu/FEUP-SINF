@@ -602,46 +602,6 @@ Send `get` request to `api/customers/sales({customerKey}`
 }
 ```
 
-### Get Stock Item transactions
-
-Send `get` request to `/api/stocks/transactions/{itemKey}`
-
-Case Resource:
-
-```json
-{
-    "transactions": [
-        {
-            "id": "282adc28-4888-442f-81c5-2405d558836d",
-            "product": "Folha Tripla",
-            "supplier": "The Navigator Company",
-            "state": "Processed",
-            "quantity": 5000,
-            "value": 395.5,
-            "date": "2019-12-20"
-        },
-    ]
-}
-```
-
-Case Product:
-
-```json
-{
-    "transactions": [
-        {
-            "id": "9563f0b8-4b46-48d4-b140-60b47937ef25",
-            "product": "Folha Simples Cheiro a Menta",
-            "customer": "MicroPreco",
-            "state": "Processed",
-            "quantity": 1500,
-            "value": 239.85,
-            "date": "2019-12-14"
-        },
-    ]
-}
-```
-
 ### Get Supplier Information values for Drilldown Page
 
 Send `get` request to `api/purchases/suppliers/({supplierKey}`
@@ -693,6 +653,71 @@ Send `get` request to `api/purchases/suppliers/orders/({supplierKey}`
             "date": "2019-12-14",
             "state": "Pending"
         }
+    ]
+}
+```
+
+### Get Stock Item orders
+
+Send `get` request to `/api/stocks/{itemKey}/orders`
+
+Query Params: page, pageSize
+
+```json
+{
+    "transactions": [
+        {
+            "id": "9563f0b8-4b46-48d4-b140-60b47937ef25",
+            "product": "Folha Simples Cheiro a Menta",
+            "customer": "MicroPreco",
+            "state": "Processed",
+            "quantity": 1500,
+            "value": 239.85,
+            "date": "2019-12-14"
+        },
+    ]
+}
+```
+
+### Get Stock Item sales
+
+Send `get` request to `/api/stocks/{itemKey}/sales`
+
+Query Params: page, pageSize
+
+```json
+{
+    "transactions": [
+        {
+            "id": "55403bed-b6df-4bae-b01a-16ff581d242e",
+            "product": "Folha Simples Cheiro a Menta",
+            "quantity": 1500,
+            "value": 195,
+            "date": "2019-12-14",
+            "revenue": 239.85
+        },
+    ]
+}
+```
+
+### Get Stock Item purchases
+
+Send `get` request to `/api/stocks/{itemKey}/purchases`
+
+Query Params: page, pageSize
+
+```json
+{
+    "transactions": [
+        {
+            "id": "282adc28-4888-442f-81c5-2405d558836d",
+            "product": "Folha Tripla",
+            "supplier": "The Navigator Company",
+            "state": "Processed",
+            "quantity": 5000,
+            "value": 395.5,
+            "date": "2019-12-20"
+        },
     ]
 }
 ```

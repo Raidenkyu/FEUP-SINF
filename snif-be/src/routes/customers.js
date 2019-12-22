@@ -28,7 +28,7 @@ router.get("/", (req, res) => {
                         name: customer.name,
                         lastDate: info.lastDate,
                         totalOrders: info.totalOrders,
-                        value: info.value.toFixed(2)
+                        value: new Intl.NumberFormat('en-UK').format(info.value)
                     });
                 });
 

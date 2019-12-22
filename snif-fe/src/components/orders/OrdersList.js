@@ -45,7 +45,7 @@ const OrdersList = ({ setModalLoading, onRowClick, setModalData }) => {
             onRowClick();
             setModalLoading(false);
         })
-    }
+    };
 
     return (
         <PaginatedTable
