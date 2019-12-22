@@ -8,7 +8,7 @@ import ContentCard from "../common/utils/ContentCard"
 const TopSuppliers = ({onRowClick}) => {
     
     const topSuppliersHeaders = [
-        { index: "supplierId", value: "ID" },
+        { index: "supplierName", value: "Name" },
         { index: "quantity", value: "Quantity (kg)" },
         { index: "priceRatio", value: "Price ratio (€/kg)" },
     ];
