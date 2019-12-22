@@ -13,8 +13,8 @@ const StocksCard = () => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            setProductStockValue(new Intl.NumberFormat('de-DE').format(data.assetsInStock.products));
-            setResourceStockValue(new Intl.NumberFormat('de-DE').format(data.assetsInStock.resources));
+            setProductStockValue(new Intl.NumberFormat('en-UK').format(data.assetsInStock.products));
+            setResourceStockValue(new Intl.NumberFormat('en-UK').format(data.assetsInStock.resources));
             setLoading(false);
         }).catch(() => {
             setLoading(false);
