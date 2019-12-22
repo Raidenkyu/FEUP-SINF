@@ -46,11 +46,11 @@ Run `npm install` in the front-end directory for the git hooks to work. This way
 
 ### How to run the SAF-T reader
 ```
-cd saft-reader
+cd snif-be
 npm install
-npm start
+npm run saft <filename>
 ```
-Nota: para já é preciso fazer ctrl+c 1/2 segundos depois, bug que ainda não corrigi
+Nota: Se não for especificado um filename, o programa usa o 2º ficheiro SAF-T de exemplo fornecido
 
 ### After running
-Depois de correr, tem-se acesso aos dados gerais financeiros na rota /api/financial e aos dados financeiros de stock em /api/stock/financial
+Depois de correr, tem-se acesso aos dados gerais financeiros na rota /api/financial, aos dados financeiros de stocks em /api/stocks/financial, e aos dados financeiros do overview na rota /api/financial/overview
