@@ -4,8 +4,8 @@ import { navigate } from "@reach/router";
 import PaginatedTable from "../common/utils/PaginatedTable";
 
 const ProductsList = () => {
-    const onRowClick = ({ id }) => {
-        navigate(`/stocks/product/${id}`);
+    const onRowClick = ({ productKey }) => {
+        navigate(`/stocks/product/${productKey}`);
     }
 
     const productHeaders = [

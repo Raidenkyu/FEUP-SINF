@@ -6,17 +6,19 @@ import Axios from "axios";
 import Layout from "../components/common/layout/Layout";
 import Popup from "../components/common/utils/Popup";
 import ContentCard from "../components/common/utils/ContentCard";
+import SalesList from "../components/customer/SalesList";
+import OrdersList from "../components/customer/OrdersList";
 
-import CustomerStyles from "../styles/customer/Customer.module.css";
+import CustomerStyles from "../styles/drilldown/Drilldown.module.css";
 import { ReactComponent as Email } from "../assets/envelope-solid.svg";
 import { ReactComponent as Contact } from "../assets/phone-solid.svg";
 import { ReactComponent as Country } from "../assets/globe-solid.svg";
-import SalesList from "../components/customer/SalesList";
-import OrdersList from "../components/customer/OrdersList";
 
 const Customer = ({ customerKey }) => {
     const [loading, setLoading] = useState(true);
     const [customerData, setCustomerData] = useState({});
+    const [modal, setModal] = useState(false);
+    const [modalData, setModalData] = useState({});
     // const [customerOrders, setCustomerOrders] = useState([]);
 
     useEffect(() => {
@@ -32,9 +34,6 @@ const Customer = ({ customerKey }) => {
             setLoading(false);
         });
     }, [customerKey]);
-
-    const [modal, setModal] = useState(false);
-    const [modalData, setModalData] = useState({});
 
     const toggle = () => {
         setModal(!modal);

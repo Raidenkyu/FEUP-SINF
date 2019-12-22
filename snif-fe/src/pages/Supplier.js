@@ -6,11 +6,12 @@ import Axios from "axios";
 import Layout from "../components/common/layout/Layout";
 import Popup from "../components/common/utils/Popup";
 import ContentCard from "../components/common/utils/ContentCard";
-import CustomerStyles from "../styles/customer/Customer.module.css";
-import { ReactComponent as Contact } from "../assets/phone-solid.svg";
-import { ReactComponent as Country } from "../assets/globe-solid.svg";
 import SalesList from "../components/customer/SalesList";
 import OrdersList from "../components/customer/OrdersList";
+
+import CustomerStyles from "../styles/drilldown/Drilldown.module.css";
+import { ReactComponent as Contact } from "../assets/phone-solid.svg";
+import { ReactComponent as Country } from "../assets/globe-solid.svg";
 
 const Supplier = ({ supplierKey }) => {
     const [loading, setLoading] = useState(true);

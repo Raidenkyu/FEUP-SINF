@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 import PaginatedTable from "../common/utils/PaginatedTable";
 
-const OrdersList = ({ setModalLoading, onRowClick, setModalData }) => {
+const OrdersList = ({ productKey, setModalLoading, onRowClick, setModalData }) => {
     const productHeaders = [
         { index: "orderId", value: "Order ID" },
         { index: "state", value: "State" },
@@ -49,7 +49,7 @@ const OrdersList = ({ setModalLoading, onRowClick, setModalData }) => {
 
     return (
         <PaginatedTable
-            endpoint="/api/orders/list"
+            endpoint={`/api/stocks/product/${productKey}/orders`}
             header="Orders List"
             tableHeaders={productHeaders}
             pageSize={15}
@@ -60,6 +60,7 @@ const OrdersList = ({ setModalLoading, onRowClick, setModalData }) => {
 };
 
 OrdersList.propTypes = {
+    productKey: PropTypes.string.isRequired,
     setModalLoading: PropTypes.func.isRequired,
     onRowClick: PropTypes.func.isRequired,
     setModalData: PropTypes.func.isRequired,

@@ -1,37 +1,35 @@
 import React from "react";
-import Axios from "axios";
 import PropTypes from "prop-types";
+import Axios from "axios";
 
 import PaginatedTable from "../common/utils/PaginatedTable";
 
-const OrdersList = ({ setModalLoading, onRowClick, setModalData }) => {
-    const productHeaders = [
-        { index: "orderId", value: "Order ID" },
-        { index: "state", value: "State" },
-        { index: "clientName", value: "Client" },
-        { index: "clientTaxID", value: "Client tax ID" },
+const PurchasesList = ({ resourceKey, setModalLoading, onRowClick, setModalData }) => {
+    const purchasesHeaders = [
+        { index: "purchaseId", value: "Purchase ID" },
+        { index: "supplierName", value: "Supplier" },
+        { index: "supplierTaxID", value: "Supplier tax ID" },
         { index: "totalValue", value: "Total value (€)" },
         { index: "date", value: "Date" },
     ];
-    
+
     const modalHeaders = [
-        { index: "state", value: "State" },
-        { index: "clientName", value: "Client" },
-        { index: "clientTaxID", value: "Client tax ID" },
+        { index: "supplierName", value: "Supplier" },
+        { index: "supplierTaxID", value: "Supplier tax ID" },
         { index: "totalValue", value: "Total value (€)" },
         { index: "date", value: "Date" },
-        { index: "orderList", value: "Ordered products", headers: [
+        { index: "purchasesList", value: "Products acquired", headers: [
             { index: "productName", value: "Product" },
             { index: "productQuantity", value: "Quantity" },
             { index: "productValue", value: "Value (€)" },
         ] },
     ];
 
-    const handleOnRowClick = ({ orderId }) => {
+    const handleOnRowClick = ({ purchaseId }) => {
         setModalLoading(true);
         onRowClick();
 
-        Axios.get(`http://localhost:9000/api/orders/${orderId}`, {
+        Axios.get(`http://localhost:9000/api/purchases/${purchaseId}`, {
             headers: {
                 auth_token: localStorage.getItem("auth_token"),
             }
@@ -45,24 +43,25 @@ const OrdersList = ({ setModalLoading, onRowClick, setModalData }) => {
             onRowClick();
             setModalLoading(false);
         })
-    }
+    };
 
     return (
         <PaginatedTable
-            endpoint="/api/orders/list"
-            header="Orders List"
-            tableHeaders={productHeaders}
+            endpoint={`/api/stocks/${resourceKey}/list`}
+            header="Purchases List"
+            tableHeaders={purchasesHeaders}
             pageSize={15}
-            list="ordersProducts"
+            list="purchasesList"
             onRowClick={handleOnRowClick}
         />
     );
 };
 
-OrdersList.propTypes = {
+PurchasesList.propTypes = {
+    resourceKey: PropTypes.string.isRequired,
     setModalLoading: PropTypes.func.isRequired,
     onRowClick: PropTypes.func.isRequired,
     setModalData: PropTypes.func.isRequired,
 }
 
-export default OrdersList;
+export default PurchasesList;
