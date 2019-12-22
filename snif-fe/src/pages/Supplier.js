@@ -7,7 +7,6 @@ import Layout from "../components/common/layout/Layout";
 import Popup from "../components/common/utils/Popup";
 import ContentCard from "../components/common/utils/ContentCard";
 import SalesList from "../components/customer/SalesList";
-import OrdersList from "../components/customer/OrdersList";
 
 import CustomerStyles from "../styles/drilldown/Drilldown.module.css";
 import { ReactComponent as Contact } from "../assets/phone-solid.svg";
@@ -76,11 +75,6 @@ const Supplier = ({ supplierKey }) => {
                                 </div>
                             </div>
                         </ContentCard>
-                    </Col>
-                </Row>
-                <Row className="mb-5">
-                    <Col xs="12">
-                        <OrdersList onRowClick={onRowClick} />
                     </Col>
                 </Row>
                 <Row className="mb-5">
