@@ -526,31 +526,6 @@ Send `get` request to `api/sales/{saleKey}`
 }
 ```
 
-### Get supplier Information values for Drilldown Page
-
-Send `get` request to `api/purchases/suppliers/{supplierKey}`
-
-```json
-{
-    "supplierId": "519951018",
-    "supplierKey": "0024",
-    "name": "The Navigator Company",
-    "telephone": "234910600",
-    "country": "Portugal",
-    "quantity": 61000,
-    "priceRatio": "0.06",
-    "orders": [
-        {
-            "purchaseId": "282adc28-4888-442f-81c5-2405d558836d",
-            "name": "Folha Simples",
-            "quantity": 5000,
-            "value": 169.5,
-            "date": "2019-12-20"
-        },
-    ]
-}
-```
-
 ### Get Stock Information values for Drilldown Page
 
 Send `get` request to `api/stocks/{itemKey}`
@@ -670,6 +645,61 @@ Case Product:
             "value": 239.85,
             "date": "2019-12-14"
         },
+    ]
+}
+```
+
+### Get Supplier Information values for Drilldown Page
+
+Send `get` request to `api/purchases/suppliers/({supplierKey}`
+
+```json
+{
+    "supplierId": "519951018",
+    "supplierKey": "0024",
+    "name": "The Navigator Company",
+    "telephone": "234910600",
+    "country": "Portugal"
+}
+```
+
+### Get Supplier orders values for Drilldown Page
+
+Send `get` request to `api/purchases/suppliers/orders/({supplierKey}`
+
+```json
+{
+    "orders": [
+        {
+            "orderId": "282adc28-4888-442f-81c5-2405d558836d",
+            "totalValue": 847.5,
+            "date": "2019-12-14",
+            "state": "Processed"
+        },
+        {
+            "orderId": "9726dea2-d89c-4818-a9da-3d9b5951e4d5",
+            "totalValue": 847.5,
+            "date": "2019-12-14",
+            "state": "Pending"
+        },
+        {
+            "orderId": "a759e462-7007-46f7-954e-427e335d6e95",
+            "totalValue": 847.5,
+            "date": "2019-12-14",
+            "state": "Pending"
+        },
+        {
+            "orderId": "8edd642a-7b93-4577-a3bd-62ea998d7fce",
+            "totalValue": 135.6,
+            "date": "2019-11-15",
+            "state": "Processed"
+        },
+        {
+            "orderId": "c509f162-8637-493e-80b1-c5f57b6a6425",
+            "totalValue": 847.5,
+            "date": "2019-12-14",
+            "state": "Pending"
+        }
     ]
 }
 ```
