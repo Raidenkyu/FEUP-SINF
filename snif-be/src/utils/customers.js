@@ -28,15 +28,11 @@ const getCustomerOrders = (customerTaxId, orders) => {
 
         if (customerTaxId == document.buyerCustomerPartyTaxId) {
 
-            document.documentLines.forEach((product) => {
-                filteredOrders.push({
-                    orderId: product.orderId,
-                    product: product.description,
-                    state: (product.isDeleted ? "Cancelled" : (product.documentLineStatus == 1 ? "Pending" : "Processed")),
-                    quantity: product.quantity,
-                    value: product.lineExtensionAmount.amount,
-                    date: product.deliveryDate.split("T")[0]
-                });
+            filteredOrders.push({
+                orderId: document.documentLines[0].orderId,
+                totalValue: document.payableAmount.amount,
+                date: document.exchangeRateDate.split("T")[0],
+                state: (document.documentLines[0].isDeleted ? "Cancelled" : (document.documentLines[0].documentLineStatus == 1 ? "Pending" : "Processed"))
             });
         }
     });
@@ -44,7 +40,27 @@ const getCustomerOrders = (customerTaxId, orders) => {
     return filteredOrders;
 }
 
+const getCustomerInvoice = (customerTaxId, invoice) => {
+
+    const filteredInvoice = [];
+
+    invoice.forEach((document) => {
+
+        if (customerTaxId == document.buyerCustomerPartyTaxId) {
+
+            filteredInvoice.push({
+                invoiceId: document.documentLines[0].invoiceId,
+                totalValue: document.payableAmount.amount,
+                date: document.exchangeRateDate.split("T")[0],
+            });
+        }
+    });
+
+    return filteredInvoice;
+}
+
 module.exports = {
     getCustomerOrdersInfo,
-    getCustomerOrders
+    getCustomerOrders,
+    getCustomerInvoice
 };

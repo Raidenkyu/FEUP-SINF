@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { requestPrimavera, requestOrders } = require("../utils/api/jasmin");
-const { getCustomerOrdersInfo, getCustomerOrders } = require("../utils/customers");
+const { requestPrimavera, requestOrders, requestInvoice } = require("../utils/api/jasmin");
+const { getCustomerOrdersInfo, getCustomerOrders, getCustomerInvoice } = require("../utils/customers");
 
 router.get("/", (req, res) => {
     requestPrimavera("/salesCore/customerParties/")
@@ -46,26 +46,20 @@ router.get("/", (req, res) => {
 
                 res.json(response);
             }
-        ).catch(
-            () => {
-                var err = new Error("Failed to fetch customers");
-                err.status = 401;
-                res.json({
-                    message: err.message,
-                    error: err
-                });
-            }
-        );
+        ).catch(() => {
+            const err = new Error("Failed to fetch Sale");
+            err.status = 400;
+            res.status(400).json({
+                message: err.message,
+                error: err
+            });
+        });
 });
 
-router.get("/:customerKey", (req, res) => {
+router.get("/info/:customerKey", (req, res) => {
     const key = req.params.customerKey;
 
     requestPrimavera(`/salesCore/customerParties/${key}`).then(async (customer) => {
-
-        const orders = await requestOrders();
-
-        const filteredOrders = getCustomerOrders(customer.companyTaxID, orders);
 
         res.json({
             customerKey: customer.partyKey,
@@ -73,8 +67,82 @@ router.get("/:customerKey", (req, res) => {
             taxId: customer.companyTaxID,
             email: customer.electronicMail,
             telefone: customer.telephone,
-            country: customer.countryDescription,
+            country: customer.countryDescription
+        });
+    }).catch(() => {
+        const err = new Error("Failed to customer information");
+        err.status = 400;
+        res.status(400).json({
+            message: err.message,
+            error: err
+        });
+    });
+});
+
+router.get("/orders/:customerKey", (req, res) => {
+    const key = req.params.customerKey;
+
+    requestPrimavera(`/salesCore/customerParties/${key}`).then(async (customer) => {
+
+        const page = req.query.page || 1;
+        const pageSize = req.query.pageSize || 15;
+
+        const orders = await requestOrders();
+
+        const filteredOrders = getCustomerOrders(customer.companyTaxID, orders).sort((a, b) => {
+            if (a.value > b.value) {
+                return 1;
+            }
+
+            if (a.value < b.value) {
+                return -1;
+            }
+
+            return 0;
+        }).slice((page - 1) * pageSize, page * pageSize);
+
+        res.json({
             orders: filteredOrders
+        });
+    }).catch(() => {
+        const err = new Error("Failed to fetch customer orders");
+        err.status = 400;
+        res.status(400).json({
+            message: err.message,
+            error: err
+        });
+    });
+});
+
+router.get("/sales/:customerKey", (req, res) => {
+    const key = req.params.customerKey;
+
+    requestPrimavera(`/salesCore/customerParties/${key}`).then(async (customer) => {
+
+        const page = req.query.page || 1;
+        const pageSize = req.query.pageSize || 15;
+
+        const invoice = await requestInvoice();
+
+        const filteredSales = getCustomerInvoice(customer.companyTaxID, invoice).sort((a, b) => {
+            if (a.value > b.value) {
+                return 1;
+            }
+
+            if (a.value < b.value) {
+                return -1;
+            }
+
+            return 0;
+        }).slice((page - 1) * pageSize, page * pageSize);
+
+        res.json({ sales: filteredSales });
+    }).catch(() => {
+        const err = new Error("Failed to fetch customer sales");
+        err.status = 400;
+        res.status(400).json({
+            message: err.message,
+            error: err
         });
     });
 });
