@@ -6,10 +6,11 @@ import Axios from "axios";
 import Layout from "../components/common/layout/Layout";
 import Popup from "../components/common/utils/Popup";
 import ContentCard from "../components/common/utils/ContentCard";
-import CustomerStyles from "../styles/customer/Customer.module.css";
+import PurchasesList from "../components/supplier/PurchasesList";
+
+import CustomerStyles from "../styles/drilldown/Drilldown.module.css";
 import { ReactComponent as Contact } from "../assets/phone-solid.svg";
 import { ReactComponent as Country } from "../assets/globe-solid.svg";
-import PurchasesList from "../components/supplier/PurchasesList";
 
 const Supplier = ({ supplierKey }) => {
     const [loading, setLoading] = useState(true);
@@ -24,13 +25,7 @@ const Supplier = ({ supplierKey }) => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            setSupplierData({
-                name: data.name,
-                email: data.email,
-                contact: data.telephone,
-                country: data.country,
-            });
-
+            setSupplierData(data);
             setLoading(false);
         }).catch(() => {
             setLoading(false);
@@ -64,7 +59,7 @@ const Supplier = ({ supplierKey }) => {
                                 <div className="my-3">
                                     <Contact className={CustomerStyles.icon} />
                                     <span className={CustomerStyles.text}>
-                                        {supplierData.contact}
+                                        {supplierData.telephone}
                                     </span>
                                 </div>
                                 <div className="my-3">
@@ -83,7 +78,8 @@ const Supplier = ({ supplierKey }) => {
                             setModalLoading={setModalLoading}
                             supplierKey={supplierKey}
                             onRowClick={openModal}
-                            setModalData={setModalData} />
+                            setModalData={setModalData}
+                        />
                     </Col>
                 </Row>
             </Container>

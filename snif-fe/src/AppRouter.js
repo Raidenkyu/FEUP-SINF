@@ -14,6 +14,8 @@ import Financial from "./pages/Financial";
 import NotFound from "./pages/404";
 import Customer from "./pages/Customer";
 import Supplier from "./pages/Supplier";
+import Resource from "./pages/Resource";
+import Product from "./pages/Product";
 
 import { USER_PERMISSIONS } from "./actions/AuthActions"
 
@@ -48,12 +50,14 @@ const AppRouter = ({ loadUser }) => {
             {hasPermission("/overview") && <Overview path="/overview"/>}
             {hasPermission("/sales") && <Sales path="/sales"/>}
             {hasPermission("/purchases") && <Purchases path="/purchases"/>}
+            {hasPermission("/purchases") && <Supplier path="/suppliers/:supplierKey"/>}
             {hasPermission("/stocks") && <Stocks path="/stocks"/>}
+            {hasPermission("/stocks") && <Resource path="/stocks/resource/:resourceKey" />}
+            {hasPermission("/stocks") && <Product path="/stocks/product/:productKey" />}
             {hasPermission("/orders") && <Orders path="/orders"/>}
             {hasPermission("/customers") && <Customers path="/customers"/>}
+            {hasPermission("/customers") && <Customer path="/customers/:customerKey"/>}
             {hasPermission("/financial") && <Financial path="/financial"/>}
-            <Customer path="/customers/:customerKey"/>
-            <Supplier path="/suppliers/:supplierKey"/>
             <NotFound default />
         </Router>
     );

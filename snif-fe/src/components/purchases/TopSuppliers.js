@@ -5,7 +5,7 @@ import Axios from "axios";
 import ContentTable from "../../components/common/utils/ContentTable";
 import ContentCard from "../common/utils/ContentCard"
 
-const TopSuppliers = ({onRowClick}) => {
+const TopSuppliers = ({ onRowClick }) => {
     
     const topSuppliersHeaders = [
         { index: "supplierName", value: "Name" },

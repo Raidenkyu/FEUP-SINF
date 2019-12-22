@@ -8,69 +8,24 @@ var { FinancialStockObject } = require('../models/financial.model.js');
 router.get("/", (req, res) => {
     requestPrimavera("/materialsCore/materialsItems/").then(
         (stockData) => {
-
-            const page = req.query.page || 1;
-            const pageSize = req.query.pageSize || 5;
-
             const response = {
                 assetsInStock: { products: 0, resources: 0 },
                 products: [],
                 resources: []
             };
 
-            const resourcesList = [];
-            const productsList = [];
-
             stockData.forEach((materialItem) => {
                 if (materialItem.itemSubtype == "4" || materialItem.itemSubtype == "3") {
                     const quantity = getStockQuantity(materialItem);
                     const value = getUnitPrice(materialItem);
-                    resourcesList.push({
-                        resourceKey: materialItem.itemKey,
-                        name: materialItem.description,
-                        quantity: quantity,
-                        value: value,
-                        error: quantity < 0,
-                    });
                     response.assetsInStock.resources += quantity * value;
                 }
                 else if (materialItem.itemSubtype == "1") {
                     const quantity = getStockQuantity(materialItem);
                     const value = getStockValue(materialItem);
-                    productsList.push({
-                        productKey: materialItem.itemKey,
-                        name: materialItem.description,
-                        quantity: quantity,
-                        value: new Intl.NumberFormat('en-UK').format(value),
-                        error: quantity < 0,
-                    });
-                    response.assetsInStock.products += value;
+                    response.assetsInStock.products += quantity * value;
                 }
             });
-
-            response.resources = resourcesList.sort((a, b) => {
-                if (a.date < b.date) {
-                    return 1;
-                }
-
-                else if (a.date > b.date) {
-                    return -1;
-                }
-
-                return 0;
-            }).slice((page - 1) * pageSize, page * pageSize);
-
-            response.products = productsList.sort((a, b) => {
-                if (a.date < b.date) {
-                    return 1;
-                }
-
-                else if (a.date > b.date) {
-                    return -1;
-                }
-
-                return 0;
-            }).slice((page - 1) * pageSize, page * pageSize);
 
             response.assetsInStock.resources = new Intl.NumberFormat('en-UK').format(response.assetsInStock.resources);
             response.assetsInStock.products = new Intl.NumberFormat('en-UK').format(response.assetsInStock.products);
@@ -225,8 +180,6 @@ router.get("/products", (req, res) => {
 
 
 router.get("/:itemKey", (req, res) => {
-
-
     const key = req.params.itemKey;
 
     requestPrimavera(`/materialsCore/materialsItems/${key}`).then(
@@ -237,6 +190,7 @@ router.get("/:itemKey", (req, res) => {
                 const value = getUnitPrice(materialItem);
 
                 res.json({
+                    resourceKey: materialItem.itemKey,
                     name: materialItem.description,
                     quantity: quantity,
                     value: value,
@@ -247,7 +201,13 @@ router.get("/:itemKey", (req, res) => {
                 const quantity = getStockQuantity(materialItem);
                 const value = getStockValue(materialItem);
 
-                res.json(materialItem);
+                res.json({
+                    productKey: materialItem.itemKey,
+                    name: materialItem.description,
+                    quantity: quantity,
+                    value: value,
+                    error: quantity < 0,
+                });
             }
         }
     ).catch(

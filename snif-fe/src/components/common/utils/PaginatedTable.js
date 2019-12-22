@@ -19,11 +19,9 @@ const PaginatedTable = ({ endpoint, header, tableHeaders, pageSize, list, onRowC
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            console.log(data);
-            
             setRows(data[list]);
 
-            if (data[list].length === 15) {
+            if (data[list].length === pageSize) {
                 setNext(true);
             } else {
                 setNext(false);
@@ -80,7 +78,7 @@ PaginatedTable.propTypes = {
     tableHeaders: PropTypes.array.isRequired,
     pageSize: PropTypes.number.isRequired,
     list: PropTypes.string.isRequired,
-    onRowClick: PropTypes.func.isRequired,
+    onRowClick: PropTypes.func,
 }
 
 export default PaginatedTable;

@@ -1,0 +1,31 @@
+.pageHeader {
+    color: var(--light-green);
+    font-weight: 100 !important;
+}
+
+.pageHeaderError {
+    color: var(--red);
+    font-weight: 100 !important;
+}
+
+.icon {
+    width: 1.8em;
+    height: 1.8em;
+    margin-right: 20px;
+}
+
+.header {
+    font-size: 20px;
+    color: var(--light-green);
+    margin-right: 20px;
+}
+
+.headerError {
+    font-size: 20px;
+    color: var(--red);
+    margin-right: 20px;
+}
+
+.text {
+    font-size: 20px;
+}

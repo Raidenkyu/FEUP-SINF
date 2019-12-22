@@ -27,11 +27,11 @@ const OrdersList = ({ setModalLoading, onRowClick, setModalData }) => {
         ] },
     ];
 
-    const handleOnRowClick = (row) => {
+    const handleOnRowClick = ({ orderId }) => {
         setModalLoading(true);
         onRowClick();
 
-        Axios.get(`http://localhost:9000/api/orders/${row.orderId}`, {
+        Axios.get(`http://localhost:9000/api/orders/${orderId}`, {
             headers: {
                 auth_token: localStorage.getItem("auth_token"),
             }
@@ -41,9 +41,7 @@ const OrdersList = ({ setModalLoading, onRowClick, setModalData }) => {
                 headers: modalHeaders,
                 data: data,
             });
-        }).catch((err) => {
-            console.log(err);
-            
+        }).catch(() => {
             onRowClick();
             setModalLoading(false);
         })

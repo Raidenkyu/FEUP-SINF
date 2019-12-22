@@ -6,33 +6,16 @@ import Axios from "axios";
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 import Indicator from "../components/common/utils/Indicator";
-import ContentTable from "../components/common/utils/ContentTable";
 import Financial from "../components/stocks/Financial";
-import Popup from "../components/common/utils/Popup";
+import ProductsList from "../components/stocks/ProductsList";
+import ResourcesList from "../components/stocks/ResourcesList";
 
 import LayoutStyles from "../styles/common/layout.module.css";
 
 const Stocks = ({ path }) => {
     const [loading, setLoading] = useState(true);
-    const [productRows, setProductRows] = useState([]);
-    const [resourcesRows, setResourcesRows] = useState([]);
     const [productsStock, setProductsStock] = useState(0);
     const [resourcesStock, setResourcesStock] = useState(0);
-    const [modal, setModal] = useState(false);
-    const [modalData, setModalData] = useState({ headers: [], data: {} });
-
-    const onRowClick = (headers, row) => {
-        setModal(!modal);
-        setModalData({
-            headers: headers,
-            data: row,
-        });
-    };
-
-    const toggle = () => {
-        setModal(!modal);
-        setModalData({ headers: [], data: {} });
-    };
 
     useEffect(() => {
         Axios.get("http://localhost:9000/api/stocks", {
@@ -40,8 +23,6 @@ const Stocks = ({ path }) => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            setProductRows(data.products);
-            setResourcesRows(data.resources);
             setProductsStock(data.assetsInStock.products);
             setResourcesStock(data.assetsInStock.resources);
             setLoading(false);
@@ -49,18 +30,6 @@ const Stocks = ({ path }) => {
             setLoading(false);
         });
     }, []);
-
-    const productHeaders = [
-        { index: "name", value: "Name" },
-        { index: "quantity", value: "Quantity" },
-        { index: "value", value: "Value (€)" },
-    ];
-
-    const resourcesHeaders = [
-        { index: "name", value: "Name" },
-        { index: "quantity", value: "Quantity (kg)" },
-        { index: "value", value: "Value (€/kg)" },
-    ];
 
     return (
         <Layout navbar sidebar path={path}>
@@ -70,8 +39,7 @@ const Stocks = ({ path }) => {
                         Stocks
                     </Col>
                 </Row>
-                <Financial />
-                <Row>
+                <Row className="mb-5">
                     <Col xs="6">
                         <ContentCard loading={loading} header="Products value in stock (€)">
                             <Indicator value={productsStock} />
@@ -83,20 +51,16 @@ const Stocks = ({ path }) => {
                         </ContentCard>
                     </Col>
                 </Row>
+                <Financial />
                 <Row className="mb-5">
                     <Col xs="6">
-                        <ContentCard loading={loading} header="Products">
-                            <ContentTable headers={productHeaders} rows={productRows} onRowClick={onRowClick} />
-                        </ContentCard>
+                        <ProductsList />
                     </Col>
                     <Col xs="6">
-                        <ContentCard loading={loading} header="Resources">
-                            <ContentTable headers={resourcesHeaders} rows={resourcesRows} onRowClick={onRowClick} />
-                        </ContentCard>
+                        <ResourcesList />
                     </Col>
                 </Row>
             </Container>
-            <Popup isOpen={modal} toggle={toggle} headers={modalData.headers} data={modalData.data}/>
         </Layout>
     );
 };

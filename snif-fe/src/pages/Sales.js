@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Container, Row, Col } from "reactstrap";
 import PropTypes from "prop-types";
 import Axios from "axios";
+import { navigate } from "@reach/router";
 
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
@@ -47,6 +48,7 @@ const Sales = ({ path }) => {
             setCumulativeSalesValues(cumulativeSalesArr);
 
             setTopSellingRows(Object.keys(data.products).map((key) => ({
+                productKey: data.products[key].productKey,
                 name: key,
                 units: data.products[key].units,
                 revenue: new Intl.NumberFormat("en-UK").format(data.products[key].revenue),
@@ -99,6 +101,10 @@ const Sales = ({ path }) => {
         setModal(true);
     };
 
+    const handleTopProductsRowClick = ({ productKey }) => {
+        navigate(`/stocks/product/${productKey}`);
+    };
+
     return (
         <Layout navbar sidebar path={path}>
             <Container>
@@ -138,7 +144,7 @@ const Sales = ({ path }) => {
                     </Col>
                     <Col xs="6">
                         <ContentCard loading={loading} header="Top Selling Products">
-                            <ContentTable headers={topSellingHeaders} rows={topSellingRows} onRowClick={openModal}/>
+                            <ContentTable headers={topSellingHeaders} rows={topSellingRows} onRowClick={handleTopProductsRowClick}/>
                         </ContentCard>
                     </Col>
                 </Row>
