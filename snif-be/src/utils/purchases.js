@@ -1,32 +1,22 @@
 const getSupplierOrders = (supplierTaxId, orders) => {
 
-    const info = {
-        orders: [],
-        quantity: 0,
-        totalPrice: 0,
-        num: 0
-    };
+    const filteredOrders = [];
 
     orders.forEach((document) => {
 
         if (supplierTaxId == document.sellerSupplierPartyTaxId) {
-            document.documentLines.forEach((purchase) => {
-                info.orders.push({
-                    purchaseId: purchase.orderId,
-                    name: purchase.description,
-                    quantity: purchase.quantity,
-                    value: purchase.lineExtensionAmount.amount,
-                    date: purchase.deliveryDate.split("T")[0]
-                });
 
-                info.quantity += purchase.quantity;
-                info.totalPrice += purchase.unitPrice.amount;
-                info.num++;
+            filteredOrders.push({
+                orderId: document.documentLines[0].orderId,
+                totalValue: document.payableAmount.amount,
+                date: document.exchangeRateDate.split("T")[0],
+                state: (document.documentLines[0].isDeleted ? "Cancelled" : (document.documentLines[0].documentLineStatus == 1 ? "Pending" : "Processed"))
             });
+
         }
     });
 
-    return info;
+    return filteredOrders;
 }
 
 module.exports = {
