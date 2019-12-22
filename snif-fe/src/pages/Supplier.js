@@ -9,11 +9,14 @@ import ContentCard from "../components/common/utils/ContentCard";
 import CustomerStyles from "../styles/customer/Customer.module.css";
 import { ReactComponent as Contact } from "../assets/phone-solid.svg";
 import { ReactComponent as Country } from "../assets/globe-solid.svg";
-import SalesList from "../components/customer/SalesList";
+import PurchasesList from "../components/supplier/PurchasesList";
 
 const Supplier = ({ supplierKey }) => {
     const [loading, setLoading] = useState(true);
     const [supplierData, setSupplierData] = useState({});
+    const [modalLoading, setModalLoading] = useState(false);
+    const [modal, setModal] = useState(false);
+    const [modalData, setModalData] = useState({ headers: [], data: {} });
 
     useEffect(() => {
         Axios.get(`http://localhost:9000/api/purchases/suppliers/${supplierKey}`, {
@@ -34,25 +37,17 @@ const Supplier = ({ supplierKey }) => {
         });
     }, [supplierKey]);
 
-    const [modal, setModal] = useState(false);
-    const [modalData, setModalData] = useState({});
+    const openModal = () => {
+        setModal(true);
+    };
 
-    const toggle = () => {
+    const clearModal = () => {
         setModal(!modal);
-        setModalData({});
+        setModalData({
+            headers: [],
+            data: {},
+        });
     };
-    const onRowClick = (data) => {
-        setModal(!modal);
-        setModalData(data);
-    };
-    const productHeaders = [
-        { index: "id", value: "Order id" },
-        { index: "product", value: "Product" },
-        { index: "state", value: "State" },
-        { index: "quantity", value: "Quantity" },
-        { index: "value", value: "Value (€)" },
-        { index: "date", value: "Date" },
-    ];
 
     return (
         <Layout navbar sidebar path="/">
@@ -84,11 +79,20 @@ const Supplier = ({ supplierKey }) => {
                 </Row>
                 <Row className="mb-5">
                     <Col xs="12">
-                        <SalesList onRowClick={onRowClick} />
+                        <PurchasesList
+                            setModalLoading={setModalLoading}
+                            supplierKey={supplierKey}
+                            onRowClick={openModal}
+                            setModalData={setModalData} />
                     </Col>
                 </Row>
             </Container>
-            <Popup isOpen={modal} toggle={toggle} headers={productHeaders} data={modalData} />
+            <Popup
+                loading={modalLoading}
+                isOpen={modal}
+                toggle={clearModal}
+                headers={modalData.headers}
+                data={modalData.data} />
         </Layout>
     );
 };
