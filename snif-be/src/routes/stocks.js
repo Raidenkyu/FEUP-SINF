@@ -1,8 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const { requestPrimavera } = require("../utils/api/jasmin");
-const { getStockQuantity, getUnitPrice, getStockValue } = require("../utils/stock");
-let { FinancialStockObject } = require('../models/financial.model');
+const { getStockQuantity, getUnitPrice, getStockValue, getItemSales, getItemPurchases } = require("../utils/stock");
+var { FinancialStockObject } = require('../models/financial.model.js');
 
 
 router.get("/", (req, res) => {
@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
                 else if (materialItem.itemSubtype == "1") {
                     const quantity = getStockQuantity(materialItem);
                     const value = getStockValue(materialItem);
-                    response.assetsInStock.products += value;
+                    response.assetsInStock.products += quantity * value;
                 }
             });
 
@@ -175,6 +175,48 @@ router.get("/products", (req, res) => {
 
 });
 
+router.get("/transactions/:itemKey", (req, res) => {
+
+
+    const key = req.params.itemKey;
+
+    Promise.all([
+        requestPrimavera(`/materialsCore/materialsItems/${key}`),
+        requestPrimavera("/purchases/orders"),
+        requestPrimavera("/sales/orders")
+    ]).then(
+        (transactionsData) => {
+
+            const [item, purchases, sales] = transactionsData;
+
+            const response = {};
+
+            if (item.itemSubtype == "4" || item.itemSubtype == "3") {
+                //Resources
+                response.transactions = getItemPurchases(item.itemKey, purchases);
+            }
+            else if (item.itemSubtype == "1") {
+                //Products
+                response.transactions = getItemSales(item.itemKey, sales);
+            }
+
+            res.json(response);
+        }
+    ).catch(
+        (e) => {
+            var err = new Error("Failed to fetch transactions");
+            err.status = 500;
+            res.status(err.status).json({
+                message: err.message,
+                error: err
+            });
+
+            throw e;
+        }
+    );
+
+});
+
 
 router.get("/:itemKey", (req, res) => {
 
@@ -199,22 +241,19 @@ router.get("/:itemKey", (req, res) => {
                 const quantity = getStockQuantity(materialItem);
                 const value = getStockValue(materialItem);
 
-                res.json({
-                    name: materialItem.description,
-                    quantity: quantity,
-                    value: value,
-                    error: quantity < 0,
-                });
+                res.json(materialItem);
             }
         }
     ).catch(
-        () => {
+        (e) => {
             var err = new Error("Failed to fetch stock items");
             err.status = 401;
             res.json({
                 message: err.message,
                 error: err
             });
+
+            throw e;
         }
     );
 

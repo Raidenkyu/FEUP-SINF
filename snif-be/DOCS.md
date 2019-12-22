@@ -556,3 +556,113 @@ Send `get` request to `api/stocks/{itemKey}`
     "error": false
 }
 ```
+
+### Get Customer Information values for Drilldown Page
+
+Send `get` request to `api/customers/info({customerKey}`
+
+```json
+{
+    "customerKey": "0004",
+    "name": "Pingo Azedo",
+    "taxId": "571689434",
+    "email": "geral@pingoazedo.com",
+    "telefone": "210114411",
+    "country": "Portugal"
+}
+```
+
+### Get Customer Orders values for Drilldown Page
+
+Send `get` request to `api/customers/orders({customerKey}`
+
+```json
+{
+    "orders": [
+        {
+            "orderId": "36f021e3-36d9-4698-af0f-088c5b06233b",
+            "totalValue": 138.38,
+            "date": "2019-01-18",
+            "state": "Processed"
+        },
+        {
+            "orderId": "f3d3ae79-4179-486a-828e-75ba5fa9bc78",
+            "totalValue": 507.38,
+            "date": "2019-12-13",
+            "state": "Processed"
+        },
+        {
+            "orderId": "b614c7c6-5e82-4854-a30d-c851af7b53a8",
+            "totalValue": 381.3,
+            "date": "2019-11-04",
+            "state": "Processed"
+        }
+    ]
+}
+```
+
+### Get Customer Sales values for Drilldown Page
+
+Send `get` request to `api/customers/sales({customerKey}`
+
+```json
+{
+    "sales": [
+        {
+            "invoiceId": "7495274f-663f-4705-912e-821fb6e36f93",
+            "totalValue": 138.38,
+            "date": "2019-10-01"
+        },
+        {
+            "invoiceId": "44b92868-3962-43ca-ac74-de0d3cb2d52d",
+            "totalValue": 381.3,
+            "date": "2019-11-04"
+        },
+        {
+            "invoiceId": "a65b209b-e27e-4350-8642-ed4ecfc23992",
+            "totalValue": 507.38,
+            "date": "2019-12-14"
+        }
+    ]
+}
+```
+
+### Get Stock Item transactions
+
+Send `get` request to `/api/stocks/transactions/{itemKey}`
+
+Case Resource:
+
+```json
+{
+    "transactions": [
+        {
+            "id": "282adc28-4888-442f-81c5-2405d558836d",
+            "product": "Folha Tripla",
+            "supplier": "The Navigator Company",
+            "state": "Processed",
+            "quantity": 5000,
+            "value": 395.5,
+            "date": "2019-12-20"
+        },
+    ]
+}
+```
+
+Case Product:
+
+```json
+{
+    "transactions": [
+        {
+            "id": "9563f0b8-4b46-48d4-b140-60b47937ef25",
+            "product": "Folha Simples Cheiro a Menta",
+            "customer": "MicroPreco",
+            "state": "Processed",
+            "quantity": 1500,
+            "value": 239.85,
+            "date": "2019-12-14"
+        },
+    ]
+}
+```
