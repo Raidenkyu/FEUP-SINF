@@ -8,7 +8,7 @@ import ContentCard from "../common/utils/ContentCard"
 const TopSuppliers = ({onRowClick}) => {
     
     const topSuppliersHeaders = [
-        { index: "supplierId", value: "ID" },
+        { index: "supplierName", value: "Name" },
         { index: "quantity", value: "Quantity (kg)" },
         { index: "priceRatio", value: "Price ratio (€/kg)" },
     ];
@@ -29,18 +29,9 @@ const TopSuppliers = ({onRowClick}) => {
         });
     }, []);
 
-    const handleonRowClick = (data) => {
-        const newdata = {
-            headers: topSuppliersHeaders,
-            data: data,
-        };
-        onRowClick(newdata);
-        
-    };
-
     return (
         <ContentCard loading={loading} header="Top Suppliers">
-            <ContentTable headers={topSuppliersHeaders} rows={suppliers} onRowClick={handleonRowClick}/>
+            <ContentTable headers={topSuppliersHeaders} rows={suppliers} onRowClick={onRowClick}/>
         </ContentCard>
     );
 };

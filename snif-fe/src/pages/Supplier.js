@@ -7,34 +7,33 @@ import Layout from "../components/common/layout/Layout";
 import Popup from "../components/common/utils/Popup";
 import ContentCard from "../components/common/utils/ContentCard";
 import CustomerStyles from "../styles/customer/Customer.module.css";
-import { ReactComponent as Email } from "../assets/envelope-solid.svg";
 import { ReactComponent as Contact } from "../assets/phone-solid.svg";
 import { ReactComponent as Country } from "../assets/globe-solid.svg";
 import SalesList from "../components/customer/SalesList";
 import OrdersList from "../components/customer/OrdersList";
 
-const Supplier = ({ customerKey }) => {
+const Supplier = ({ supplierKey }) => {
     const [loading, setLoading] = useState(true);
-    const [customerData, setCustomerData] = useState({});
+    const [supplierData, setSupplierData] = useState({});
 
     useEffect(() => {
-        Axios.get(`http://localhost:9000/api/customers/${customerKey}`, {
+        Axios.get(`http://localhost:9000/api/purchases/suppliers/${supplierKey}`, {
             headers: {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            setCustomerData({
+            setSupplierData({
                 name: data.name,
                 email: data.email,
-                contact: data.telefone,
+                contact: data.telephone,
                 country: data.country,
             });
-            // setCustomerOrders(data.orders);
+
             setLoading(false);
         }).catch(() => {
             setLoading(false);
         });
-    }, [customerKey]);
+    }, [supplierKey]);
 
     const [modal, setModal] = useState(false);
     const [modalData, setModalData] = useState({});
@@ -61,7 +60,7 @@ const Supplier = ({ customerKey }) => {
             <Container>
                 <Row>
                     <Col xs="12" className={`${CustomerStyles.pageHeader} mb-5 h1`}>
-                        {customerData.name}
+                        {supplierData.name}
                     </Col>
                 </Row>
                 <Row className="mb-5">
@@ -69,21 +68,15 @@ const Supplier = ({ customerKey }) => {
                         <ContentCard loading={loading} header="General Information">
                             <div className="w-100">
                                 <div className="my-3">
-                                    <Email className={CustomerStyles.icon} />
-                                    <span className={CustomerStyles.text}>
-                                        {customerData.email}
-                                    </span>
-                                </div>
-                                <div className="my-3">
                                     <Contact className={CustomerStyles.icon} />
                                     <span className={CustomerStyles.text}>
-                                        {customerData.contact}
+                                        {supplierData.contact}
                                     </span>
                                 </div>
                                 <div className="my-3">
                                     <Country className={CustomerStyles.icon} />
                                     <span className={CustomerStyles.text}>
-                                        {customerData.country}
+                                        {supplierData.country}
                                     </span>
                                 </div>
                             </div>
@@ -107,6 +100,6 @@ const Supplier = ({ customerKey }) => {
 };
 
 Supplier.propTypes = {
-    customerKey: PropTypes.string,
+    supplierKey: PropTypes.string,
 };
 export default Supplier;

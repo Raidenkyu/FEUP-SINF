@@ -19,20 +19,9 @@ const Orders = ({ path }) => {
     const [ordersChartFulfilled, setOrdersChartFulfilled] = useState([]);
     const [pendingValue, setPendingValue] = useState(0);
     const [pendingOrders, setPendingOrders] = useState(0);
-
     const [modal, setModal] = useState(false);
     const [modalData, setModalData] = useState({ headers: [], data: {} });
-
-    const onRowClick = (data) => {
-        setModal(!modal);
-        setModalData(data);
-    };
-
-    const toggle = () => {
-        setModal(!modal);
-        // setModalData({});
-        setModalData({ headers: [], data: {} });
-    };
+    const [modalLoading, setModalLoading] = useState(false);
 
     useEffect(() => {
         Axios.get("http://localhost:9000/api/orders", {
@@ -74,6 +63,18 @@ const Orders = ({ path }) => {
         },
     };
 
+    const openModal = () => {
+        setModal(true);
+    };
+
+    const clearModal = () => {
+        setModal(false);
+        setModalData({
+            headers: [],
+            data: {},
+        });
+    };
+
     return (
         <Layout navbar sidebar path={path}>
             <Container>
@@ -107,11 +108,11 @@ const Orders = ({ path }) => {
                 </Row>
                 <Row className="mb-5">
                     <Col xs="12">
-                        <OrdersList onRowClick={onRowClick} />
+                        <OrdersList setModalLoading={setModalLoading} onRowClick={openModal} setModalData={setModalData} />
                     </Col>
                 </Row>
             </Container>
-            <Popup isOpen={modal} toggle={toggle} headers={modalData.headers} data={modalData.data} />
+            <Popup loading={modalLoading} isOpen={modal} toggle={clearModal} headers={modalData.headers} data={modalData.data} />
         </Layout>
     );
 };

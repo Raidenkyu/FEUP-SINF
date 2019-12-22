@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Row, Col } from "reactstrap";
 import Axios from "axios";
 
 import ContentCard from "../common/utils/ContentCard"

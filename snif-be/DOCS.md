@@ -69,16 +69,16 @@ Example response:
 
 ```json
 {
-    "ordersProducts": [
+     "ordersProducts": [
         {
-            "id": "39c5913b-4962-42b4-b539-0f19f0977219",
-            "product": "Folha Dupla Vermelha",
-            "state": "Pending",
-            "quantity": 1250,
-            "value": 230.63,
-            "date": "2019-12-27"
-        },
-    ]
+            "clientName": "Peninsula",
+            "clientTaxID": "596159498",
+            "totalValue": 246,
+            "date": "2020-01-17",
+            "orderId": "bf662d85-bbde-46be-a659-a0f6862ade7a",
+            "state": "Pending"
+        }
+     ]
 }
 ```
 
@@ -129,15 +129,14 @@ Example response:
 
 ```json
 {
-    "salesList": [
+     "salesList": [
         {
-            "id": "55403bed-b6df-4bae-b01a-16ff581d242e",
-            "product": "Folha Dupla com Cheiro a Menta",
-            "quantity": 1500,
-            "value": 300,
-            "date": "2019-12-14",
-            "revenue": 369
-        },
+            "clientName": "Lyon Souveniers",
+            "clientTaxID": "518377679",
+            "totalValue": 984,
+            "date": "2019-12-17",
+            "invoiceId": "beeb3af9-8908-44e9-9a5a-2163643cb193"
+        }
     ]
 }
 ```
@@ -272,13 +271,13 @@ Example response:
 
 ```json
 {
-    "purchasesList": [
+   "purchasesList": [
         {
-            "purchaseId": "a759e462-7007-46f7-954e-427e335d6e95",
-            "name": "Folha Simples",
-            "quantity": 5000,
-            "value": 169.5,
-            "date": "2020-03-20"
+            "supplierName": "Renova",
+            "supplierTaxID": "543458687",
+            "totalValue": 988.75,
+            "date": "2020-01-17",
+            "purchaseId": "0d122b23-6e59-4c5d-b622-65772aaba224"
         },
     ]
 }
@@ -296,7 +295,8 @@ Example response:
 {
     "suppliers": [
         {
-            "supplierId": "519951018",
+            "supplierName": "Random Company",
+            "supplierKey": "519951018",
             "quantity": 15000,
             "priceRatio": 0.05000000000000001
         },
@@ -463,32 +463,103 @@ Send `get` request to `api/overview/stock`
     }
 ```
 
-### Get Order Information values for Drilldown Page
+### Get Purchases Order Information values for Drilldown
 
-Send `get` request to `api/purchases/order/{orderKey}`
+Send `get` request to `api/purchases/{orderKey}`
 
 ```json
-    {
-    "supplierName": "The Navigator Company",
-    "taxId": "519951018",
-    "date": "2019-12-14",
-    "total": 847.5,
+{
+    "supplierName": "Renova",
+    "supplierTaxID": "543458687",
+    "totalValue": 988.75,
+    "date": "2020-01-17",
     "purchasesList": [
         {
-            "name": "Folha Dupla",
-            "quantity": 5000,
-            "value": 282.5
-        },
-        {
-            "name": "Folha Simples",
-            "quantity": 5000,
-            "value": 169.5
-        },
-        {
-            "name": "Folha Tripla",
-            "quantity": 5000,
-            "value": 395.5
+            "productName": "Sacos para embalar",
+            "productQuantity": 12500,
+            "productValue": 988.75
         }
     ]
+}
+```
+
+### Get Order Information values for Drilldown Page
+
+Send `get` request to `api/orders/{orderKey}`
+
+```json
+{
+    "clientName": "Intramarche",
+    "clientTaxID": "553515330",
+    "totalValue": 289.05,
+    "date": "2019-12-13",
+    "state": "Processed",
+    "orderList": [
+        {
+            "productName": "Lencos Decorados com Elementos de Natal",
+            "productQuantity": 500,
+            "productValue": 123
+        },
+    ]
+}
+```
+
+### Get Sale Information values for Drilldown
+
+Send `get` request to `api/sales/{saleKey}`
+
+```json
+{
+    "clientName": "MicroPreco",
+    "clientTaxID": "553848860",
+    "totalValue": 608.85,
+    "date": "2019-12-14",
+    "invoiceId": "55403bed-b6df-4bae-b01a-16ff581d242e",
+    "salesList": [
+        {
+            "product": "Folha Dupla com Cheiro a Menta",
+            "quantity": 1500,
+            "value": 300,
+            "revenue": 369
+        }
+    ]
+}
+```
+
+### Get supplier Information values for Drilldown Page
+
+Send `get` request to `api/purchases/suppliers/{supplierKey}`
+
+```json
+{
+    "supplierId": "519951018",
+    "supplierKey": "0024",
+    "name": "The Navigator Company",
+    "telephone": "234910600",
+    "country": "Portugal",
+    "quantity": 61000,
+    "priceRatio": "0.06",
+    "orders": [
+        {
+            "purchaseId": "282adc28-4888-442f-81c5-2405d558836d",
+            "name": "Folha Simples",
+            "quantity": 5000,
+            "value": 169.5,
+            "date": "2019-12-20"
+        },
+    ]
+}
+```
+
+### Get Stock Information values for Drilldown Page
+
+Send `get` request to `api/stocks/{itemKey}`
+
+```json
+{
+    "name": "Folha Dupla Vermelha",
+    "quantity": 5000,
+    "value": 750,
+    "error": false
 }
 ```

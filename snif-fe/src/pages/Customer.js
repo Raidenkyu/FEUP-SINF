@@ -6,6 +6,7 @@ import Axios from "axios";
 import Layout from "../components/common/layout/Layout";
 import Popup from "../components/common/utils/Popup";
 import ContentCard from "../components/common/utils/ContentCard";
+
 import CustomerStyles from "../styles/customer/Customer.module.css";
 import { ReactComponent as Email } from "../assets/envelope-solid.svg";
 import { ReactComponent as Contact } from "../assets/phone-solid.svg";

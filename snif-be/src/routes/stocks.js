@@ -5,9 +5,12 @@ const { getStockQuantity, getUnitPrice, getStockValue } = require("../utils/stoc
 let { FinancialStockObject } = require('../models/financial.model');
 
 
-router.get("/", (_req, res) => {
+router.get("/", (req, res) => {
     requestPrimavera("/materialsCore/materialsItems/").then(
         (stockData) => {
+
+            const page = req.query.page || 1;
+            const pageSize = req.query.pageSize || 5;
 
             const response = {
                 assetsInStock: { products: 0, resources: 0 },
@@ -70,13 +73,14 @@ router.get("/", (_req, res) => {
             res.json(response);
         }
     ).catch(
-        () => {
+        (e) => {
             var err = new Error("Failed to fetch stocks");
-            err.status = 401;
-            res.json({
+            err.status = 500;
+            res.status(500).json({
                 message: err.message,
                 error: err
             });
+            throw e;
         }
     );
 });
@@ -123,6 +127,7 @@ router.get("/resources", (req, res) => {
                     const quantity = getStockQuantity(materialItem);
                     const value = getUnitPrice(materialItem);
                     resourcesList.push({
+                        resourceKey: materialItem.itemKey,
                         name: materialItem.description,
                         quantity: quantity,
                         value: value,
@@ -155,7 +160,7 @@ router.get("/resources", (req, res) => {
             });
         }
     );
-    
+
 });
 
 router.get("/products", (req, res) => {
@@ -177,6 +182,7 @@ router.get("/products", (req, res) => {
                     const quantity = getStockQuantity(materialItem);
                     const value = getStockValue(materialItem);
                     productsList.push({
+                        productKey: materialItem.itemKey,
                         name: materialItem.description,
                         quantity: quantity,
                         value: value,
@@ -209,7 +215,52 @@ router.get("/products", (req, res) => {
             });
         }
     );
-    
+
+});
+
+
+router.get("/:itemKey", (req, res) => {
+
+
+    const key = req.params.itemKey;
+
+    requestPrimavera(`/materialsCore/materialsItems/${key}`).then(
+        (materialItem) => {
+
+            if (materialItem.itemSubtype == "4" || materialItem.itemSubtype == "3") {
+                const quantity = getStockQuantity(materialItem);
+                const value = getUnitPrice(materialItem);
+
+                res.json({
+                    name: materialItem.description,
+                    quantity: quantity,
+                    value: value,
+                    error: quantity < 0,
+                });
+            }
+            else if (materialItem.itemSubtype == "1") {
+                const quantity = getStockQuantity(materialItem);
+                const value = getStockValue(materialItem);
+
+                res.json({
+                    name: materialItem.description,
+                    quantity: quantity,
+                    value: value,
+                    error: quantity < 0,
+                });
+            }
+        }
+    ).catch(
+        () => {
+            var err = new Error("Failed to fetch stock items");
+            err.status = 401;
+            res.json({
+                message: err.message,
+                error: err
+            });
+        }
+    );
+
 });
 
 module.exports = router;
