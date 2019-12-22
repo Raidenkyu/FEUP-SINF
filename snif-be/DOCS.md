@@ -633,3 +633,43 @@ Send `get` request to `api/customers/sales({customerKey}`
     ]
 }
 ```
+
+### Get Stock Item transactions
+
+Send `get` request to `/api/stocks/transactions/{itemKey}`
+
+Case Resource:
+
+```json
+{
+    "transactions": [
+        {
+            "id": "282adc28-4888-442f-81c5-2405d558836d",
+            "product": "Folha Tripla",
+            "supplier": "The Navigator Company",
+            "state": "Processed",
+            "quantity": 5000,
+            "value": 395.5,
+            "date": "2019-12-20"
+        },
+    ]
+}
+```
+
+Case Product:
+
+```json
+{
+    "transactions": [
+        {
+            "id": "9563f0b8-4b46-48d4-b140-60b47937ef25",
+            "product": "Folha Simples Cheiro a Menta",
+            "customer": "MicroPreco",
+            "state": "Processed",
+            "quantity": 1500,
+            "value": 239.85,
+            "date": "2019-12-14"
+        },
+    ]
+}
+```
