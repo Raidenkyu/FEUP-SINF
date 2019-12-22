@@ -526,31 +526,6 @@ Send `get` request to `api/sales/{saleKey}`
 }
 ```
 
-### Get supplier Information values for Drilldown Page
-
-Send `get` request to `api/purchases/suppliers/{supplierKey}`
-
-```json
-{
-    "supplierId": "519951018",
-    "supplierKey": "0024",
-    "name": "The Navigator Company",
-    "telephone": "234910600",
-    "country": "Portugal",
-    "quantity": 61000,
-    "priceRatio": "0.06",
-    "orders": [
-        {
-            "purchaseId": "282adc28-4888-442f-81c5-2405d558836d",
-            "name": "Folha Simples",
-            "quantity": 5000,
-            "value": 169.5,
-            "date": "2019-12-20"
-        },
-    ]
-}
-```
-
 ### Get Stock Information values for Drilldown Page
 
 Send `get` request to `api/stocks/{itemKey}`
@@ -561,5 +536,170 @@ Send `get` request to `api/stocks/{itemKey}`
     "quantity": 5000,
     "value": 750,
     "error": false
+}
+```
+
+### Get Customer Information values for Drilldown Page
+
+Send `get` request to `api/customers/info({customerKey}`
+
+```json
+{
+    "customerKey": "0004",
+    "name": "Pingo Azedo",
+    "taxId": "571689434",
+    "email": "geral@pingoazedo.com",
+    "telefone": "210114411",
+    "country": "Portugal"
+}
+```
+
+### Get Customer Orders values for Drilldown Page
+
+Send `get` request to `api/customers/orders({customerKey}`
+
+```json
+{
+    "orders": [
+        {
+            "orderId": "36f021e3-36d9-4698-af0f-088c5b06233b",
+            "totalValue": 138.38,
+            "date": "2019-01-18",
+            "state": "Processed"
+        },
+        {
+            "orderId": "f3d3ae79-4179-486a-828e-75ba5fa9bc78",
+            "totalValue": 507.38,
+            "date": "2019-12-13",
+            "state": "Processed"
+        },
+        {
+            "orderId": "b614c7c6-5e82-4854-a30d-c851af7b53a8",
+            "totalValue": 381.3,
+            "date": "2019-11-04",
+            "state": "Processed"
+        }
+    ]
+}
+```
+
+### Get Customer Sales values for Drilldown Page
+
+Send `get` request to `api/customers/sales({customerKey}`
+
+```json
+{
+    "sales": [
+        {
+            "invoiceId": "7495274f-663f-4705-912e-821fb6e36f93",
+            "totalValue": 138.38,
+            "date": "2019-10-01"
+        },
+        {
+            "invoiceId": "44b92868-3962-43ca-ac74-de0d3cb2d52d",
+            "totalValue": 381.3,
+            "date": "2019-11-04"
+        },
+        {
+            "invoiceId": "a65b209b-e27e-4350-8642-ed4ecfc23992",
+            "totalValue": 507.38,
+            "date": "2019-12-14"
+        }
+    ]
+}
+```
+
+### Get Stock Item transactions
+
+Send `get` request to `/api/stocks/transactions/{itemKey}`
+
+Case Resource:
+
+```json
+{
+    "transactions": [
+        {
+            "id": "282adc28-4888-442f-81c5-2405d558836d",
+            "product": "Folha Tripla",
+            "supplier": "The Navigator Company",
+            "state": "Processed",
+            "quantity": 5000,
+            "value": 395.5,
+            "date": "2019-12-20"
+        },
+    ]
+}
+```
+
+Case Product:
+
+```json
+{
+    "transactions": [
+        {
+            "id": "9563f0b8-4b46-48d4-b140-60b47937ef25",
+            "product": "Folha Simples Cheiro a Menta",
+            "customer": "MicroPreco",
+            "state": "Processed",
+            "quantity": 1500,
+            "value": 239.85,
+            "date": "2019-12-14"
+        },
+    ]
+}
+```
+
+### Get Supplier Information values for Drilldown Page
+
+Send `get` request to `api/purchases/suppliers/({supplierKey}`
+
+```json
+{
+    "supplierId": "519951018",
+    "supplierKey": "0024",
+    "name": "The Navigator Company",
+    "telephone": "234910600",
+    "country": "Portugal"
+}
+```
+
+### Get Supplier orders values for Drilldown Page
+
+Send `get` request to `api/purchases/suppliers/orders/({supplierKey}`
+
+```json
+{
+    "orders": [
+        {
+            "orderId": "282adc28-4888-442f-81c5-2405d558836d",
+            "totalValue": 847.5,
+            "date": "2019-12-14",
+            "state": "Processed"
+        },
+        {
+            "orderId": "9726dea2-d89c-4818-a9da-3d9b5951e4d5",
+            "totalValue": 847.5,
+            "date": "2019-12-14",
+            "state": "Pending"
+        },
+        {
+            "orderId": "a759e462-7007-46f7-954e-427e335d6e95",
+            "totalValue": 847.5,
+            "date": "2019-12-14",
+            "state": "Pending"
+        },
+        {
+            "orderId": "8edd642a-7b93-4577-a3bd-62ea998d7fce",
+            "totalValue": 135.6,
+            "date": "2019-11-15",
+            "state": "Processed"
+        },
+        {
+            "orderId": "c509f162-8637-493e-80b1-c5f57b6a6425",
+            "totalValue": 847.5,
+            "date": "2019-12-14",
+            "state": "Pending"
+        }
+    ]
 }
 ```

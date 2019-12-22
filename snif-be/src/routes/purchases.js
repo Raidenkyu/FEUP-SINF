@@ -198,14 +198,10 @@ router.get("/:purchaseKey", (req, res) => {
 router.get("/suppliers/:supplierKey", (req, res) => {
     const key = req.params.supplierKey;
 
-
     requestPrimavera(`/purchasesCore/supplierParties/${key}`).then(
         async (supplier) => {
 
             const orders = await requestPrimavera("/purchases/orders");
-
-            const info = getSupplierOrders(supplier.companyTaxID, orders);
-
 
             res.json({
                 supplierId: supplier.companyTaxID,
@@ -213,22 +209,53 @@ router.get("/suppliers/:supplierKey", (req, res) => {
                 name: supplier.name,
                 telephone: supplier.telephone,
                 country: supplier.countryDescription,
-                quantity: info.quantity,
-                priceRatio: (info.totalPrice / info.num).toFixed(2),
-                orders: info.orders
             });
         }
-    ).catch(
-        (e) => {
-            var err = new Error("Failed to fetch supplier");
-            err.status = 500;
+    ).catch(() => {
+        const err = new Error("Failed to fetch supplier information");
+        err.status = 400;
+        res.status(400).json({
+            message: err.message,
+            error: err
+        });
+    });
+});
+
+router.get("/suppliers/orders/:supplierKey", (req, res) => {
+    const key = req.params.supplierKey;
+
+    requestPrimavera(`/purchasesCore/supplierParties/${key}`).then(
+        async (supplier) => {
+
+            const page = req.query.page || 1;
+            const pageSize = req.query.pageSize || 15;
+
+            const orders = await requestPrimavera("/purchases/orders");
+
+            const info = getSupplierOrders(supplier.companyTaxID, orders).sort((a, b) => {
+                if (a.value > b.value) {
+                    return 1;
+                }
+    
+                if (a.value < b.value) {
+                    return -1;
+                }
+    
+                return 0;
+            }).slice((page - 1) * pageSize, page * pageSize);;
+
             res.json({
-                message: err.message,
-                error: err
+                orders: info
             });
-            throw e;
         }
-    );
+    ).catch(() => {
+        const err = new Error("Failed to fetch supplier orders");
+        err.status = 400;
+        res.status(400).json({
+            message: err.message,
+            error: err
+        });
+    });
 });
 
 module.exports = router;
