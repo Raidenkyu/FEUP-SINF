@@ -49,7 +49,7 @@ const Sales = ({ path }) => {
             setTopSellingRows(Object.keys(data.products).map((key) => ({
                 name: key,
                 units: data.products[key].units,
-                revenue: data.products[key].revenue.toFixed(2),
+                revenue: new Intl.NumberFormat('en-UK').format(data.products[key].revenue),
             })));
             setLoading(false);
         }).catch(() => {

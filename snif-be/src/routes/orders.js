@@ -60,7 +60,7 @@ router.get("/", (req, res) => {
                 return accumulator;
             }, { pendingValue: 0, pendingNum: 0, ordersByTimestamp: {} });
 
-            response.pendingValue = accumulatedValue.pendingValue;
+            response.pendingValue = new Intl.NumberFormat('en-UK').format(accumulatedValue.pendingValue);
             response.pendingNum = accumulatedValue.pendingNum;
 
             Object.keys(accumulatedValue.ordersByTimestamp).sort().forEach((key) => {
