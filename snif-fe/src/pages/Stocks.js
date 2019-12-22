@@ -42,8 +42,8 @@ const Stocks = ({ path }) => {
         }).then(({ data }) => {
             setProductRows(data.products);
             setResourcesRows(data.resources);
-            setProductsStock(data.assetsInStock.products.toFixed(2));
-            setResourcesStock(data.assetsInStock.resources.toFixed(2));
+            setProductsStock(data.assetsInStock.products);
+            setResourcesStock(data.assetsInStock.resources);
             setLoading(false);
         }).catch(() => {
             setLoading(false);

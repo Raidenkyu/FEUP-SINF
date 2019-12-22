@@ -41,7 +41,7 @@ router.get("/", (req, res) => {
                         productKey: materialItem.itemKey,
                         name: materialItem.description,
                         quantity: quantity,
-                        value: value,
+                        value: new Intl.NumberFormat('en-UK').format(value),
                         error: quantity < 0,
                     });
                     response.assetsInStock.products += value;
@@ -71,6 +71,9 @@ router.get("/", (req, res) => {
 
                 return 0;
             }).slice((page - 1) * pageSize, page * pageSize);
+
+            response.assetsInStock.resources = new Intl.NumberFormat('en-UK').format(response.assetsInStock.resources);
+            response.assetsInStock.products = new Intl.NumberFormat('en-UK').format(response.assetsInStock.products);
 
             res.json(response);
         }

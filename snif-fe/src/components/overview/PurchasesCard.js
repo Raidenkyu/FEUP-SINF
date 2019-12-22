@@ -13,8 +13,8 @@ const PurchasesCard = () => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            setPurchasesLast(data.purchasesByTimestamp[Object.keys(data.purchasesByTimestamp)[0]].toFixed(2));
-            setPurchases(data.purchasesByTimestamp[Object.keys(data.purchasesByTimestamp)[1]].toFixed(2));
+            setPurchasesLast(new Intl.NumberFormat('en-UK').format(data.purchasesByTimestamp[Object.keys(data.purchasesByTimestamp)[0]]));
+            setPurchases(new Intl.NumberFormat('en-UK').format(data.purchasesByTimestamp[Object.keys(data.purchasesByTimestamp)[1]]));
             setLoading(false);
         }).catch(() => {
             setLoading(false);
