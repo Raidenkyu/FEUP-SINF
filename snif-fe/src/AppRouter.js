@@ -50,14 +50,14 @@ const AppRouter = ({ loadUser }) => {
             {hasPermission("/overview") && <Overview path="/overview"/>}
             {hasPermission("/sales") && <Sales path="/sales"/>}
             {hasPermission("/purchases") && <Purchases path="/purchases"/>}
+            {hasPermission("/purchases") && <Supplier path="/suppliers/:supplierKey"/>}
             {hasPermission("/stocks") && <Stocks path="/stocks"/>}
+            {hasPermission("/stocks") && <Resource path="/stocks/resource/:resourceKey" />}
+            {hasPermission("/stocks") && <Product path="/stocks/product/:productKey" />}
             {hasPermission("/orders") && <Orders path="/orders"/>}
             {hasPermission("/customers") && <Customers path="/customers"/>}
+            {hasPermission("/customers") && <Customer path="/customers/:customerKey"/>}
             {hasPermission("/financial") && <Financial path="/financial"/>}
-            <Customer path="/customers/:customerKey"/>
-            <Supplier path="/suppliers/:supplierKey"/>
-            <Resource path="/stocks/resource/:resourceKey" />
-            <Product path="/stocks/product/:productKey" />
             <NotFound default />
         </Router>
     );

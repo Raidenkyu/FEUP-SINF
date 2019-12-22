@@ -101,7 +101,7 @@ const Product = ({ productKey }) => {
 };
 
 Product.propTypes = {
-    productKey: PropTypes.string.isRequired,
+    productKey: PropTypes.string,
 };
 
 export default Product;

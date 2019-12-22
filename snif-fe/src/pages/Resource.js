@@ -91,7 +91,7 @@ const Resource = ({ resourceKey }) => {
 };
 
 Resource.propTypes = {
-    resourceKey: PropTypes.string.isRequired,
+    resourceKey: PropTypes.string,
 };
 
 export default Resource;
