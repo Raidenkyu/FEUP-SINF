@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { requestPrimavera } = require("../utils/api/jasmin");
-const { getStockQuantity, getUnitPrice, getStockValue, getItemSales, getItemPurchases } = require("../utils/stock");
+const { getStockQuantity, getUnitPrice, getStockValue, getItemOrders, getItemSales ,getItemPurchases } = require("../utils/stock");
 var { FinancialStockObject } = require('../models/financial.model.js');
 
 
@@ -220,48 +220,6 @@ router.get("/products", (req, res) => {
 
 });
 
-router.get("/transactions/:itemKey", (req, res) => {
-
-
-    const key = req.params.itemKey;
-
-    Promise.all([
-        requestPrimavera(`/materialsCore/materialsItems/${key}`),
-        requestPrimavera("/purchases/orders"),
-        requestPrimavera("/sales/orders")
-    ]).then(
-        (transactionsData) => {
-
-            const [item, purchases, sales] = transactionsData;
-
-            const response = {};
-
-            if (item.itemSubtype == "4" || item.itemSubtype == "3") {
-                //Resources
-                response.transactions = getItemPurchases(item.itemKey, purchases);
-            }
-            else if (item.itemSubtype == "1") {
-                //Products
-                response.transactions = getItemSales(item.itemKey, sales);
-            }
-
-            res.json(response);
-        }
-    ).catch(
-        (e) => {
-            var err = new Error("Failed to fetch transactions");
-            err.status = 500;
-            res.status(err.status).json({
-                message: err.message,
-                error: err
-            });
-
-            throw e;
-        }
-    );
-
-});
-
 
 router.get("/:itemKey", (req, res) => {
 
@@ -304,4 +262,184 @@ router.get("/:itemKey", (req, res) => {
 
 });
 
+router.get("/:itemKey/orders", (req, res) => {
+
+
+    const key = req.params.itemKey;
+
+    const page = req.query.page || 1;
+    const pageSize = req.query.pageSize || 15;
+
+    Promise.all([
+        requestPrimavera(`/materialsCore/materialsItems/${key}`),
+        requestPrimavera("/sales/orders")
+    ]).then(
+        (transactionsData) => {
+
+            const [item, orders] = transactionsData;
+
+            const response = {};
+
+            if (item.itemSubtype == "1") {
+                //Products
+                response.transactions = getItemOrders(item.itemKey, orders).sort((a, b) => {
+                    if (a.date < b.date) {
+                        return 1;
+                    }
+    
+                    else if (a.date > b.date) {
+                        return -1;
+                    }
+    
+                    return 0;
+                }).slice((page - 1) * pageSize, page * pageSize);
+
+                res.json(response);
+            }
+            else {
+                var err = new Error("No Product found with received key");
+                err.status = 404;
+                res.status(err.status).json({
+                    message: err.message,
+                    error: err
+                });
+            }
+
+            
+        }
+    ).catch(
+        (e) => {
+            var err = new Error("Failed to fetch item orders");
+            err.status = 500;
+            res.status(err.status).json({
+                message: err.message,
+                error: err
+            });
+
+            throw e;
+        }
+    );
+
+});
+
+
+router.get("/:itemKey/sales", (req, res) => {
+
+
+    const key = req.params.itemKey;
+
+    const page = req.query.page || 1;
+    const pageSize = req.query.pageSize || 15;
+
+    Promise.all([
+        requestPrimavera(`/materialsCore/materialsItems/${key}`),
+        requestPrimavera("/billing/invoices")
+    ]).then(
+        (transactionsData) => {
+
+            const [item, sales] = transactionsData;
+
+            const response = {};
+
+            if (item.itemSubtype == "1") {
+                //Resource
+                response.transactions = getItemSales(item.itemKey, sales).sort((a, b) => {
+                    if (a.date < b.date) {
+                        return 1;
+                    }
+    
+                    else if (a.date > b.date) {
+                        return -1;
+                    }
+    
+                    return 0;
+                }).slice((page - 1) * pageSize, page * pageSize);
+
+                res.json(response);
+            }
+            else {
+                var err = new Error("No Resource found with received key");
+                err.status = 404;
+                res.status(err.status).json({
+                    message: err.message,
+                    error: err
+                });
+            }
+
+            
+        }
+    ).catch(
+        (e) => {
+            var err = new Error("Failed to fetch item sales");
+            err.status = 500;
+            res.status(err.status).json({
+                message: err.message,
+                error: err
+            });
+
+            throw e;
+        }
+    );
+
+});
+
+router.get("/:itemKey/purchases", (req, res) => {
+
+
+    const key = req.params.itemKey;
+
+    const page = req.query.page || 1;
+    const pageSize = req.query.pageSize || 15;
+
+    Promise.all([
+        requestPrimavera(`/materialsCore/materialsItems/${key}`),
+        requestPrimavera("/purchases/orders")
+    ]).then(
+        (transactionsData) => {
+
+            const [item, purchases] = transactionsData;
+
+            const response = {};
+
+            if (item.itemSubtype == "4" || item.itemSubtype == "3") {
+                //Resource
+                response.transactions = getItemPurchases(item.itemKey, purchases).sort((a, b) => {
+                    if (a.date < b.date) {
+                        return 1;
+                    }
+    
+                    else if (a.date > b.date) {
+                        return -1;
+                    }
+    
+                    return 0;
+                }).slice((page - 1) * pageSize, page * pageSize);
+
+                res.json(response);
+            }
+            else {
+                var err = new Error("No Resource found with received key");
+                err.status = 404;
+                res.status(err.status).json({
+                    message: err.message,
+                    error: err
+                });
+            }
+
+            
+        }
+    ).catch(
+        (e) => {
+            var err = new Error("Failed to fetch item purchases");
+            err.status = 500;
+            res.status(err.status).json({
+                message: err.message,
+                error: err
+            });
+
+            throw e;
+        }
+    );
+
+});
 module.exports = router;

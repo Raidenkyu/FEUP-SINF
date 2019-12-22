@@ -1,5 +1,5 @@
 const getStockQuantity = (item) => {
-    
+
 
     return item.materialsItemWarehouses.reduce((accumulator, currValue) => {
         accumulator += currValue.stockBalance;
@@ -18,12 +18,12 @@ const getUnitPrice = (item) => {
 const getStockValue = (item) => {
 
     return item.materialsItemWarehouses.reduce((accumulator, currValue) => {
-        accumulator+= currValue.inventoryBalance.amount;
+        accumulator += currValue.inventoryBalance.amount;
         return accumulator;
     }, 0);
 }
 
-const getItemSales = (itemKey, sales) => {
+const getItemOrders = (itemKey, sales) => {
 
     const filteredSales = [];
 
@@ -38,6 +38,29 @@ const getItemSales = (itemKey, sales) => {
                     quantity: product.quantity,
                     value: product.lineExtensionAmount.amount,
                     date: product.deliveryDate.split("T")[0]
+                });
+            }
+        });
+
+    });
+
+    return filteredSales;
+}
+
+const getItemSales = (itemKey, sales) => {
+
+    const filteredSales = [];
+
+    sales.forEach((sale) => {
+        sale.documentLines.forEach((product) => {
+            if (product.salesItem == itemKey) {
+                filteredSales.push({
+                    id: product.invoiceId,
+                    product: product.description,
+                    quantity: product.quantity,
+                    value: product.grossValue.amount,
+                    date: product.deliveryDate.split("T")[0],
+                    revenue: product.lineExtensionAmount.amount
                 });
             }
         });
@@ -74,6 +97,7 @@ module.exports = {
     getStockQuantity,
     getUnitPrice,
     getStockValue,
+    getItemOrders,
     getItemSales,
     getItemPurchases
 };
