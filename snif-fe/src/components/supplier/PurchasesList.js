@@ -13,10 +13,9 @@ const PurchasesList = ({ supplierKey, onRowClick, setModalLoading, setModalData 
     ];
 
     const modalHeaders = [
-        { index: "state", value: "State" },
         { index: "totalValue", value: "Total value (€)" },
         { index: "date", value: "Date" },
-        { index: "orderList", value: "Ordered products", headers: [
+        { index: "purchasesList", value: "Products acquired", headers: [
             { index: "productName", value: "Product" },
             { index: "productQuantity", value: "Quantity" },
             { index: "productValue", value: "Value (€)" },
@@ -27,13 +26,11 @@ const PurchasesList = ({ supplierKey, onRowClick, setModalLoading, setModalData 
         setModalLoading(true);
         onRowClick();
 
-        Axios.get(`http://localhost:9000/api/orders/${row.orderId}`, {
+        Axios.get(`http://localhost:9000/api/purchases/${row.orderId}`, {
             headers: {
                 auth_token: localStorage.getItem("auth_token"),
             }
         }).then(({ data }) => {
-            console.log("WTF");
-            
             setModalLoading(false);
             setModalData({
                 headers: modalHeaders,
