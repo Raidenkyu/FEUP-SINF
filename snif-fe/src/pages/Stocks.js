@@ -6,7 +6,7 @@ import Axios from "axios";
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
 import Indicator from "../components/common/utils/Indicator";
-// import Financial from "../components/stocks/Financial";
+import Financial from "../components/stocks/Financial";
 import ProductsList from "../components/stocks/ProductsList";
 import ResourcesList from "../components/stocks/ResourcesList";
 
@@ -39,7 +39,6 @@ const Stocks = ({ path }) => {
                         Stocks
                     </Col>
                 </Row>
-                {/* <Financial /> */}
                 <Row className="mb-5">
                     <Col xs="6">
                         <ContentCard loading={loading} header="Products value in stock (€)">
@@ -52,6 +51,7 @@ const Stocks = ({ path }) => {
                         </ContentCard>
                     </Col>
                 </Row>
+                <Financial />
                 <Row className="mb-5">
                     <Col xs="6">
                         <ProductsList />
