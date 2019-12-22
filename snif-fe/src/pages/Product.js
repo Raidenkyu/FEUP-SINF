@@ -5,17 +5,14 @@ import PropTypes from "prop-types";
 
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
-// import PurchasesList from "../components/purchases/PurchasesList";
-// import Popup from "../components/common/utils/Popup";
+import SalesList from "../components/product/SalesList";
+import OrdersList from "../components/product/OrdersList";
 
 import ProductStyles from "../styles/drilldown/Drilldown.module.css";
 
 const Product = ({ productKey }) => {
     const [loading, setLoading] = useState(true);
     const [product, setProduct] = useState({});
-    // const [modal, setModal] = useState(false);
-    // const [modalData, setModalData] = useState({});
-    // const [modalLoading, setModalLoading] = useState(false);
 
     useEffect(() => {
         Axios.get(`http://localhost:9000/api/stocks/${productKey}`, {
@@ -29,18 +26,6 @@ const Product = ({ productKey }) => {
             setLoading(false);
         });
     }, [productKey]);
-
-    // const openModal = () => {
-    //     setModal(true);
-    // };
-
-    // const clearModal = () => {
-    //     setModal(false);
-    //     setModalData({
-    //         headers: [],
-    //         data: {},
-    //     });
-    // };
 
     return (
         <Layout navbar sidebar path="/">
@@ -64,7 +49,7 @@ const Product = ({ productKey }) => {
                                 </div>
                                 <div className="my-3">
                                     <span className={ProductStyles.header}>
-                                        Value:
+                                        Value (€):
                                     </span>
                                     <span className={ProductStyles.text}>
                                         {product.value}
@@ -76,26 +61,15 @@ const Product = ({ productKey }) => {
                 </Row>
                 <Row className="mb-5">
                     <Col xs="12">
-                        {/* <SalesList
-                            productKey={productKey}
-                            setModalLoading={setModalLoading}
-                            onRowClick={openModal}
-                            setModalData={setModalData}
-                        /> */}
+                        <SalesList productKey={productKey} />
                     </Col>
                 </Row>
                 <Row className="mb-5">
                     <Col xs="12">
-                        {/* <OrdersList
-                            productKey={productKey}
-                            setModalLoading={setModalLoading}
-                            onRowClick={openModal}
-                            setModalData={setModalData}
-                        /> */}
+                        <OrdersList productKey={productKey} />
                     </Col>
                 </Row>
             </Container>
-            {/* <Popup loading={modalLoading} isOpen={modal} toggle={clearModal} headers={modalData.headers} data={modalData.data} /> */}
         </Layout>
     );
 };

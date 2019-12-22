@@ -5,17 +5,13 @@ import PropTypes from "prop-types";
 
 import Layout from "../components/common/layout/Layout";
 import ContentCard from "../components/common/utils/ContentCard";
-// import PurchasesList from "../components/purchases/PurchasesList";
-// import Popup from "../components/common/utils/Popup";
+import PurchasesList from "../components/resource/PurchasesList";
 
 import ResourceStyles from "../styles/drilldown/Drilldown.module.css";
 
 const Resource = ({ resourceKey }) => {
     const [loading, setLoading] = useState(true);
     const [resource, setResource] = useState({});
-    // const [modal, setModal] = useState(false);
-    // const [modalData, setModalData] = useState({});
-    // const [modalLoading, setModalLoading] = useState(false);
 
     useEffect(() => {
         Axios.get(`http://localhost:9000/api/stocks/${resourceKey}`, {
@@ -29,18 +25,6 @@ const Resource = ({ resourceKey }) => {
             setLoading(false);
         });
     }, [resourceKey]);
-
-    // const openModal = () => {
-    //     setModal(true);
-    // };
-
-    // const clearModal = () => {
-    //     setModal(false);
-    //     setModalData({
-    //         headers: [],
-    //         data: {},
-    //     });
-    // };
 
     return (
         <Layout navbar sidebar path="/">
@@ -64,7 +48,7 @@ const Resource = ({ resourceKey }) => {
                                 </div>
                                 <div className="my-3">
                                     <span className={ResourceStyles.header}>
-                                        Value:
+                                        Value (€):
                                     </span>
                                     <span className={ResourceStyles.text}>
                                         {resource.value}
@@ -76,16 +60,10 @@ const Resource = ({ resourceKey }) => {
                 </Row>
                 <Row className="mb-5">
                     <Col xs="12">
-                        {/* <PurchasesList
-                            productKey={resourceKey}
-                            setModalLoading={setModalLoading}
-                            onRowClick={openModal}
-                            setModalData={setModalData}
-                        /> */}
+                        <PurchasesList resourceKey={resourceKey} />
                     </Col>
                 </Row>
             </Container>
-            {/* <Popup loading={modalLoading} isOpen={modal} toggle={clearModal} headers={modalData.headers} data={modalData.data} /> */}
         </Layout>
     );
 };

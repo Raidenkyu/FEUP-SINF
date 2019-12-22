@@ -180,8 +180,6 @@ router.get("/products", (req, res) => {
 
 
 router.get("/:itemKey", (req, res) => {
-
-
     const key = req.params.itemKey;
 
     requestPrimavera(`/materialsCore/materialsItems/${key}`).then(
@@ -192,6 +190,7 @@ router.get("/:itemKey", (req, res) => {
                 const value = getUnitPrice(materialItem);
 
                 res.json({
+                    resourceKey: materialItem.itemKey,
                     name: materialItem.description,
                     quantity: quantity,
                     value: value,
@@ -202,7 +201,13 @@ router.get("/:itemKey", (req, res) => {
                 const quantity = getStockQuantity(materialItem);
                 const value = getStockValue(materialItem);
 
-                res.json(materialItem);
+                res.json({
+                    productKey: materialItem.itemKey,
+                    name: materialItem.description,
+                    quantity: quantity,
+                    value: value,
+                    error: quantity < 0,
+                });
             }
         }
     ).catch(

@@ -80,7 +80,7 @@ PaginatedTable.propTypes = {
     tableHeaders: PropTypes.array.isRequired,
     pageSize: PropTypes.number.isRequired,
     list: PropTypes.string.isRequired,
-    onRowClick: PropTypes.func.isRequired,
+    onRowClick: PropTypes.func,
 }
 
 export default PaginatedTable;
