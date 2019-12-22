@@ -29,8 +29,8 @@ const Overview = ({ path }) => {
             setMonthlySalesValues(data.document.monthlySales);
             setMonthlyExpensesValues(data.document.monthlyExpenses);
             setMonthlyDiffValues(data.document.monthlyDiff);
-            setTotalSales(data.document.totalSales);
-            setTotalExpenses(data.document.totalExpenses);
+            setTotalSales(new Intl.NumberFormat('de-DE').format(data.document.totalSales));
+            setTotalExpenses(new Intl.NumberFormat('de-DE').format(data.document.totalExpenses));
             setLoading(false);
         }).catch(() => {
             setLoading(false);

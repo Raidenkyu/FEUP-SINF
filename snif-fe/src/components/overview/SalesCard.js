@@ -13,8 +13,8 @@ const SalesCard = () => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            setRevenueLast(data.salesByTimestamp[Object.keys(data.salesByTimestamp)[0]].revenue.toFixed(2));
-            setRevenue(data.salesByTimestamp[Object.keys(data.salesByTimestamp)[1]].revenue.toFixed(2));
+            setRevenueLast(new Intl.NumberFormat('de-DE').format(data.salesByTimestamp[Object.keys(data.salesByTimestamp)[0]].revenue));
+            setRevenue(new Intl.NumberFormat('de-DE').format(data.salesByTimestamp[Object.keys(data.salesByTimestamp)[1]].revenue));
             setLoading(false);
         }).catch(() => {
             setLoading(false);

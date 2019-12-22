@@ -1672,11 +1672,11 @@ function getMonthlyDiffObj () {
 
 
 function getTotalSales () {
-    return new Intl.NumberFormat('de-DE').format(getPropVal(global.anualResultsReport, '1'));
+    return getPropVal(global.anualResultsReport, '1');
 }
 
 function getTotalExpenses () {
-    return new Intl.NumberFormat('de-DE').format(getPropVal(global.anualResultsReport, '6'));
+    return getPropVal(global.anualResultsReport, '6');
 }
 
 
