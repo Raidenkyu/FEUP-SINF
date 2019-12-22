@@ -1,26 +1,61 @@
 import React from 'react';
+import Axios from "axios";
+
 import PaginatedTable from '../common/utils/PaginatedTable';
 
 
-const OrdersList = ({onRowClick}) => {
+const OrdersList = ({ customerKey, onRowClick, setModalLoading, setModalData }) => {
     const ordersHeaders = [
-        { index: "id", value: "Order id" },
-        { index: "product", value: "Product" },
-        { index: "state", value: "State" },
-        { index: "quantity", value: "Quantity" },
-        { index: "value", value: "Value (€)" },
+        { index: "orderId", value: "Order id" },
+        { index: "totalValue", value: "Value (€)" },
         { index: "date", value: "Date" },
+        { index: "state", value: "State" },
     ];
 
-    return(
+    const modalHeaders = [
+        { index: "state", value: "State" },
+        { index: "totalValue", value: "Total value (€)" },
+        { index: "date", value: "Date" },
+        { index: "orderList", value: "Ordered products", headers: [
+            { index: "productName", value: "Product" },
+            { index: "productQuantity", value: "Quantity" },
+            { index: "productValue", value: "Value (€)" },
+        ] },
+    ];
+
+
+    const handleOnRowClick = (row) => {
+        setModalLoading(true);
+        onRowClick();
+
+        Axios.get(`http://localhost:9000/api/orders/${row.orderId}`, {
+            headers: {
+                auth_token: localStorage.getItem("auth_token"),
+            }
+        }).then(({ data }) => {
+            setModalLoading(false);
+            setModalData({
+                headers: modalHeaders,
+                data: data,
+            });
+        }).catch((err) => {
+            console.log(err);
+
+            onRowClick();
+            setModalLoading(false);
+        })
+
+    };
+
+    return (
         <PaginatedTable
-        endpoint="/api/orders/list"
-        header="Orders List"
-        tableHeaders={ordersHeaders}
-        pageSize={15}
-        list="ordersProducts"
-        onRowClick={onRowClick}
-    />
+            endpoint={`/api/customers/orders/${customerKey}`}
+            header="Orders List"
+            tableHeaders={ordersHeaders}
+            pageSize={15}
+            list="orders"
+            onRowClick={handleOnRowClick}
+        />
     );
 };
 

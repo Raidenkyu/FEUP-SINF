@@ -12,12 +12,15 @@ const PaginatedTable = ({ endpoint, header, tableHeaders, pageSize, list, onRowC
     const [next, setNext] = useState(true);
     const [previous, setPrevious] = useState(false);
 
+
     useEffect(() => {
         Axios.get("http://localhost:9000" + endpoint + "?page=" + page + "&pageSize=" + pageSize, {
             headers: {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
+            console.log(data);
+            
             setRows(data[list]);
 
             if (data[list].length === 15) {
