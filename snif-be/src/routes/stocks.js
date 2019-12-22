@@ -8,67 +8,24 @@ var { FinancialStockObject } = require('../models/financial.model.js');
 router.get("/", (req, res) => {
     requestPrimavera("/materialsCore/materialsItems/").then(
         (stockData) => {
-
-            const page = req.query.page || 1;
-            const pageSize = req.query.pageSize || 5;
-
             const response = {
                 assetsInStock: { products: 0, resources: 0 },
                 products: [],
                 resources: []
             };
 
-            const resourcesList = [];
-            const productsList = [];
-
             stockData.forEach((materialItem) => {
                 if (materialItem.itemSubtype == "4" || materialItem.itemSubtype == "3") {
                     const quantity = getStockQuantity(materialItem);
                     const value = getUnitPrice(materialItem);
-                    resourcesList.push({
-                        name: materialItem.description,
-                        quantity: quantity,
-                        value: value,
-                        error: quantity < 0,
-                    });
                     response.assetsInStock.resources += quantity * value;
                 }
                 else if (materialItem.itemSubtype == "1") {
                     const quantity = getStockQuantity(materialItem);
                     const value = getStockValue(materialItem);
-                    productsList.push({
-                        name: materialItem.description,
-                        quantity: quantity,
-                        value: value,
-                        error: quantity < 0,
-                    });
                     response.assetsInStock.products += value;
                 }
             });
-
-            response.resources = resourcesList.sort((a, b) => {
-                if (a.date < b.date) {
-                    return 1;
-                }
-
-                else if (a.date > b.date) {
-                    return -1;
-                }
-
-                return 0;
-            }).slice((page - 1) * pageSize, page * pageSize);
-
-            response.products = productsList.sort((a, b) => {
-                if (a.date < b.date) {
-                    return 1;
-                }
-
-                else if (a.date > b.date) {
-                    return -1;
-                }
-
-                return 0;
-            }).slice((page - 1) * pageSize, page * pageSize);
 
             res.json(response);
         }

@@ -22,13 +22,7 @@ const Supplier = ({ supplierKey }) => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            setSupplierData({
-                name: data.name,
-                email: data.email,
-                contact: data.telephone,
-                country: data.country,
-            });
-
+            setSupplierData(data);
             setLoading(false);
         }).catch(() => {
             setLoading(false);
@@ -70,7 +64,7 @@ const Supplier = ({ supplierKey }) => {
                                 <div className="my-3">
                                     <Contact className={CustomerStyles.icon} />
                                     <span className={CustomerStyles.text}>
-                                        {supplierData.contact}
+                                        {supplierData.telephone}
                                     </span>
                                 </div>
                                 <div className="my-3">

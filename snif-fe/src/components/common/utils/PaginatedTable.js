@@ -20,7 +20,7 @@ const PaginatedTable = ({ endpoint, header, tableHeaders, pageSize, list, onRowC
         }).then(({ data }) => {
             setRows(data[list]);
 
-            if (data[list].length === 15) {
+            if (data[list].length === pageSize) {
                 setNext(true);
             } else {
                 setNext(false);

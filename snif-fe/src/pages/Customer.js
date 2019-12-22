@@ -25,12 +25,7 @@ const Customer = ({ customerKey }) => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            setCustomerData({
-                name: data.name,
-                email: data.email,
-                contact: data.telefone,
-                country: data.country,
-            });
+            setCustomerData(data);
             // setCustomerOrders(data.orders);
             setLoading(false);
         }).catch(() => {
@@ -79,7 +74,7 @@ const Customer = ({ customerKey }) => {
                                 <div className="my-3">
                                     <Contact className={CustomerStyles.icon} />
                                     <span className={CustomerStyles.text}>
-                                        {customerData.contact}
+                                        {customerData.telephone}
                                     </span>
                                 </div>
                                 <div className="my-3">

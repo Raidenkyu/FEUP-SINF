@@ -72,7 +72,7 @@ router.get("/:customerKey", (req, res) => {
             name: customer.name,
             taxId: customer.companyTaxID,
             email: customer.electronicMail,
-            telefone: customer.telephone,
+            telephone: customer.telephone,
             country: customer.countryDescription,
             orders: filteredOrders
         });

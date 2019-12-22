@@ -198,13 +198,6 @@ Example response:
             "quantity": 5000,
             "value": 750
         },
-    ],
-    "resources": [
-        {
-            "name": "Sortido",
-            "quantity": 1500,
-            "value": 0.035
-        }
     ]
 }
 ```
