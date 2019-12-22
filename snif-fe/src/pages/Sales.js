@@ -32,8 +32,6 @@ const Sales = ({ path }) => {
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            console.log(data);
-            
             setGrowth(data.growth);
             setMargin(data.margin.toFixed(2));
 
@@ -105,7 +103,7 @@ const Sales = ({ path }) => {
 
     const handleTopProductsRowClick = ({ productKey }) => {
         navigate(`/stocks/product/${productKey}`);
-    }
+    };
 
     return (
         <Layout navbar sidebar path={path}>
