@@ -30,12 +30,14 @@ router.get("/", (_req, res) => {
 
                     if (response.products[sale.description] == undefined) {
                         response.products[sale.description] = {
+                            productKey: sale.salesItem,
                             units: 0,
                             revenue: 0
                         };
                     }
 
                     response.products[sale.description] = {
+                        productKey: sale.salesItem,
                         units: sale.quantity + response.products[sale.description].units,
                         revenue: sale.lineExtensionAmount.amount + response.products[sale.description].revenue
                     };
