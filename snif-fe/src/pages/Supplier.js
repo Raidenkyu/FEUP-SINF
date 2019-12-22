@@ -10,7 +10,6 @@ import CustomerStyles from "../styles/customer/Customer.module.css";
 import { ReactComponent as Contact } from "../assets/phone-solid.svg";
 import { ReactComponent as Country } from "../assets/globe-solid.svg";
 import SalesList from "../components/customer/SalesList";
-import OrdersList from "../components/customer/OrdersList";
 
 const Supplier = ({ supplierKey }) => {
     const [loading, setLoading] = useState(true);
@@ -81,11 +80,6 @@ const Supplier = ({ supplierKey }) => {
                                 </div>
                             </div>
                         </ContentCard>
-                    </Col>
-                </Row>
-                <Row className="mb-5">
-                    <Col xs="12">
-                        <OrdersList onRowClick={onRowClick} />
                     </Col>
                 </Row>
                 <Row className="mb-5">
