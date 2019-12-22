@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-var { FinancialObject, FinancialOverviewObject } = require('../models/financial.model.js');
+let { FinancialObject, FinancialOverviewObject } = require('../models/financial.model')
 
-router.get("/", (_req, res) => {
-    FinancialObject.getFinancialDocument((error, finObj) => {
+router.get("/", async (_req, res) => {
+    await FinancialObject.getFinancialDocument((error, finObj) => {
         if (error || !finObj) {
             return res.status(400).json({
                 message: error.message,
@@ -15,8 +15,8 @@ router.get("/", (_req, res) => {
     });
 });
 
-router.get("/overview", (_req, res) => {
-    FinancialOverviewObject.getFinancialOverviewDocument((error, finObj) => {
+router.get("/overview", async (_req, res) => {
+    await FinancialOverviewObject.getFinancialOverviewDocument((error, finObj) => {
         if (error || !finObj) {
             return res.status(400).json({
                 message: error.message,
