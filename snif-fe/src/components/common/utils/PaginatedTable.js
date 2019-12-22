@@ -19,8 +19,6 @@ const PaginatedTable = ({ endpoint, header, tableHeaders, pageSize, list, onRowC
                 auth_token: localStorage.getItem("auth_token"),
             },
         }).then(({ data }) => {
-            console.log(data);
-            
             setRows(data[list]);
 
             if (data[list].length === pageSize) {
