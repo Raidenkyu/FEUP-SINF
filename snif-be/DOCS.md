@@ -288,7 +288,8 @@ Example response:
 {
     "suppliers": [
         {
-            "supplierId": "519951018",
+            "supplierName": "Random Company",
+            "supplierKey": "519951018",
             "quantity": 15000,
             "priceRatio": 0.05000000000000001
         },

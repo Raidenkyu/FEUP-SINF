@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const { requestPrimavera } = require("../utils/api/jasmin");
 const { getStockQuantity, getUnitPrice, getStockValue } = require("../utils/stock");
-var { FinancialStockObject } = require('../models/financial.model.js');
+let { FinancialStockObject } = require('../models/financial.model');
 
 
 router.get("/", (req, res) => {
@@ -42,8 +42,8 @@ router.get("/", (req, res) => {
     );
 });
 
-router.get("/financial", (_req, res) => {
-    FinancialStockObject.getFinancialStockDocument((error, finObj) => {
+router.get("/financial", async (_req, res) => {
+    await FinancialStockObject.getFinancialStockDocument((error, finObj) => {
         if (error || !finObj) {
             return res.status(400).json({
                 message: error.message,
